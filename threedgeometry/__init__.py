@@ -12,5 +12,9 @@ of the camera in a much simpler way through the Configuration Parser
 option that Python offers.
 """
 
+import os
+
 import ConfigParser as cp
 import numpy as np
+
+from var import variables
