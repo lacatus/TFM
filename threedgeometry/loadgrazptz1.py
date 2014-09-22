@@ -4,14 +4,17 @@ from camera import Camera
 from threedgeometry import variables
 
 
+def setglobalvariables():
+
+    variables.current_dataset_path = variables.datasets_path + '\grazptz\set1'
+    variables.current_video_path = variables.datasets_path + r'\grazptz\set1\videos'  # r --> raw string
+
+
 def loadcalibration():
 
     global cam1_g1
     global cam2_g1
     global cam3_g1
-
-    # Set path for current dataset
-    variables.current_dataset_path = variables.datasets_path + '\grazptz\set1'
 
     cam1_g1 = Camera()
     cam2_g1 = Camera()

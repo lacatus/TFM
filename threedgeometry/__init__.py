@@ -13,6 +13,7 @@ option that Python offers.
 """
 
 import os
+import cv2
 
 import ConfigParser as cp
 import numpy as np

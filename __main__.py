@@ -5,10 +5,13 @@ Main process of the project
 """
 
 from __init__ import initvariables
-from threedgeometry.loadgrazptz1 import loadcalibration, getcam1
+from threedgeometry.loadgrazptz1 import loadcalibration, setglobalvariables
+from threedgeometry.video import Video
 
 initvariables()
+setglobalvariables()
 loadcalibration()
-a = getcam1()
-a.printcamerainfo()
+a = Video()
+a.readvideo()
+
 
