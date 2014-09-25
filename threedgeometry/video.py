@@ -18,16 +18,23 @@ class Video(object):
         self.data = None
         self.width = None
         self.height = None
-        self.fps = None
         self.total_fps = None
 
     def getvideoparameters(self):
 
-        self.width = self.data.get(50)
-        print self.width
+        self.width = self.data.get(3)
+        self.height = self.data.get(4)
+        self.total_fps = self.data.get(6)
 
-    def readvideo(self):
+    def readvideo(self, video_path):
 
-        video_path = variables.current_video_path + '\cam-131.avi'
-        print video_path
-        print cv2.VideoCapture(0).get(3)
+        self.data = cv2.VideoCapture(video_path)
+        self.getvideoparameters()
+
+    def printvideoinfo(self):
+
+        print '* Video Parameters *'
+        print 'width:\n%s\n%s' % (self.width, type(self.width))
+        print 'height:\n%s\n%s' % (self.height, type(self.height))
+        print 'total_fps:\n%s\n%s' % (self.total_fps, type(self.total_fps))
+        print ''

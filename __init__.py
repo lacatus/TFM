@@ -9,7 +9,12 @@ import os
 from var import variables
 
 
+def init():
+
+    initvariables()
+
+
 def initvariables():
 
     variables.app_path = os.path.dirname(os.path.realpath(__file__))
-    variables.datasets_path = variables.app_path + '\data'
+    variables.datasets_path = variables.app_path + '/data'

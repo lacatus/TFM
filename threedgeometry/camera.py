@@ -2,6 +2,7 @@
 
 from threedgeometry import cp
 from threedgeometry import np
+from threedgeometry.video import Video
 
 
 class Camera(object):
@@ -22,6 +23,9 @@ class Camera(object):
         self.intrinsics = None
         self.rotation = None
         self.translation = None
+
+        # Video
+        self.data = Video()
 
     def __formatintrinsics(self, intrinsics):
 
@@ -78,3 +82,5 @@ class Camera(object):
         print 'rotation:\n%s\n%s' % (self.rotation, type(self.rotation))
         print 'translation:\n%s\n%s' % (self.translation, type(self.translation))
         print ''
+
+        self.data.printvideoinfo()
