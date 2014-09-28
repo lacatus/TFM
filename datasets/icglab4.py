@@ -8,6 +8,7 @@ def loaddataset():
 
     setglobalvariables()
     loadcameras()
+    return getcameras()
 
 
 def setglobalvariables():
@@ -62,6 +63,11 @@ def getcam3():
 def getcam4():
 
     return cam4_g1
+
+
+def getcameras():
+
+    return [getcam1(), getcam2(), getcam3(), getcam4()]
 
 
 def printcamerainfo():
