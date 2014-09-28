@@ -18,13 +18,19 @@ class Video(object):
         self.data = None
         self.width = None
         self.height = None
+        # self.fps = None
         self.total_fps = None
+
+    def getframe(self):  # returns tuple --> ret, frame
+
+        return self.data.read()
 
     def getvideoparameters(self):
 
-        self.width = self.data.get(3)
-        self.height = self.data.get(4)
-        self.total_fps = self.data.get(6)
+        self.width = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)
+        self.height = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)
+        # self.fps = self.data.get(cv2.cv.CV_CAP_PROP_FPS)
+        self.total_fps = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
 
     def readvideo(self, video_path):
 
@@ -36,5 +42,6 @@ class Video(object):
         print '* Video Parameters *'
         print 'width:\n%s\n%s' % (self.width, type(self.width))
         print 'height:\n%s\n%s' % (self.height, type(self.height))
+        # print 'fps:\n%s\n%s' % (self.fps, type(self.fps))
         print 'total_fps:\n%s\n%s' % (self.total_fps, type(self.total_fps))
         print ''

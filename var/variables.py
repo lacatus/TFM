@@ -11,3 +11,7 @@ class Varibales(object):
 
     # Datasets
     datasets_name = None
+
+    # Main imshow window
+    app_window = None
+    app_window_name = None

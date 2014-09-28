@@ -39,10 +39,10 @@ def loadcameras():
     cam3_g1.readconfigfile(cam3_str)
     cam4_g1.readconfigfile(cam4_str)
 
-    cam1_g1.data.readvideo(variables.current_video_path + '/cam131.avi')
-    cam2_g1.data.readvideo(variables.current_video_path + '/cam132.avi')
-    cam3_g1.data.readvideo(variables.current_video_path + '/cam133.avi')
-    cam4_g1.data.readvideo(variables.current_video_path + '/cam134.avi')
+    cam1_g1.video.readvideo(variables.current_video_path + '/cam131.avi')
+    cam2_g1.video.readvideo(variables.current_video_path + '/cam132.avi')
+    cam3_g1.video.readvideo(variables.current_video_path + '/cam133.avi')
+    cam4_g1.video.readvideo(variables.current_video_path + '/cam134.avi')
 
 
 def getcam1():

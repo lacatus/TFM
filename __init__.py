@@ -4,6 +4,7 @@
 Initialization of the project global variables
 """
 
+import cv2
 import os
 
 from var import variables
@@ -27,3 +28,6 @@ def initvariables():
                                6: 'icglab4',
                                7: 'icglab5',
                                8: 'icglab6'}
+
+    variables.app_window_name = 'Main Window'
+    variables.app_window = cv2.namedWindow(variables.app_window_name, cv2.WINDOW_NORMAL)

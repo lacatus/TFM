@@ -25,7 +25,7 @@ class Camera(object):
         self.translation = None
 
         # Video
-        self.data = Video()
+        self.video = Video()
 
     def __formatintrinsics(self, intrinsics):
 
@@ -83,4 +83,4 @@ class Camera(object):
         print 'translation:\n%s\n%s' % (self.translation, type(self.translation))
         print ''
 
-        self.data.printvideoinfo()
+        self.video.printvideoinfo()
