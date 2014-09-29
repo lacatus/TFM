@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# WRITE DESCRIPTION
 """
 The scripts that compose this module contains a set of datasets
 with its respective camera views. Each camera view contains its

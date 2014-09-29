@@ -11,23 +11,48 @@ import datasets.icglab4
 import datasets.icglab5
 import datasets.icglab6
 
+# 3D geometry imports
 import threedgeometry.frameretriever
 
 # Gui imports
 from gui import imshow
 
+# Imgproc imports
+from imgproc import rgb2gray
+
+# Background imports
+from bgsubtraction import bgprocess
+
+
+def init_loop(cameras):
+
+    frames = threedgeometry.frameretriever.getframes(cameras)
+
+    gray_frames = rgb2gray.rgb2graytransform(frames)
+
+    bg_models = bgprocess.getbgmodels(gray_frames)
+
+    return bg_models
+
 
 def loop():
 
     dataset = datasets.datasetloader.selectdataset()
+
     load_cmd = 'datasets.%s.loaddataset()' % dataset
-    cams = eval(load_cmd)  # execute whatever is inside the string
+    cameras = eval(load_cmd)  # execute whatever is inside the string
+
+    bg_models = init_loop(cameras)
 
     while True:
 
-        frames = threedgeometry.frameretriever.getframes(cams)
+        frames = threedgeometry.frameretriever.getframes(cameras)
 
-        if not frames:
+        if not frames: # Video ended
             break
 
-        imshow.showallimg(frames)
+        gray_frames = rgb2gray.rgb2graytransform(frames)
+
+        bg_models = bgprocess.updatebgmodels(gray_frames, bg_models)
+
+        imshow.showallimg(bgprocess.getbgimg(bg_models))

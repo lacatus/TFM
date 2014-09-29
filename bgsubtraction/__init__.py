@@ -2,8 +2,9 @@
 
 """
 The scripts that compose this module contains a set of functions
-to perform image processing transformations. The module is intended
-to work with a set of images
+needed to process properly a background subtraction of each camera
+of a dataset
 """
 
 import cv2
+import numpy as np

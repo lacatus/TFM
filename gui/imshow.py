@@ -9,7 +9,11 @@ def showallimg(camera_frames):
 
     s = len(camera_frames)
 
-    height, width, depth = camera_frames[0].shape
+    #height, width, depth = camera_frames[0].shape
+    size = camera_frames[0].shape
+
+    height = size[0]
+    width = size[1]
 
     if s >= 2:
         num_rows = ((s - 1) / 2) + 1
@@ -21,7 +25,12 @@ def showallimg(camera_frames):
         window_width = width
         window_height = height
 
-    all_img = np.zeros((window_height, window_width, 3), np.uint8)
+    # In case we want to show img different than rgb
+    if len(size) < 3:
+        all_img = np.zeros((window_height, window_width), np.uint8)
+
+    else:
+        all_img = np.zeros((window_height, window_width, 3), np.uint8)
 
     rows = 1
     cols = 1
