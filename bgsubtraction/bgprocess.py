@@ -24,6 +24,7 @@ def updatebgmodels(frames, bg_models):
 
     for i in range(len(frames)):
         bg_models[i].updatebackground(frames[i])
+        bg_models[i].subtractbackground(frames[i])
 
     return bg_models
 
@@ -38,5 +39,11 @@ def getbgimg(bg_models):
     return bg_imgs
 
 
-def getbinimg():  # TODO
-    pass
+def getbinimg(bg_models):
+
+    bin_imgs = []
+
+    for bg in bg_models:
+        bin_imgs.append(bg.bin_img)
+
+    return bin_imgs

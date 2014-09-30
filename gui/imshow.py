@@ -5,11 +5,36 @@ from gui import np
 from gui import variables
 
 
+def init_imshow():
+    while 1:
+        options = {
+            1: 'RGB frames',
+            2: 'Grayscale frames',
+            3: 'Background models',
+            4: 'Binary subtraction'
+        }
+
+        options_str = \
+            "\nImshow options:\n" \
+            "   1. %s\n" \
+            "   2. %s\n" \
+            "   3. %s\n" \
+            "   4. %s\n" % \
+            (options[1], options[2],
+            options[3], options[4])
+
+        print options_str
+
+        ans = raw_input('Please select one option: ')
+
+        if 0 < int(ans) <= len(options):
+            return int(ans)
+
+
 def showallimg(camera_frames):
 
     s = len(camera_frames)
 
-    #height, width, depth = camera_frames[0].shape
     size = camera_frames[0].shape
 
     height = size[0]

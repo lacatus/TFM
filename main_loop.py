@@ -44,6 +44,8 @@ def loop():
 
     bg_models = init_loop(cameras)
 
+    option = imshow.init_imshow()
+
     while True:
 
         frames = threedgeometry.frameretriever.getframes(cameras)
@@ -55,4 +57,14 @@ def loop():
 
         bg_models = bgprocess.updatebgmodels(gray_frames, bg_models)
 
-        imshow.showallimg(bgprocess.getbgimg(bg_models))
+        if option is 1:
+            imshow.showallimg(frames)
+
+        elif option is 2:
+            imshow.showallimg(gray_frames)
+
+        elif option is 3:
+            imshow.showallimg(bgprocess.getbgimg(bg_models))
+
+        elif option is 4:
+            imshow.showallimg(bgprocess.getbinimg(bg_models))
