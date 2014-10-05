@@ -23,7 +23,7 @@ from imgproc import rgb2gray
 # Background imports
 from bgsubtraction import bgprocess
 
-
+# TODO --> select num of cameras
 def init_loop(cameras):
 
     frames = threedgeometry.frameretriever.getframes(cameras)
@@ -71,3 +71,6 @@ def loop():
 
         elif option is 5:
             imshow.showallimg(bgprocess.getscanimg(bg_models))
+
+        elif option is 6:
+            imshow.showallimg(bgprocess.getdiffimg(bg_models))

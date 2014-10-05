@@ -2,13 +2,6 @@
 
 from bgsubtraction import cv2
 from bgsubtraction import np
-from bgsubtraction import product
-
-# TODO --> read description
-"""
-Implement the main methods for the background subtraction modelling.
-3. Different threshold methods
-"""
 
 
 class Bg(object):
@@ -52,11 +45,13 @@ class Background(Bg):
         self.win_min_pix = None
         self.bg_img = None
         self.bin_img = None
+        self.bin_img_2 = None
         self.scan_img = None
+        self.diff_img = None
 
-    def setdefault(self, bg_img):
+    def setdefault(self, src):
 
-        size = bg_img.shape
+        size = src.shape
         height = size[0]
         width = size[1]
 
@@ -65,20 +60,22 @@ class Background(Bg):
             self.win_height = 30
             self.win_width = 15
             self.win_min_pix = 200 * 255  # 255 or 0 --> how a white pixel counts in b/w img
-            self.bg_img = bg_img
+            self.bg_img = src
             self.bin_img = np.zeros((height, width))
+            self.bin_img_2 = self.bin_img
             self.scan_img = self.bin_img
+            self.diff_img = self.bin_img
 
         else:
             raise Exception('Background model parameters incorrectly initialized \n '
                             'Please initiatilize parameters with a gray scale image')
 
-    def updatebackground(self, bg_img):
+    def updatebackground(self, src):
 
         if self.bg_img.any():
 
             if self.bg.frame_count is self.counter:
-                self.bg_img = cv2.addWeighted(self.bg_img, self.bg.alpha, bg_img, self.bg.beta, 0)
+                self.bg_img = cv2.addWeighted(self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
                 self.counter = 1
 
             else:
@@ -88,11 +85,12 @@ class Background(Bg):
             raise Exception('Background model parameters not initialized \n '
                             'Please initiatilize parameters with setdefault() function')
 
-    def subtractbackground(self, bg_img):
+    def subtractbackground(self, src):
 
         if self.bg_img.any():
-            self.bin_img = cv2.subtract(self.bg_img, bg_img)
+            self.bin_img = cv2.subtract(self.bg_img, src)
             ret, self.bin_img = cv2.threshold(self.bin_img, self.bg.threshold_1, 255, cv2.THRESH_BINARY)
+            ret, self.bin_img_2 = cv2.threshold(self.bin_img, self.bg.threshold_2, 255, cv2.THRESH_BINARY)
 
         else:
             raise Exception('Background model parameters not initialized \n '
@@ -131,3 +129,12 @@ class Background(Bg):
                     dst[jj : jj + self.win_height, ii : ii + self.win_width] = 255
 
         return dst
+
+    def thresholdbackground(self):
+
+        if self.bin_img.any():
+            self.diff_img = np.multiply(self.bg.threshold_2, self.scan_img)
+
+        else:
+            raise Exception('Background model images not updated \n '
+                            'Please update model images with subtractbackground() function')

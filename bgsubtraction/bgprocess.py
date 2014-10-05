@@ -26,6 +26,7 @@ def updatebgmodels(frames, bg_models):
         bg_models[i].updatebackground(frames[i])
         bg_models[i].subtractbackground(frames[i])
         bg_models[i].windowscanbackground()
+        bg_models[i].thresholdbackground()
 
     return bg_models
 
@@ -58,3 +59,12 @@ def getscanimg(bg_models):
         scan_imgs.append(bg.scan_img)
 
     return scan_imgs
+
+def getdiffimg(bg_models):
+
+    diff_imgs = []
+
+    for bg in bg_models:
+        diff_imgs.append(bg.diff_img)
+
+    return diff_imgs

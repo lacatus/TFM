@@ -12,7 +12,8 @@ def init_imshow():
             2: 'Grayscale frames',
             3: 'Background models',
             4: 'Binary subtraction',
-            5: 'Window scan'
+            5: 'Window scan',
+            6: 'Background difference'
         }
 
         options_str = \
@@ -21,10 +22,11 @@ def init_imshow():
             '   2. %s\n' \
             '   3. %s\n' \
             '   4. %s\n' \
-            '   5. %s\n' % \
+            '   5. %s\n' \
+            '   6. %s\n' % \
             (options[1], options[2],
             options[3], options[4],
-            options[5])
+            options[5], options[6])
 
         print options_str
 

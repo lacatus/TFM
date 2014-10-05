@@ -8,5 +8,3 @@ of a dataset
 
 import cv2
 import numpy as np
-
-from itertools import product
