@@ -42,6 +42,8 @@ def loop():
     load_cmd = 'datasets.%s.loaddataset()' % dataset
     cameras = eval(load_cmd)  # execute whatever is inside the string
 
+    cameras = threedgeometry.frameretriever.getnumcameras(cameras)
+
     bg_models = init_loop(cameras)
 
     option = imshow.init_imshow()
