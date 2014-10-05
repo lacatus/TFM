@@ -7,9 +7,9 @@ def getnumcameras(cameras):
 
         print '\nCamera options:'
 
-        for i in range(1, len(cameras) + 1):
+        for i in range(1, len(cameras) + 2):
 
-            if i is len(cameras):
+            if i is len(cameras) + 1:
                 print ' %s. All cameras\n' % i
 
             else:
@@ -18,12 +18,12 @@ def getnumcameras(cameras):
         n = raw_input('Please select one option: ')
         n = int(n)
 
-        for j in range(len(cameras)):
+        for j in range(1, len(cameras) + 2):
 
-            if j is n and j < len(cameras):
+            if j is n and j <= len(cameras):
                 return [cameras[j - 1]]
 
-            elif j is n and j is len(cameras):
+            elif j is n and j > len(cameras):
                 return cameras
 
 
