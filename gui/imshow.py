@@ -11,17 +11,20 @@ def init_imshow():
             1: 'RGB frames',
             2: 'Grayscale frames',
             3: 'Background models',
-            4: 'Binary subtraction'
+            4: 'Binary subtraction',
+            5: 'Window scan'
         }
 
         options_str = \
-            "\nImshow options:\n" \
-            "   1. %s\n" \
-            "   2. %s\n" \
-            "   3. %s\n" \
-            "   4. %s\n" % \
+            '\nImshow options:\n' \
+            '   1. %s\n' \
+            '   2. %s\n' \
+            '   3. %s\n' \
+            '   4. %s\n' \
+            '   5. %s\n' % \
             (options[1], options[2],
-            options[3], options[4])
+            options[3], options[4],
+            options[5])
 
         print options_str
 
@@ -29,6 +32,9 @@ def init_imshow():
 
         if 0 < int(ans) <= len(options):
             return int(ans)
+
+        else:
+            print '\nPlease select a valid option'
 
 
 def showallimg(camera_frames):

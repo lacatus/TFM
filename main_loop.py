@@ -68,3 +68,6 @@ def loop():
 
         elif option is 4:
             imshow.showallimg(bgprocess.getbinimg(bg_models))
+
+        elif option is 5:
+            imshow.showallimg(bgprocess.getscanimg(bg_models))

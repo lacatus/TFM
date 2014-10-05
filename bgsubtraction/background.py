@@ -2,11 +2,11 @@
 
 from bgsubtraction import cv2
 from bgsubtraction import np
+from bgsubtraction import product
 
 # TODO --> read description
 """
 Implement the main methods for the background subtraction modelling.
-2. Scanning window
 3. Different threshold methods
 """
 
@@ -52,6 +52,7 @@ class Background(Bg):
         self.win_min_pix = None
         self.bg_img = None
         self.bin_img = None
+        self.scan_img = None
 
     def setdefault(self, bg_img):
 
@@ -66,6 +67,7 @@ class Background(Bg):
             self.win_min_pix = 200 * 255  # 255 or 0 --> how a white pixel counts in b/w img
             self.bg_img = bg_img
             self.bin_img = np.zeros((height, width))
+            self.scan_img = self.bin_img
 
         else:
             raise Exception('Background model parameters incorrectly initialized \n '
@@ -95,3 +97,37 @@ class Background(Bg):
         else:
             raise Exception('Background model parameters not initialized \n '
                             'Please initiatilize parameters with setdefault() function')
+
+    def windowscanbackground(self):
+
+        if self.bin_img.any():
+            int_img = cv2.integral(self.bin_img)
+            self.scan_img = self._scanningwindow(int_img)
+
+        else:
+            raise Exception('Background model images not updated \n '
+                            'Please update model images with subtractbackground() function')
+
+    def _scanningwindow(self, src):
+
+        # SRC = Integral image
+        # Maybe Cython
+
+        size = src.shape
+
+        height = size[0]
+        width = size[1]
+
+        dst = np.zeros((height, width))
+
+        for jj in xrange(0, height - self.win_height, self.win_height / 2):
+
+            for ii in xrange(0, width - self.win_width, self.win_width / 2):
+
+                aux = src[jj, ii] + src[jj + self.win_height, ii + self.win_width] - src[jj + self.win_height, ii] - src[jj, ii + self.win_width]
+
+                if aux > self.win_min_pix:
+
+                    dst[jj : jj + self.win_height, ii : ii + self.win_width] = 255
+
+        return dst

@@ -25,6 +25,7 @@ def updatebgmodels(frames, bg_models):
     for i in range(len(frames)):
         bg_models[i].updatebackground(frames[i])
         bg_models[i].subtractbackground(frames[i])
+        bg_models[i].windowscanbackground()
 
     return bg_models
 
@@ -47,3 +48,13 @@ def getbinimg(bg_models):
         bin_imgs.append(bg.bin_img)
 
     return bin_imgs
+
+
+def getscanimg(bg_models):
+
+    scan_imgs = []
+
+    for bg in bg_models:
+        scan_imgs.append(bg.scan_img)
+
+    return scan_imgs
