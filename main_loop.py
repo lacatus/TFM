@@ -23,6 +23,7 @@ from imgproc import rgb2gray
 # Background imports
 from bgsubtraction import bgprocess
 
+
 # TODO --> select num of cameras
 def init_loop(cameras):
 

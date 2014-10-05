@@ -60,6 +60,7 @@ def getscanimg(bg_models):
 
     return scan_imgs
 
+
 def getdiffimg(bg_models):
 
     diff_imgs = []

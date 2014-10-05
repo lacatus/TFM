@@ -72,7 +72,7 @@ def showallimg(camera_frames):
     for frame in camera_frames:
 
         all_img[height * (rows - 1):height * rows,
-                width * (cols - 1):width * cols] = frame
+                width * (cols - 1):width * cols] = frame.astype(np.uint8)
 
         aux += 1
 

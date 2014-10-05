@@ -99,7 +99,7 @@ class Background(Bg):
     def windowscanbackground(self):
 
         if self.bin_img.any():
-            int_img = cv2.integral(self.bin_img)
+            int_img = cv2.integral(self.bin_img)  # Strange size returns cv2.integral
             self.scan_img = self._scanningwindow(int_img)
 
         else:
@@ -110,13 +110,16 @@ class Background(Bg):
 
         # SRC = Integral image
         # Maybe Cython
+        # Check multiprocessing module
 
         size = src.shape
 
         height = size[0]
         width = size[1]
 
-        dst = np.zeros((height, width))
+        dst = np.zeros((height - 1, width - 1))
+
+        d = dst.shape
 
         for jj in xrange(0, height - self.win_height, self.win_height / 2):
 
@@ -126,14 +129,14 @@ class Background(Bg):
 
                 if aux > self.win_min_pix:
 
-                    dst[jj : jj + self.win_height, ii : ii + self.win_width] = 255
+                    dst[jj:jj + self.win_height, ii:ii + self.win_width] = 255
 
         return dst
 
     def thresholdbackground(self):
 
         if self.bin_img.any():
-            self.diff_img = np.multiply(self.bg.threshold_2, self.scan_img)
+            self.diff_img = cv2.multiply(self.bin_img_2.astype(np.uint8), self.scan_img.astype(np.uint8))
 
         else:
             raise Exception('Background model images not updated \n '
