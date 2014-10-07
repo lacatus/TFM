@@ -13,6 +13,7 @@ class Bg(object):
 
     def __init__(self):
 
+        self.option = None
         self.alpha = None
         self.beta = None
         self.frame_count = None
@@ -21,6 +22,7 @@ class Bg(object):
 
     def setdefault(self):
 
+        self.option = 0
         self.alpha = 0.9
         self.beta = 0.1
         self.frame_count = 30

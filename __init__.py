@@ -31,3 +31,6 @@ def initvariables():
 
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(variables.app_window_name, cv2.WINDOW_NORMAL)
+
+    variables.app_window_trackbar_name = 'Trackbar Window'
+    variables.app_window_trackbar = cv2.namedWindow(variables.app_window_trackbar_name, cv2.WINDOW_NORMAL)

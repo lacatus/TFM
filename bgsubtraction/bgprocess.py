@@ -4,10 +4,15 @@ from bgsubtraction.background import Bg
 from bgsubtraction.background import Background
 
 
-def getbgmodels(frames):
+def getbgobject():
 
     bg = Bg()
     bg.setdefault()
+
+    return bg
+
+
+def getbgmodels(frames, bg):
 
     bg_models = []
 

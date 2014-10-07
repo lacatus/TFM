@@ -16,6 +16,7 @@ import threedgeometry.frameretriever
 
 # Gui imports
 from gui import imshow
+from gui import trackbar
 
 # Imgproc imports
 from imgproc import rgb2gray
@@ -24,14 +25,17 @@ from imgproc import rgb2gray
 from bgsubtraction import bgprocess
 
 
-# TODO --> select num of cameras
 def init_loop(cameras):
 
     frames = threedgeometry.frameretriever.getframes(cameras)
 
     gray_frames = rgb2gray.rgb2graytransform(frames)
 
-    bg_models = bgprocess.getbgmodels(gray_frames)
+    bg = bgprocess.getbgobject()
+
+    tb = trackbar.Trackbarmain(bg).setdefault()
+
+    bg_models = bgprocess.getbgmodels(gray_frames, bg)
 
     return bg_models
 
@@ -47,33 +51,33 @@ def loop():
 
     bg_models = init_loop(cameras)
 
-    option = imshow.init_imshow()
-
     while True:
+
+        option = bg_models[0].bg.option  # get which img you want to visualize
 
         frames = threedgeometry.frameretriever.getframes(cameras)
 
-        if not frames: # Video ended
+        if not frames:  # Video ended
             break
 
         gray_frames = rgb2gray.rgb2graytransform(frames)
 
         bg_models = bgprocess.updatebgmodels(gray_frames, bg_models)
 
-        if option is 1:
+        if option is 0:
             imshow.showallimg(frames)
 
-        elif option is 2:
+        elif option is 1:
             imshow.showallimg(gray_frames)
 
-        elif option is 3:
+        elif option is 2:
             imshow.showallimg(bgprocess.getbgimg(bg_models))
 
-        elif option is 4:
+        elif option is 3:
             imshow.showallimg(bgprocess.getbinimg(bg_models))
 
-        elif option is 5:
+        elif option is 4:
             imshow.showallimg(bgprocess.getscanimg(bg_models))
 
-        elif option is 6:
+        elif option is 5:
             imshow.showallimg(bgprocess.getdiffimg(bg_models))

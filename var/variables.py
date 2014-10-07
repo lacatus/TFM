@@ -15,3 +15,7 @@ class Varibales(object):
     # Main imshow window
     app_window = None
     app_window_name = None
+
+    # Main trackbar window
+    app_window_trackbar_name = None
+    app_window_trackbar = None
