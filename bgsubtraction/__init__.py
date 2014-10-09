@@ -6,5 +6,6 @@ needed to process properly a background subtraction of each camera
 of a dataset
 """
 
+import cbackground
 import cv2
 import numpy as np

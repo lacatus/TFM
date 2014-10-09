@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from bgsubtraction import cbackground
 from bgsubtraction import cv2
 from bgsubtraction import np
 
@@ -26,8 +27,8 @@ class Bg(object):
         self.alpha = 0.9
         self.beta = 0.1
         self.frame_count = 30
-        self.threshold_1 = 5
-        self.threshold_2 = 25
+        self.threshold_1 = 25
+        self.threshold_2 = 5
 
 
 class Background(Bg):
@@ -102,7 +103,8 @@ class Background(Bg):
 
         if self.bin_img.any():
             int_img = cv2.integral(self.bin_img)  # Strange size returns cv2.integral
-            self.scan_img = self._scanningwindow(int_img)
+            #self.scan_img = self._scanningwindow(int_img)
+            self.scan_img = cbackground.scanningwindow(int_img, self.win_height, self.win_width, self.win_min_pix)
 
         else:
             raise Exception('Background model images not updated \n '
@@ -121,8 +123,6 @@ class Background(Bg):
 
         dst = np.zeros((height - 1, width - 1))
 
-        d = dst.shape
-
         for jj in xrange(0, height - self.win_height, self.win_height / 2):
 
             for ii in xrange(0, width - self.win_width, self.win_width / 2):
@@ -138,7 +138,7 @@ class Background(Bg):
     def thresholdbackground(self):
 
         if self.bin_img.any():
-            self.diff_img = cv2.multiply(self.bin_img_2.astype(np.uint8), self.scan_img.astype(np.uint8))
+            self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
 
         else:
             raise Exception('Background model images not updated \n '
