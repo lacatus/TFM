@@ -19,3 +19,7 @@ class Varibales(object):
     # Main trackbar window
     app_window_trackbar_name = None
     app_window_trackbar = None
+
+    # Secondary trackbar window 
+    app_window_trackbar_name_2 = None
+    app_window_trackbar_2 = None

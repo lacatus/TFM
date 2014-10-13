@@ -33,9 +33,11 @@ def init_loop(cameras):
 
     bg = bgprocess.getbgobject()
 
-    tb = trackbar.Trackbarmain(bg).setdefault()
-
     bg_models = bgprocess.getbgmodels(gray_frames, bg)
+
+    # Init trackbars
+    trackbar.setdefaulttrackbarmain(bg)
+    trackbar.setdefaulttrackbardsecondary(bg_models)
 
     return bg_models
 
@@ -81,3 +83,6 @@ def loop():
 
         elif option is 5:
             imshow.showallimg(bgprocess.getdiffimg(bg_models))
+
+        elif option is 6:
+            imshow.showallimg(imshow.paintcontours(frames, bg_models))

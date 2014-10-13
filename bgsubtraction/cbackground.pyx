@@ -20,7 +20,7 @@ def scanningwindow(np.ndarray[int, ndim = 2] src, int win_height, int win_width,
 
 			aux = src[jj, ii] + src[jj + win_height, ii + win_width] - src[jj + win_height, ii] - src[jj, ii + win_width]
 
-			if aux > win_min_pix:
+			if aux > (win_min_pix * 255):
 
 				dst[jj:jj + win_height, ii:ii + win_width] = 255
 

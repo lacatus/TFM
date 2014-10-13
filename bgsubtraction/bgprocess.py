@@ -27,11 +27,12 @@ def getbgmodels(frames, bg):
 
 def updatebgmodels(frames, bg_models):
 
-    for i in range(len(frames)):
-        bg_models[i].updatebackground(frames[i])
-        bg_models[i].subtractbackground(frames[i])
-        bg_models[i].windowscanbackground()
-        bg_models[i].thresholdbackground()
+    for ii in range(len(frames)):
+        bg_models[ii].updatebackground(frames[ii])
+        bg_models[ii].subtractbackground(frames[ii])
+        bg_models[ii].windowscanbackground()
+        bg_models[ii].thresholdbackground()
+        bg_models[ii].contoursbackground()
 
     return bg_models
 
