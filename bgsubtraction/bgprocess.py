@@ -25,11 +25,36 @@ def getbgmodels(frames, bg):
     return bg_models
 
 
+def getbgmodels_2(frames, bg):
+
+    bg_models = []
+
+    for img in frames:
+        bg_aux = Background(bg)
+        bg_aux.setdefault_2(img)
+
+        bg_models.append(bg_aux)
+
+    return bg_models
+
+
 def updatebgmodels(frames, bg_models):
 
     for ii in range(len(frames)):
         bg_models[ii].updatebackground(frames[ii])
         bg_models[ii].subtractbackground(frames[ii])
+        bg_models[ii].windowscanbackground()
+        bg_models[ii].thresholdbackground()
+        bg_models[ii].contoursbackground()
+
+    return bg_models
+
+
+def updatebgmodels_2(frames, bg_models):
+
+    for ii in range(len(frames)):
+        bg_models[ii].updatebackground_2(frames[ii])
+        bg_models[ii].subtractbackground_2(frames[ii])
         bg_models[ii].windowscanbackground()
         bg_models[ii].thresholdbackground()
         bg_models[ii].contoursbackground()
@@ -52,7 +77,7 @@ def getbinimg(bg_models):
     bin_imgs = []
 
     for bg in bg_models:
-        bin_imgs.append(bg.bin_img)
+        bin_imgs.append(bg.bin_img_1)
 
     return bin_imgs
 

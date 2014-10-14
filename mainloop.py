@@ -25,15 +25,25 @@ from imgproc import rgb2gray
 from bgsubtraction import bgprocess
 
 
-def init_loop(cameras):
+def initcameras():
+
+    dataset = datasets.datasetloader.selectdataset()
+    
+    load_cmd = 'datasets.%s.loaddataset()' % dataset
+    cameras = eval(load_cmd)  # execute whatever is inside the string
+
+    cameras = threedgeometry.frameretriever.getnumcameras(cameras)
+
+    return cameras
+
+
+def initloop(cameras):
 
     frames = threedgeometry.frameretriever.getframes(cameras)
-
-    gray_frames = rgb2gray.rgb2graytransform(frames)
+    #gray_frames = rgb2gray.rgb2graytransform(frames)
 
     bg = bgprocess.getbgobject()
-
-    bg_models = bgprocess.getbgmodels(gray_frames, bg)
+    bg_models = bgprocess.getbgmodels_2(frames, bg)
 
     # Init trackbars
     trackbar.setdefaulttrackbarmain(bg)
@@ -44,14 +54,9 @@ def init_loop(cameras):
 
 def loop():
 
-    dataset = datasets.datasetloader.selectdataset()
+    cameras = initcameras()
 
-    load_cmd = 'datasets.%s.loaddataset()' % dataset
-    cameras = eval(load_cmd)  # execute whatever is inside the string
-
-    cameras = threedgeometry.frameretriever.getnumcameras(cameras)
-
-    bg_models = init_loop(cameras)
+    bg_models = initloop(cameras)
 
     while True:
 
@@ -64,7 +69,7 @@ def loop():
 
         gray_frames = rgb2gray.rgb2graytransform(frames)
 
-        bg_models = bgprocess.updatebgmodels(gray_frames, bg_models)
+        bg_models = bgprocess.updatebgmodels_2(frames, bg_models)
 
         if option is 0:
             imshow.showallimg(frames)

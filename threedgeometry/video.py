@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from threedgeometry import cv2
-from threedgeometry import variables
 
 
 class Video(object):

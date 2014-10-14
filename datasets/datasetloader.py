@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from datasets import variables
+from var import variables
 
 
 def selectdataset():

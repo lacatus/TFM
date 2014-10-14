@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 
-class Varibales(object):
+class Variables(object):
 
     # Paths
     app_path = None

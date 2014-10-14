@@ -65,7 +65,7 @@ class Background(object):
 			self.win_width = 15
 			self.win_min_pix = 200  # 255 or 0 --> how a white pixel counts in b/w img
 			self.bg_img = src
-			self.bin_img = np.zeros((height, width))
+			self.bin_img_1 = np.zeros((height, width))
 			self.bin_img_2 = self.bin_img
 			self.scan_img = self.bin_img
 			self.diff_img = self.bin_img
@@ -75,11 +75,40 @@ class Background(object):
 			raise Exception('Background model parameters incorrectly initialized \n '
 							'Please initiatilize parameters with a gray scale image')
 
-	# TODO --> background subtraction based in RGB subtraction
+	def setdefault_2(self, src):
+
+		size = src.shape
+		height = size[0]
+		width = size[1]
+
+		self.counter = 1
+		self.win_height = 30
+		self.win_width = 15
+		self.win_min_pix = 200  # 255 or 0 --> how a white pixel counts in b/w img
+		self.bg_img = src
+		self.bin_img_1 = np.zeros((height, width))
+		self.bin_img_2 = self.bin_img
+		self.scan_img = self.bin_img
+		self.diff_img = self.bin_img
+		self.contours = None
+
 	def updatebackground(self, src):
 
 		if self.bg_img.any():
+			if self.bg.frame_count is self.counter:
+				self.bg_img = cv2.addWeighted(self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
+				self.counter = 1
 
+			else:
+				self.counter += 1
+
+		else:
+			raise Exception('Background model parameters not initialized \n '
+							'Please initiatilize parameters with setdefault() function')
+
+	def updatebackground_2(self,src):
+
+		if self.bg_img.any():
 			if self.bg.frame_count is self.counter:
 				self.bg_img = cv2.addWeighted(self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
 				self.counter = 1
@@ -94,19 +123,38 @@ class Background(object):
 	def subtractbackground(self, src):
 
 		if self.bg_img.any():
-			self.bin_img = cv2.subtract(self.bg_img, src)
-			ret, self.bin_img = cv2.threshold(self.bin_img, self.bg.threshold_1, 255, cv2.THRESH_BINARY)
-			ret, self.bin_img_2 = cv2.threshold(self.bin_img, self.bg.threshold_2, 255, cv2.THRESH_BINARY)
+			self.bin_img_1 = cv2.subtract(self.bg_img, src)
+			ret, self.bin_img_1 = cv2.threshold(self.bin_img_1, self.bg.threshold_1, 255, cv2.THRESH_BINARY)
+			ret, self.bin_img_2 = cv2.threshold(self.bin_img_1, self.bg.threshold_2, 255, cv2.THRESH_BINARY)
 
 		else:
 			raise Exception('Background model parameters not initialized \n '
 							'Please initiatilize parameters with setdefault() function')
 
+	def subtractbackground_2(self, src):
+
+		if self.bg_img.any():
+			subtract = cv2.subtract(self.bg_img, src)
+			self.bin_img_1 = self._thresholdbackground(subtract, self.bg.threshold_1)
+			self.bin_img_2 = self._thresholdbackground(subtract, self.bg.threshold_2)
+
+		else:
+			raise Exception('Background model parameters not initialized \n '
+							'Please initiatilize parameters with setdefault() function')
+
+	def _thresholdbackground(self, src, threshold):
+
+		ret, threshold_0 = cv2.threshold(src[:, :, 0], threshold, 255, cv2.THRESH_BINARY)
+		ret, threshold_1 = cv2.threshold(src[:, :, 1], threshold, 255, cv2.THRESH_BINARY)
+		ret, threshold_2 = cv2.threshold(src[:, :, 2], threshold, 255, cv2.THRESH_BINARY) 
+
+		return cv2.add(threshold_0.astype(np.uint8), 
+			cv2.add(threshold_1.astype(np.uint8), threshold_2.astype(np.uint8)))
+
 	def windowscanbackground(self):
 
-		if self.bin_img.any():
-			int_img = cv2.integral(self.bin_img)  # Strange size returns cv2.integral
-			#self.scan_img = self._scanningwindow(int_img)
+		if self.bin_img_1.any():
+			int_img = cv2.integral(self.bin_img_1)  # Strange size returns cv2.integral
 			self.scan_img = cbackground.scanningwindow(int_img, self.win_height, self.win_width, self.win_min_pix)
 
 		else:
@@ -115,7 +163,7 @@ class Background(object):
 
 	def thresholdbackground(self):
 
-		if self.bin_img.any():
+		if self.bin_img_1.any():
 			self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
 
 		else:
@@ -124,7 +172,7 @@ class Background(object):
 
 	def contoursbackground(self):
 
-		if self.bin_img.any():
+		if self.bin_img_1.any():
 			self.contours, hierarchy = cv2.findContours(self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
 		else:
