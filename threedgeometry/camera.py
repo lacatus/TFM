@@ -80,7 +80,8 @@ class Camera(object):
         print '* Camera Parameters *'
         print 'intrinsics:\n%s\n%s' % (self.intrinsics, type(self.intrinsics))
         print 'rotation:\n%s\n%s' % (self.rotation, type(self.rotation))
-        print 'translation:\n%s\n%s' % (self.translation, type(self.translation))
+        print 'translation:\n%s\n%s' % (
+            self.translation, type(self.translation))
         print ''
 
         self.video.printvideoinfo()

@@ -10,7 +10,3 @@ from mainloop import loop
 
 init()
 loop()
-
-
-
-

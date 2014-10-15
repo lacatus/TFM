@@ -8,7 +8,7 @@ from distutils.core import setup
 from Cython.Build import cythonize
 
 
-print "\nInstalling Cython shared objects ...\n" 
+print "\nInstalling Cython shared objects ...\n"
 
 args = sys.argv[1:]
 

@@ -28,7 +28,7 @@ from bgsubtraction import bgprocess
 def initcameras():
 
     dataset = datasets.datasetloader.selectdataset()
-    
+
     load_cmd = 'datasets.%s.loaddataset()' % dataset
     cameras = eval(load_cmd)  # execute whatever is inside the string
 

@@ -6,19 +6,19 @@ from gui import variables
 
 
 def paintcontours(frames, bg_models):
-    
+
     contour_frames = []
 
     for ii in range(len(frames)):
 
         image = frames[ii].copy()
 
-        cv2.drawContours(image, bg_models[ii].contours, -1, (0, 255, 0), 5) 
+        cv2.drawContours(image, bg_models[ii].contours, -1, (0, 255, 0), 5)
 
         for cont in bg_models[ii].contours:
 
             x, y, w, h = cv2.boundingRect(cont)
-            cv2.rectangle(image, (x, y), (x + w, y + h),(0, 0, 255), 2)
+            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
         contour_frames.append(image)
 

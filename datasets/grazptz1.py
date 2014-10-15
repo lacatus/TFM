@@ -59,6 +59,7 @@ def getcameras():
 
     return [getcam1(), getcam2(), getcam3()]
 
+
 def printcamerainfo():
 
     cam1_g1.printcamerainfo()

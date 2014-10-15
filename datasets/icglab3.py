@@ -14,7 +14,8 @@ def loaddataset():
 def setglobalvariables():
 
     variables.current_dataset_path = variables.datasets_path + '/icglab6'
-    variables.current_video_path = variables.current_dataset_path + '/videos/leaf2'
+    variables.current_video_path = variables.current_dataset_path +
+    '/videos/leaf2'
 
 
 def loadcameras():
@@ -76,4 +77,3 @@ def printcamerainfo():
     cam2_g1.printcamerainfo()
     cam3_g1.printcamerainfo()
     cam4_g1.printcamerainfo()
-
