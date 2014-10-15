@@ -72,6 +72,6 @@ def getdiffimg(bg_models):
     diff_imgs = []
 
     for bg in bg_models:
-        diff_imgs.append(bg.diff_img)
+        diff_imgs.append(bg.diff_img_copy)
 
     return diff_imgs

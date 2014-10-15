@@ -14,8 +14,8 @@ def loaddataset():
 def setglobalvariables():
 
     variables.current_dataset_path = variables.datasets_path + '/icglab6'
-    variables.current_video_path = variables.current_dataset_path +
-    '/videos/table'
+    variables.current_video_path = variables.current_dataset_path + \
+        '/videos/table'
 
 
 def loadcameras():

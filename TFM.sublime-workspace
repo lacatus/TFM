@@ -32,10 +32,10 @@
 	"buffers":
 	[
 		{
-			"file": "bgsubtraction/__init__.py",
+			"file": "mainloop.py",
 			"settings":
 			{
-				"buffer_size": 323,
+				"buffer_size": 2043,
 				"line_ending": "Unix"
 			}
 		}
@@ -104,36 +104,47 @@
 	},
 	"file_history":
 	[
+		"/home/blacabex/PythonProjects/TFM/.gitignore",
+		"/home/blacabex/PythonProjects/TFM/setup.py",
+		"/home/blacabex/PythonProjects/TFM/threedgeometry/video.py",
+		"/home/blacabex/PythonProjects/TFM/var/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/var/variables.py",
+		"/home/blacabex/PythonProjects/TFM/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/__main__.py",
+		"/home/blacabex/PythonProjects/TFM/threedgeometry/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/threedgeometry/camera.py",
+		"/home/blacabex/PythonProjects/TFM/threedgeometry/frameretriever.py",
+		"/home/blacabex/PythonProjects/TFM/gui/trackbar.py",
+		"/home/blacabex/PythonProjects/TFM/gui/imshow.py",
+		"/home/blacabex/PythonProjects/TFM/gui/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab6.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab5.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab4.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab3.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab2.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/icglab1.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/grazptz2.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/grazptz1.py",
+		"/home/blacabex/PythonProjects/TFM/datasets/datasetloader.py",
+		"/home/blacabex/PythonProjects/TFM/bgsubtraction/__init__.py",
+		"/home/blacabex/PythonProjects/TFM/bgsubtraction/bgprocess.py",
+		"/home/blacabex/PythonProjects/TFM/bgsubtraction/background.py",
 		"/home/blacabex/PythonProjects/TFM/TFM.sublime-project",
 		"/home/blacabex/PythonProjects/TFM/TFM.sublime-workspace",
-		"/home/blacabex/PythonProjects/TFM/bgsubtraction/bgprocess.py",
 		"/home/blacabex/PythonProjects/TFM/mainloop.py",
-		"/home/blacabex/PythonProjects/TFM/gui/trackbar.py",
 		"/home/blacabex/PythonProjects/TFM/TODO.md",
-		"/home/blacabex/PythonProjects/TFM/bgsubtraction/background.py",
 		"/home/blacabex/.config/sublime-text-2/Packages/Pep8Lint/Pep8Lint.sublime-settings",
 		"/home/blacabex/.config/sublime-text-2/Packages/User/Pep8Lint.sublime-settings",
 		"/home/blacabex/.config/sublime-text-2/Packages/Pep8Lint/Default (Linux).sublime-keymap",
 		"/home/blacabex/.config/sublime-text-2/Packages/Python PEP8 Autoformat/Default (Linux).sublime-keymap",
 		"/home/blacabex/.config/sublime-text-2/Packages/Python PEP8 Autoformat/pep8_autoformat.sublime-settings",
 		"/home/blacabex/PythonProjects/TFM/imgproc/rgb2gray.py",
-		"/home/blacabex/PythonProjects/TFM/threedgeometry/frameretriever.py",
-		"/home/blacabex/PythonProjects/TFM/datasets/__init__.py",
-		"/home/blacabex/PythonProjects/TFM/datasets/datasetloader.py",
-		"/home/blacabex/PythonProjects/TFM/threedgeometry/video.py",
-		"/home/blacabex/PythonProjects/TFM/threedgeometry/camera.py",
-		"/home/blacabex/PythonProjects/TFM/threedgeometry/__init__.py",
-		"/home/blacabex/PythonProjects/TFM/var/variables.py",
-		"/home/blacabex/PythonProjects/TFM/bgsubtraction/__init__.py",
-		"/home/blacabex/PythonProjects/TFM/__init__.py",
-		"/home/blacabex/PythonProjects/TFM/gui/imshow.py",
 		"/home/blacabex/PythonProjects/TFM/main_loop.py",
 		"/home/blacabex/PythonProjects/TFM/bgsubtraction/cbackground.pyx",
 		"/home/blacabex/PythonProjects/TFM/TODO",
 		"/home/blacabex/Desktop/main.cpp",
-		"/home/blacabex/PythonProjects/TFM/setup.py",
 		"/home/blacabex/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
-		"/home/blacabex/PythonProjects/TFM/.gitignore",
 		"/home/blacabex/Desktop/setup.py",
 		"/home/blacabex/Desktop/hello_cython.pyx",
 		"/home/blacabex/.config/sublime-text-2/Installed Packages/Package Control.sublime-package",
@@ -181,26 +192,28 @@
 			[
 				{
 					"buffer": 0,
-					"file": "bgsubtraction/__init__.py",
+					"file": "mainloop.py",
 					"settings":
 					{
-						"buffer_size": 323,
+						"buffer_size": 2043,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								323,
-								323
+								1185,
+								1185
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Python/Python.tmLanguage"
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -241,7 +254,7 @@
 		"cols":
 		[
 			0.0,
-			0.451237970822,
+			0.720823224278,
 			1.0
 		],
 		"rows":
@@ -276,6 +289,6 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 138.0,
+	"side_bar_width": 186.0,
 	"status_bar_visible": false
 }

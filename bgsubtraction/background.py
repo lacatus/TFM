@@ -68,6 +68,7 @@ class Background(object):
         self.bin_img_2 = self.bin_img
         self.scan_img = self.bin_img
         self.diff_img = self.bin_img
+        self.diff_img_copy = self.bin_img
         self.contours = None
 
     def updatebackground(self, src):
@@ -128,6 +129,7 @@ class Background(object):
 
         if self.bin_img_1.any():
             self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
+            self.diff_img_copy = self.diff_img.copy()
 
         else:
             raise Exception('Background model images not updated \n '

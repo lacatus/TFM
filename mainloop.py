@@ -18,9 +18,6 @@ import threedgeometry.frameretriever
 from gui import imshow
 from gui import trackbar
 
-# Imgproc imports
-from imgproc import rgb2gray
-
 # Background imports
 from bgsubtraction import bgprocess
 
@@ -72,19 +69,16 @@ def loop():
             imshow.showallimg(frames)
 
         elif option is 1:
-            imshow.showallimg(gray_frames)
-
-        elif option is 2:
             imshow.showallimg(bgprocess.getbgimg(bg_models))
 
-        elif option is 3:
+        elif option is 2:
             imshow.showallimg(bgprocess.getbinimg(bg_models))
 
-        elif option is 4:
+        elif option is 3:
             imshow.showallimg(bgprocess.getscanimg(bg_models))
 
-        elif option is 5:
+        elif option is 4:
             imshow.showallimg(bgprocess.getdiffimg(bg_models))
 
-        elif option is 6:
+        elif option is 5:
             imshow.showallimg(imshow.paintcontours(frames, bg_models))

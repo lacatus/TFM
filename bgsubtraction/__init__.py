@@ -11,5 +11,4 @@ import cv2
 import numpy as np
 
 from gui import trackbar
-from imgproc import rgb2gray
 from threedgeometry import frameretriever
