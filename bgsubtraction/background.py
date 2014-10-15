@@ -10,7 +10,7 @@ class Bg(object):
 	"""
 	Parent class of the Background class that contains common
 	attributes shared by every Background object
-	"""
+	""" 
 
 	def __init__(self):
 
@@ -59,28 +59,6 @@ class Background(object):
 		height = size[0]
 		width = size[1]
 
-		if len(size) < 3:
-			self.counter = 1
-			self.win_height = 30
-			self.win_width = 15
-			self.win_min_pix = 200  # 255 or 0 --> how a white pixel counts in b/w img
-			self.bg_img = src
-			self.bin_img_1 = np.zeros((height, width))
-			self.bin_img_2 = self.bin_img
-			self.scan_img = self.bin_img
-			self.diff_img = self.bin_img
-			self.contours = None
-
-		else:
-			raise Exception('Background model parameters incorrectly initialized \n '
-							'Please initiatilize parameters with a gray scale image')
-
-	def setdefault_2(self, src):
-
-		size = src.shape
-		height = size[0]
-		width = size[1]
-
 		self.counter = 1
 		self.win_height = 30
 		self.win_width = 15
@@ -92,21 +70,7 @@ class Background(object):
 		self.diff_img = self.bin_img
 		self.contours = None
 
-	def updatebackground(self, src):
-
-		if self.bg_img.any():
-			if self.bg.frame_count is self.counter:
-				self.bg_img = cv2.addWeighted(self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
-				self.counter = 1
-
-			else:
-				self.counter += 1
-
-		else:
-			raise Exception('Background model parameters not initialized \n '
-							'Please initiatilize parameters with setdefault() function')
-
-	def updatebackground_2(self,src):
+	def updatebackground(self,src):
 
 		if self.bg_img.any():
 			if self.bg.frame_count is self.counter:
@@ -121,17 +85,6 @@ class Background(object):
 							'Please initiatilize parameters with setdefault() function')
 
 	def subtractbackground(self, src):
-
-		if self.bg_img.any():
-			self.bin_img_1 = cv2.subtract(self.bg_img, src)
-			ret, self.bin_img_1 = cv2.threshold(self.bin_img_1, self.bg.threshold_1, 255, cv2.THRESH_BINARY)
-			ret, self.bin_img_2 = cv2.threshold(self.bin_img_1, self.bg.threshold_2, 255, cv2.THRESH_BINARY)
-
-		else:
-			raise Exception('Background model parameters not initialized \n '
-							'Please initiatilize parameters with setdefault() function')
-
-	def subtractbackground_2(self, src):
 
 		if self.bg_img.any():
 			subtract = cv2.subtract(self.bg_img, src)

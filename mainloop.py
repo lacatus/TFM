@@ -40,10 +40,9 @@ def initcameras():
 def initloop(cameras):
 
     frames = threedgeometry.frameretriever.getframes(cameras)
-    #gray_frames = rgb2gray.rgb2graytransform(frames)
 
     bg = bgprocess.getbgobject()
-    bg_models = bgprocess.getbgmodels_2(frames, bg)
+    bg_models = bgprocess.getbgmodels(frames, bg)
 
     # Init trackbars
     trackbar.setdefaulttrackbarmain(bg)
@@ -67,9 +66,7 @@ def loop():
         if not frames:  # Video ended
             break
 
-        gray_frames = rgb2gray.rgb2graytransform(frames)
-
-        bg_models = bgprocess.updatebgmodels_2(frames, bg_models)
+        bg_models = bgprocess.updatebgmodels(frames, bg_models)
 
         if option is 0:
             imshow.showallimg(frames)

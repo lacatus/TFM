@@ -1,7 +1,7 @@
 TODO list
 
 - [x] background.py --> bg subtraction with rgb channels
-- [ ] background.py --> remove unused def --> _2
+- [x] background.py --> remove unused def --> _2
 - [ ] background.py --> more accurate thresholding _1 && _2
 
 - [ ] Write README
