@@ -52,6 +52,7 @@ class Background(object):
         self.scan_img = None
         self.diff_img = None
         self.contours = None
+        self.rectangles = None
 
     def setdefault(self, src):
 
@@ -70,13 +71,24 @@ class Background(object):
         self.diff_img = self.bin_img
         self.diff_img_copy = self.bin_img
         self.contours = None
+        self.rectangles = []
 
     def updatebackground(self, src):
 
         if self.bg_img.any():
             if self.bg.frame_count is self.counter:
+
+                src_bg = src.copy()
+
+                for rect in self.rectangles:
+                    x, y, w, h = rect
+
+                    if w > self.win_width and h > self.win_height:
+                        src_bg[y:y + h, x:x + w, :] = \
+                            self.bg_img[y:y + h, x:x + w, :]
+
                 self.bg_img = cv2.addWeighted(
-                    self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
+                    self.bg_img, self.bg.alpha, src_bg, self.bg.beta, 0)
                 self.counter = 1
 
             else:
@@ -141,6 +153,14 @@ class Background(object):
         if self.bin_img_1.any():
             self.contours, hierarchy = cv2.findContours(
                 self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+
+            self.rectangles = []
+
+            for cont in self.contours:
+                x, y, w, h = cv2.boundingRect(cont)
+
+                if w >= (self.win_width / 2) and h >= (self.win_height / 2):
+                    self.rectangles.append([x, y, w, h])
 
         else:
             raise Exception('Background difference image not updated \n'
