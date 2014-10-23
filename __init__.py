@@ -28,7 +28,16 @@ def initvariables():
         5: 'icglab3',
         6: 'icglab4',
         7: 'icglab5',
-        8: 'icglab6'}
+        8: 'icglab6',
+        9: 'pets091',
+        10: 'pets092',
+        11: 'pets093',
+        12: 'pets094',
+        13: 'pets095',
+        14: 'pets096',
+        15: 'pets097',
+        16: 'pets098',
+        17: 'pets099'}
 
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(

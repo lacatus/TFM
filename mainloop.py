@@ -10,6 +10,15 @@ import datasets.icglab3
 import datasets.icglab4
 import datasets.icglab5
 import datasets.icglab6
+import datasets.pets091
+import datasets.pets092
+import datasets.pets093
+import datasets.pets094
+import datasets.pets095
+import datasets.pets096
+import datasets.pets097
+import datasets.pets098
+import datasets.pets099
 
 # 3D geometry imports
 import threedgeometry.frameretriever

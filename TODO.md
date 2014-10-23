@@ -9,7 +9,7 @@ TODO list
 
 - [x] data --> add PETS dataset
 
-- [ ] datasets --> add PETS dataset
+- [x] datasets --> add PETS dataset
 
 - [ ] Write README
 

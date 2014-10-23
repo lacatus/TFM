@@ -78,17 +78,8 @@ class Background(object):
         if self.bg_img.any():
             if self.bg.frame_count is self.counter:
 
-                src_bg = src.copy()
-
-                for rect in self.rectangles:
-                    x, y, w, h = rect
-
-                    if w > self.win_width and h > self.win_height:
-                        src_bg[y:y + h, x:x + w, :] = \
-                            self.bg_img[y:y + h, x:x + w, :]
-
                 self.bg_img = cv2.addWeighted(
-                    self.bg_img, self.bg.alpha, src_bg, self.bg.beta, 0)
+                    self.bg_img, self.bg.alpha, src, self.bg.beta, 0)
                 self.counter = 1
 
             else:
