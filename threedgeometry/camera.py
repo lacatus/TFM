@@ -13,7 +13,6 @@ class Camera(object):
     each camera. It also gives the different methods that we need to load
     all the values of each cameras from configuration files.
     """
-
     def __init__(self):
 
         # Camera Info
@@ -71,7 +70,7 @@ class Camera(object):
         self.__formatrotation(rotation)
         self.__formattranslation(translation)
 
-        self.getoptimalcameramatrix()
+        self.initcameracalibration()
 
     def printcamerainfo(self):
 
@@ -91,7 +90,12 @@ class Camera(object):
 
         self.video.printvideoinfo()
 
-    def getoptimalcameramatrix(self):
+    def initcameracalibration(self):
+
+        self.__getoptimalcameramatrix()
+        self.__initretroprojection()
+
+    def __getoptimalcameramatrix(self):
 
         w = int(self.video.width)
         h = int(self.video.height)
@@ -100,6 +104,14 @@ class Camera(object):
         self.optimalcameramatrix, self.roi = \
             cv2.getOptimalNewCameraMatrix(
                 self.intrinsics, np.float64([0, 0, 0, 0]), (w, h), 1, (w, h))
+
+    def __initretroprojection(self):
+
+        # http://bit.ly/opencv2d3d
+        r_mat = self.rotation
+        t_mat = self.translation
+
+        self.rt = r_mat * t_mat
 
     def undistortimage(self, ret, src):
 

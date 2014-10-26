@@ -11,6 +11,8 @@ TODO list
 
 - [x] datasets --> add PETS dataset
 
-- [ ] retroprojection.py 
+- [x] camera --> add intrinsics rectification to image
+
+- [ ] retroprojection.py --> view docstring of the file
 
 - [ ] Write README

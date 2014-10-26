@@ -127,9 +127,13 @@ class Background(object):
             self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
         self.rectangles = []
+        contours = []
 
         for cont in self.contours:
             x, y, w, h = cv2.boundingRect(cont)
 
             if w >= (self.win_width / 2) and h >= (self.win_height / 2):
                 self.rectangles.append([x, y, w, h])
+                contours.append(cont)
+
+        self.contours = contours
