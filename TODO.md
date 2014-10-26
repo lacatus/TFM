@@ -11,6 +11,6 @@ TODO list
 
 - [x] datasets --> add PETS dataset
 
-- [ ] Write README
-
 - [ ] retroprojection.py 
+
+- [ ] Write README

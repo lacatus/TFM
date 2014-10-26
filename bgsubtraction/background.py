@@ -92,17 +92,11 @@ class Background(object):
 
     def subtractbackground(self, src):
 
-        if self.bg_img.any():
-            subtract = cv2.subtract(self.bg_img, src)
-            self.bin_img_1 = self._thresholdbackground(
-                subtract, self.bg.threshold_1)
-            self.bin_img_2 = self._thresholdbackground(
-                subtract, self.bg.threshold_2)
-
-        else:
-            raise Exception('Background model parameters not initialized \n '
-                            'Please initiatilize parameters with '
-                            'setdefault() function')
+        subtract = cv2.subtract(self.bg_img, src)
+        self.bin_img_1 = self._thresholdbackground(
+            subtract, self.bg.threshold_1)
+        self.bin_img_2 = self._thresholdbackground(
+            subtract, self.bg.threshold_2)
 
     def _thresholdbackground(self, src, threshold):
 
@@ -118,42 +112,24 @@ class Background(object):
 
     def windowscanbackground(self):
 
-        if self.bin_img_1.any():
-            int_img = cv2.integral(self.bin_img_1)
-            self.scan_img = cbackground.scanningwindow(
-                int_img, self.win_height, self.win_width, self.win_min_pix)
-
-        else:
-            raise Exception('Background model images not updated \n '
-                            'Please update model images with '
-                            'subtractbackground() function')
+        int_img = cv2.integral(self.bin_img_1)
+        self.scan_img = cbackground.scanningwindow(
+            int_img, self.win_height, self.win_width, self.win_min_pix)
 
     def thresholdbackground(self):
 
-        if self.bin_img_1.any():
-            self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
-            self.diff_img_copy = self.diff_img.copy()
-
-        else:
-            raise Exception('Background model images not updated \n '
-                            'Please update model images with '
-                            'subtractbackground() function')
+        self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
+        self.diff_img_copy = self.diff_img.copy()
 
     def contoursbackground(self):
 
-        if self.bin_img_1.any():
-            self.contours, hierarchy = cv2.findContours(
-                self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        self.contours, hierarchy = cv2.findContours(
+            self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 
-            self.rectangles = []
+        self.rectangles = []
 
-            for cont in self.contours:
-                x, y, w, h = cv2.boundingRect(cont)
+        for cont in self.contours:
+            x, y, w, h = cv2.boundingRect(cont)
 
-                if w >= (self.win_width / 2) and h >= (self.win_height / 2):
-                    self.rectangles.append([x, y, w, h])
-
-        else:
-            raise Exception('Background difference image not updated \n'
-                            'Please update difference image with '
-                            'thresholdbackground() function')
+            if w >= (self.win_width / 2) and h >= (self.win_height / 2):
+                self.rectangles.append([x, y, w, h])

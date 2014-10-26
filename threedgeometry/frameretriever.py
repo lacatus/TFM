@@ -41,3 +41,19 @@ def getframes(cameras):
             break
 
     return frames
+
+
+def getundistortedframes(cameras):
+
+    undistorted_frames = []
+
+    for cam in cameras:
+
+        ret, undistorted_frame = cam.getundistortedframe()
+        undistorted_frames.append(undistorted_frame)
+
+        if not ret:
+            undistorted_frames = False
+            break
+
+    return undistorted_frames

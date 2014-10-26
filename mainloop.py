@@ -45,7 +45,8 @@ def initcameras():
 
 def initloop(cameras):
 
-    frames = threedgeometry.frameretriever.getframes(cameras)
+    #frames = threedgeometry.frameretriever.getframes(cameras)
+    frames = threedgeometry.frameretriever.getundistortedframes(cameras)
 
     bg = bgprocess.getbgobject()
     bg_models = bgprocess.getbgmodels(frames, bg)
@@ -67,7 +68,8 @@ def loop():
 
         option = bg_models[0].bg.option  # get which img you want to visualize
 
-        frames = threedgeometry.frameretriever.getframes(cameras)
+        #frames = threedgeometry.frameretriever.getframes(cameras)
+        frames = threedgeometry.frameretriever.getundistortedframes(cameras)
 
         if not frames:  # Video ended
             break

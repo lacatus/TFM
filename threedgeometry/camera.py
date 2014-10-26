@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from threedgeometry import cp
+from threedgeometry import cv2
 from threedgeometry import np
 from threedgeometry.video import Video
 
@@ -23,6 +24,8 @@ class Camera(object):
         self.intrinsics = None
         self.rotation = None
         self.translation = None
+        self.optimalcameramatrix = None
+        self.roi = None
 
         # Video
         self.video = Video()
@@ -68,6 +71,8 @@ class Camera(object):
         self.__formatrotation(rotation)
         self.__formattranslation(translation)
 
+        self.getoptimalcameramatrix()
+
     def printcamerainfo(self):
 
         print ''
@@ -85,3 +90,28 @@ class Camera(object):
         print ''
 
         self.video.printvideoinfo()
+
+    def getoptimalcameramatrix(self):
+
+        w = int(self.video.width)
+        h = int(self.video.height)
+
+        # http://code.opencv.org/issues/1718
+        self.optimalcameramatrix, self.roi = \
+            cv2.getOptimalNewCameraMatrix(
+                self.intrinsics, np.float64([0, 0, 0, 0]), (w, h), 1, (w, h))
+
+    def undistortimage(self, ret, src):
+
+        dst = cv2.undistort(
+            src, self.intrinsics, None, None, self.optimalcameramatrix)
+        x, y, w, h = self.roi
+
+        #return ret, dst[y:y + h, x:x + w]
+        return ret, dst
+
+    def getundistortedframe(self):
+
+        ret, frame = self.video.getframe()
+
+        return self.undistortimage(ret, frame)

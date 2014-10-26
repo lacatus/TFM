@@ -28,6 +28,10 @@ def loadcameras():
     cam2_g1 = Camera()
     cam3_g1 = Camera()
 
+    cam1_g1.video.readvideo(variables.current_video_path + '/camera001.avi')
+    cam2_g1.video.readvideo(variables.current_video_path + '/camera002.avi')
+    cam3_g1.video.readvideo(variables.current_video_path + '/camera003.avi')
+
     cam1_str = variables.current_dataset_path + '/cameracalib/camera001.cfg'
     cam2_str = variables.current_dataset_path + '/cameracalib/camera002.cfg'
     cam3_str = variables.current_dataset_path + '/cameracalib/camera003.cfg'
@@ -35,10 +39,6 @@ def loadcameras():
     cam1_g1.readconfigfile(cam1_str)
     cam2_g1.readconfigfile(cam2_str)
     cam3_g1.readconfigfile(cam3_str)
-
-    cam1_g1.video.readvideo(variables.current_video_path + '/camera001.avi')
-    cam2_g1.video.readvideo(variables.current_video_path + '/camera002.avi')
-    cam3_g1.video.readvideo(variables.current_video_path + '/camera003.avi')
 
 
 def getcam1():
@@ -58,7 +58,15 @@ def getcam3():
 
 def getcameras():
 
-    return [getcam1(), getcam2(), getcam3()]
+    cam1 = getcam1()
+    cam2 = getcam2()
+    cam3 = getcam3()
+
+    cam1.printcamerainfo()
+    cam2.printcamerainfo()
+    cam3.printcamerainfo()
+
+    return [cam1, cam2, cam3]
 
 
 def printcamerainfo():
