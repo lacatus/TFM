@@ -119,7 +119,7 @@ class Background(object):
     def thresholdbackground(self):
 
         self.diff_img = cv2.multiply(self.bin_img_2, self.scan_img)
-        self.diff_img_copy = self.diff_img.copy()
+        self.diff_img_copy = self.diff_img.copy()  # For visualization
 
     def contoursbackground(self):
 

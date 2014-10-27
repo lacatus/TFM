@@ -12,6 +12,7 @@
     - Groups / Intersections ????
 
 NEW THOUGHTS
+- Maybe try to pass contours handling to this module <--- TODO ################
 - Class that creates "persons" --> Blob
     - X&Y projection of contours (opencv --> core --> reduce)
         - try to plot it
