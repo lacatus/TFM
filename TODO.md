@@ -13,7 +13,12 @@ TODO list
 
 - [x] camera --> add intrinsics rectification to image
 
+- [ ] gui --> imshow.py --> paint contours and bounding boxes separately
+- [ ] gui --> imshow.py --> paint contours projection ??¿¿??
+- [ ] gui --> trackbar.py --> explore buttons (CV_CHECKBOX, CV_RADIO, ...)
+
 - [ ] tracking --> view docstring of the module
+- [ ] tracking --> contprocess.py
 
 - [ ] retroprojection.py --> view docstring of the file
 
