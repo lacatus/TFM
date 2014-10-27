@@ -13,6 +13,8 @@ TODO list
 
 - [x] camera --> add intrinsics rectification to image
 
+- [ ] tracking --> view docstring of the module
+
 - [ ] retroprojection.py --> view docstring of the file
 
 - [ ] Write README

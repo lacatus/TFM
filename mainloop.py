@@ -78,8 +78,6 @@ def loop():
         bg_models = bgprocess.updatebgmodels(frames, bg_models)
 
         if option is 0:
-            threedgeometry.retroprojection.contoursmasscenter(
-                frames, bg_models)
             imshow.showallimg(frames)
 
         elif option is 1:
@@ -95,6 +93,4 @@ def loop():
             imshow.showallimg(bgprocess.getdiffimg(bg_models))
 
         elif option is 5:
-            threedgeometry.retroprojection.contoursmasscenter(
-                frames, bg_models)
             imshow.showallimg(imshow.paintcontours(frames, bg_models))
