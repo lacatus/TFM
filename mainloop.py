@@ -31,6 +31,9 @@ from gui import trackbar
 # Background imports
 from bgsubtraction import bgprocess
 
+# Detection imports
+from detection import detectionprocess
+
 
 def initcameras():
 
@@ -75,7 +78,9 @@ def loop():
         if not frames:  # Video ended
             break
 
-        bg_models = bgprocess.updatebgmodels(frames, bg_models)
+        bg_models = bgprocess.bgprocess(frames, bg_models)
+
+        blobs = detectionprocess.detectionprocess(bg_models)
 
         if option is 0:
             imshow.showallimg(frames)
@@ -94,3 +99,6 @@ def loop():
 
         elif option is 5:
             imshow.showallimg(imshow.paintcontours(frames, bg_models))
+
+        elif option is 6:
+            imshow.showallimg(imshow.paintblobs(frames, blobs))

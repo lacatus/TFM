@@ -25,18 +25,6 @@ def getbgmodels(frames, bg):
     return bg_models
 
 
-def updatebgmodels(frames, bg_models):
-
-    for ii in range(len(frames)):
-        bg_models[ii].updatebackground(frames[ii])
-        bg_models[ii].subtractbackground(frames[ii])
-        bg_models[ii].windowscanbackground()
-        bg_models[ii].thresholdbackground()
-        bg_models[ii].contoursbackground()
-
-    return bg_models
-
-
 def getbgimg(bg_models):
 
     bg_imgs = []
@@ -75,3 +63,15 @@ def getdiffimg(bg_models):
         diff_imgs.append(bg.diff_img_copy)
 
     return diff_imgs
+
+
+def bgprocess(frames, bg_models):
+
+    for ii in range(len(frames)):
+        bg_models[ii].updatebackground(frames[ii])
+        bg_models[ii].subtractbackground(frames[ii])
+        bg_models[ii].windowscanbackground()
+        bg_models[ii].thresholdbackground()
+        bg_models[ii].contoursbackground()
+
+    return bg_models

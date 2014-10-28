@@ -14,7 +14,7 @@ class TrackbarMain(object):
 
         cv2.createTrackbar(
             'Option', variables.app_window_trackbar_name,
-            self.bg.option, 5, self.setoption)
+            self.bg.option, 6, self.setoption)
         cv2.createTrackbar(
             'Beta', variables.app_window_trackbar_name,
             int(self.bg.beta * 10), 10, self.setbeta)

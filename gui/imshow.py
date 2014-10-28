@@ -15,13 +15,21 @@ def paintcontours(frames, bg_models):
 
         cv2.drawContours(image, bg_models[ii].contours, -1, (0, 255, 0), 5)
 
-        for rect in bg_models[ii].rectangles:
-            x, y, w, h = rect
-            cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
         contour_frames.append(image)
 
     return contour_frames
+
+
+def paintblobs(frames, total_blobs):
+
+    for ii in range(len(total_blobs)):
+
+        for blob in total_blobs[ii]:
+
+            blob.drawboundingrect(frames[ii])
+            blob.drawprojection(frames[ii])
+
+    return frames
 
 
 def showallimg(camera_frames):
