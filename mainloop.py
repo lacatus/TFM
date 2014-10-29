@@ -4,12 +4,6 @@
 import datasets.datasetloader
 import datasets.grazptz1
 import datasets.grazptz2
-import datasets.icglab1
-import datasets.icglab2
-import datasets.icglab3
-import datasets.icglab4
-import datasets.icglab5
-import datasets.icglab6
 import datasets.pets091
 import datasets.pets092
 import datasets.pets093

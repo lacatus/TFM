@@ -23,21 +23,15 @@ def initvariables():
     variables.datasets_name = {
         1: 'grazptz1',
         2: 'grazptz2',
-        3: 'icglab1',
-        4: 'icglab2',
-        5: 'icglab3',
-        6: 'icglab4',
-        7: 'icglab5',
-        8: 'icglab6',
-        9: 'pets091',
-        10: 'pets092',
-        11: 'pets093',
-        12: 'pets094',
-        13: 'pets095',
-        14: 'pets096',
-        15: 'pets097',
-        16: 'pets098',
-        17: 'pets099'}
+        3: 'pets091',
+        4: 'pets092',
+        5: 'pets093',
+        6: 'pets094',
+        7: 'pets095',
+        8: 'pets096',
+        9: 'pets097',
+        10: 'pets098',
+        11: 'pets099'}
 
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(
