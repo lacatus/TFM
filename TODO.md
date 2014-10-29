@@ -16,11 +16,14 @@ TODO list
 - [x] gui --> imshow.py --> paint contours and bounding boxes separately
 - [x] gui --> imshow.py --> paint contours projection 
 - [ ] gui --> trackbar.py --> explore buttons (CV_CHECKBOX, CV_RADIO, ...)
+- [ ] gui --> view FRAME by FRAME --> URGENT !!
 
+- [x] detection --> blob.py --> BLOB class with basic functions
+- [ ] detection --> blob.py --> threshold mean and view results
 - [ ] detection --> view docstring of the module
-- [ ] detection --> contprocess.py
-- [ ] detection --> review contents
+- [ ] detection --> contprocess.py 
 
 - [ ] retroprojection.py --> view docstring of the file
 
 - [ ] Write README
+- [ ] Find way to show evolution to teachers

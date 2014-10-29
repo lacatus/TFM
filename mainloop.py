@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import cv2
+
 # Datasets imports
 import datasets.datasetloader
 import datasets.grazptz1
@@ -50,17 +52,17 @@ def initloop(cameras):
     bg_models = bgprocess.getbgmodels(frames, bg)
 
     # Init trackbars
-    trackbar.setdefaulttrackbarmain(bg)
+    tb = trackbar.setdefaulttrackbarmain(bg)
     trackbar.setdefaulttrackbardsecondary(bg_models)
 
-    return bg_models
+    return bg_models, tb
 
 
 def loop():
 
     cameras = initcameras()
 
-    bg_models = initloop(cameras)
+    bg_models, tb = initloop(cameras)
 
     while True:
 
@@ -76,6 +78,7 @@ def loop():
 
         blobs = detectionprocess.detectionprocess(bg_models)
 
+        # imshow options
         if option is 0:
             imshow.showallimg(frames)
 
@@ -96,3 +99,7 @@ def loop():
 
         elif option is 6:
             imshow.showallimg(imshow.paintblobs(frames, blobs))
+
+        # show frames no video
+        if tb.framebyframe is 1:
+            cv2.waitKey()

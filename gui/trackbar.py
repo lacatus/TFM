@@ -9,6 +9,7 @@ class TrackbarMain(object):
     def __init__(self, bg):
 
         self.bg = bg
+        self.framebyframe = 0
 
     def setdefault(self):
 
@@ -27,6 +28,9 @@ class TrackbarMain(object):
         cv2.createTrackbar(
             'Threshold 2', variables.app_window_trackbar_name,
             self.bg.threshold_2, 100, self.setthreshold2)
+        cv2.createTrackbar(
+            'Frame by frame', variables.app_window_trackbar_name,
+            self.framebyframe, 1, self.setframebyframe)
 
     def setoption(self, tb_value):
         self.bg.option = tb_value
@@ -43,6 +47,14 @@ class TrackbarMain(object):
 
     def setthreshold2(self, tb_value):
         self.bg.threshold_2 = tb_value
+
+    def setframebyframe(self, tb_value):
+
+        if tb_value is 0:
+            self.framebyframe = 0
+
+        if tb_value is 1:
+            self.framebyframe = 1
 
 
 class TrackbarSecondary(object):
@@ -76,7 +88,10 @@ class TrackbarSecondary(object):
 
 def setdefaulttrackbarmain(bg):
 
-    tb = TrackbarMain(bg).setdefault()
+    tb = TrackbarMain(bg)
+    tb.setdefault()
+
+    return tb
 
 
 def setdefaulttrackbardsecondary(bg_models):
