@@ -28,6 +28,8 @@ def paintblobs(frames, total_blobs):
 
             blob.drawboundingrect(frames[ii])
             blob.drawprojection(frames[ii])
+            blob.drawsmoothprojection(frames[ii])
+            blob.drawmeanprojection(frames[ii])
 
     return frames
 
