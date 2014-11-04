@@ -31,31 +31,31 @@ The following instructions are provided in order to have the project installed i
 Dependecies:
 ------------
 
-1.	Python 2.7:
+- Python 2.7:
 
 ```
     sudo apt-get install python python-dev
 ```
 
-2.	Numpy:
+- Numpy:
 
 ```
 	sudo apt-get install python-numpy
 ```
 
-3. Install OpenCV:
+- Install OpenCV:
 
 ```
 	sudo apt-get install python-opencv
 ```
 
-4.  Install Python's Pip packet manager:
+- Install Python's Pip packet manager:
 
 ```
 	sudo apt-get install python-pip
 ```
 
-5.  Install Cython:
+- Install Cython:
 
 ```
 	sudo pip install cython
@@ -64,14 +64,14 @@ Dependecies:
 Setup project:
 --------------
 
-1.  Download source code:
+- Download source code:
 
 ```
 	cd ~/
 	git clone https://github.com/lacatus/TFM.git
 ```
 
-2.	Download datasets:
+- Download datasets:
 
 ```
 	cd TFM/
@@ -79,13 +79,13 @@ Setup project:
 	tar -xzf data.tar.gz
 ```
 
-3.  Install Cython script:
+- Install Cython script:
 
 ```
 	python setup.py
 ```
 
-4.  Run project:
+- Run project:
 
 ```
 	python __main__.py
