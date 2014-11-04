@@ -15,11 +15,12 @@ TODO list
 
 - [x] gui --> imshow.py --> paint contours and bounding boxes separately
 - [x] gui --> imshow.py --> paint contours projection 
-- [ ] gui --> trackbar.py --> explore buttons (CV_CHECKBOX, CV_RADIO, ...)
-- [ ] gui --> view FRAME by FRAME --> URGENT !!
+- [x] gui --> trackbar.py --> explore buttons --> UNAVAILABLE FOR PYTHON
+- [x] gui --> view FRAME by FRAME --> URGENT !!
 
 - [x] detection --> blob.py --> BLOB class with basic functions
-- [ ] detection --> blob.py --> threshold mean and view results
+- [x] detection --> blob.py --> threshold mean and view results
+- [ ] detection --> use y thresholded result to filter correctly where a person is
 - [ ] detection --> view docstring of the module
 - [ ] detection --> contprocess.py 
 
