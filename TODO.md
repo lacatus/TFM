@@ -26,5 +26,5 @@ TODO list
 
 - [ ] retroprojection.py --> view docstring of the file
 
-- [ ] Write README
-- [ ] Find way to show evolution to teachers
+- [x] Write README
+- [x] Find way to show evolution to teachers

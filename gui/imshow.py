@@ -34,6 +34,17 @@ def paintblobs(frames, total_blobs):
     return frames
 
 
+def paintmasks(frames, total_blobs):
+
+    for ii in range(len(total_blobs)):
+
+        for blob in total_blobs[ii]:
+
+            blob.drawmask(frames[ii])
+
+    return frames
+
+
 def showallimg(camera_frames):
 
     s = len(camera_frames)

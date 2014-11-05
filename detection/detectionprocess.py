@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 from detection import blob
+from detection import cv2
+from detection import np
 
 
 def contourstoblobs(bg_models):
@@ -29,8 +31,30 @@ def contourstoblobs(bg_models):
     return total_blobs
 
 
+def createglobalmask(total_blobs, bg_models):
+
+    size = bg_models[0].bg_img.shape
+    height = size[0]
+    width = size[1]
+
+    total_masks = []
+
+    for bg_blobs in total_blobs:
+
+        global_mask = np.zeros((height, width), dtype=np.uint8)
+
+        for blob in bg_blobs:
+
+            blob.drawglobalmask(global_mask)
+
+        total_masks.append(global_mask)
+
+    return total_masks
+
+
 def detectionprocess(bg_models):
 
     blobs = contourstoblobs(bg_models)
+    masks = createglobalmask(blobs, bg_models)
 
-    return blobs
+    return blobs, masks
