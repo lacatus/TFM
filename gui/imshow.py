@@ -45,6 +45,18 @@ def paintmasks(frames, total_blobs):
     return frames
 
 
+def paintellipses(frames, total_ellipses):
+
+    for ii in range(len(total_ellipses)):
+
+        for ellipse in total_ellipses[ii]:
+
+            cv2.ellipse(
+                frames[ii], ellipse, (0, 255, 0), 2)
+
+    return frames
+
+
 def showallimg(camera_frames):
 
     s = len(camera_frames)

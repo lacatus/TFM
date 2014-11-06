@@ -21,8 +21,10 @@ TODO list
 - [x] detection --> blob.py --> BLOB class with basic functions
 - [x] detection --> blob.py --> threshold mean and view results
 - [ ] detection --> use y thresholded result to filter correctly where a person is
-- [ ] detection --> view docstring of the module
-- [ ] detection --> contprocess.py 
+- [x] detection --> view docstring of the module
+- [x] detection --> contprocess.py 
+- [x] detection --> fitEllipse 
+- [ ] detection --> subjects !! <-- IMPORTANT !!!
 
 - [ ] retroprojection.py --> view docstring of the file
 
