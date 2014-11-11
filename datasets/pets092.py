@@ -32,6 +32,13 @@ def loadcameras():
     cam2_g1.video.readvideo(variables.current_video_path + '/camera002.avi')
     cam3_g1.video.readvideo(variables.current_video_path + '/camera003.avi')
 
+    cam1_g1.video.readbg(
+        variables.current_video_path + '/background/camera001.jpg')
+    cam2_g1.video.readbg(
+        variables.current_video_path + '/background/camera002.jpg')
+    cam3_g1.video.readbg(
+        variables.current_video_path + '/background/camera003.jpg')
+
     cam1_str = variables.current_dataset_path + '/cameracalib/camera001.cfg'
     cam2_str = variables.current_dataset_path + '/cameracalib/camera002.cfg'
     cam3_str = variables.current_dataset_path + '/cameracalib/camera003.cfg'

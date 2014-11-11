@@ -43,6 +43,17 @@ def getframes(cameras):
     return frames
 
 
+def getbg(cameras):
+
+    bg = []
+
+    for cam in cameras:
+
+        bg.append(cam.video.bg)
+
+    return bg
+
+
 def getundistortedframes(cameras):
 
     undistorted_frames = []

@@ -12,6 +12,7 @@ TODO list
 - [x] data/datasets --> remove iglab6 ??
 
 - [x] camera --> add intrinsics rectification to image
+- [ ] camera --> background images for cameras
 
 - [x] gui --> imshow.py --> paint contours and bounding boxes separately
 - [x] gui --> imshow.py --> paint contours projection 
@@ -24,6 +25,7 @@ TODO list
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
+- [ ] detection --> improve detection, less threshold <--
 - [ ] detection --> subjects !! <-- IMPORTANT !!!
 
 - STRANGE BEHAVIOUR

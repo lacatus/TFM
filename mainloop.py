@@ -45,8 +45,7 @@ def initcameras():
 
 def initloop(cameras):
 
-    frames = threedgeometry.frameretriever.getframes(cameras)
-    #frames = threedgeometry.frameretriever.getundistortedframes(cameras)
+    frames = threedgeometry.frameretriever.getbg(cameras)
 
     bg = bgprocess.getbgobject()
     bg_models = bgprocess.getbgmodels(frames, bg)

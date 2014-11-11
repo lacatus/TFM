@@ -19,6 +19,7 @@ class Video(object):
         self.height = None
         # self.fps = None
         self.total_fps = None
+        self.bg = None
 
     def getframe(self):  # returns tuple --> ret, frame
 
@@ -35,6 +36,10 @@ class Video(object):
 
         self.data = cv2.VideoCapture(video_path)
         self.getvideoparameters()
+
+    def readbg(self, bg_path):
+
+        self.bg = cv2.imread(bg_path)
 
     def printvideoinfo(self):
 
