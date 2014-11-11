@@ -9,7 +9,7 @@ TODO list
 
 - [x] data --> add PETS dataset
 - [x] datasets --> add PETS dataset
-- [ ] data/datasets --> remove iglab6 ??
+- [x] data/datasets --> remove iglab6 ??
 
 - [x] camera --> add intrinsics rectification to image
 
@@ -20,11 +20,13 @@ TODO list
 
 - [x] detection --> blob.py --> BLOB class with basic functions
 - [x] detection --> blob.py --> threshold mean and view results
-- [ ] detection --> use y thresholded result to filter correctly where a person is
+- [x] detection --> use y and x thresholded result to filter correctly where a person is
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
 - [ ] detection --> subjects !! <-- IMPORTANT !!!
+
+- STRANGE BEHAVIOUR
 
 - [ ] retroprojection.py --> view docstring of the file
 

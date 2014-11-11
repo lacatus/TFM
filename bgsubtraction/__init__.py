@@ -9,6 +9,7 @@ of a dataset
 import cbackground
 import cv2
 import numpy as np
+import sys
 
 from gui import trackbar
 from threedgeometry import frameretriever
