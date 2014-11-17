@@ -103,11 +103,10 @@ def loop():
             imshow.showallimg(imshow.paintmasks(frames, blobs))
 
         elif option is 8:
-            imshow.showallimg(masks)
-
-        elif option is 9:
             imshow.showallimg(imshow.paintellipses(frames, ellipses))
 
         # show frames no video
         if tb.framebyframe is 1:
             cv2.waitKey()
+
+    datasets.datasetloader.saveconfiguration(configuration, bg_models)

@@ -33,7 +33,7 @@ class Bg(object):
     def setconfiguration(self, config):
 
         self.option = config['option']
-        self.alpha = config['option']
+        self.alpha = config['alpha']
         self.beta = config['beta']
         self.frame_count = config['frame_count']
         self.threshold_1 = config['threshold_1']

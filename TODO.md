@@ -18,6 +18,7 @@ TODO list
 - [x] gui --> imshow.py --> paint contours projection 
 - [x] gui --> trackbar.py --> explore buttons --> UNAVAILABLE FOR PYTHON
 - [x] gui --> view FRAME by FRAME --> URGENT !!
+- [ ] gui --> trackbar --> asign each cam to the config <-- NEXT STEP
 
 - [x] detection --> blob.py --> BLOB class with basic functions
 - [x] detection --> blob.py --> threshold mean and view results

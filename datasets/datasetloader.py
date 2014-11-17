@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datasets import cp
 from var import variables
 
 
@@ -26,3 +27,46 @@ def selectdataset():
 
         if 0 < int(ans) <= len(variables.datasets_name):
             return variables.datasets_name[int(ans)]
+
+
+def saveconfiguration(configuration, bg_models):
+
+    print '\nSaving configurations ...'
+
+    c = cp.ConfigParser()
+    c.read(configuration['dir'])
+
+    c = saveglobalconfiguration(c, bg_models[0].bg)
+
+    aux = 1
+
+    for bg in bg_models:
+
+        c = savebgconfiguration(c, bg, 'cam00%s' % str(aux))
+
+        aux += 1
+
+    config_file = open(configuration['dir'], 'w+')
+    c.write(config_file)
+    config_file.close()
+
+
+def saveglobalconfiguration(c, bg):
+
+    c.set('global', 'option', bg.option)
+    c.set('global', 'alpha', bg.alpha)
+    c.set('global', 'beta', bg.beta)
+    c.set('global', 'frame_count', bg.frame_count)
+    c.set('global', 'threshold_1', bg.threshold_1)
+    c.set('global', 'threshold_2', bg.threshold_2)
+
+    return c
+
+
+def savebgconfiguration(c, bg, cam):
+
+    c.set(cam, 'win_height', bg.win_height)
+    c.set(cam, 'win_width', bg.win_width)
+    c.set(cam, 'win_min_pix', bg.win_min_pix)
+
+    return c
