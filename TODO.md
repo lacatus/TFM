@@ -12,7 +12,7 @@ TODO list
 - [x] data/datasets --> remove iglab6 ??
 
 - [x] camera --> add intrinsics rectification to image
-- [ ] camera --> background images for cameras
+- [x] camera --> background images for cameras
 
 - [x] gui --> imshow.py --> paint contours and bounding boxes separately
 - [x] gui --> imshow.py --> paint contours projection 

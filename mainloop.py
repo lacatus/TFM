@@ -36,19 +36,19 @@ def initcameras():
     dataset = datasets.datasetloader.selectdataset()
 
     load_cmd = 'datasets.%s.loaddataset()' % dataset
-    cameras = eval(load_cmd)  # execute whatever is inside the string
+    cameras, configuration = eval(load_cmd)
 
     cameras = threedgeometry.frameretriever.getnumcameras(cameras)
 
-    return cameras
+    return cameras, configuration
 
 
-def initloop(cameras):
+def initloop(cameras, configuration):
 
     frames = threedgeometry.frameretriever.getbg(cameras)
 
-    bg = bgprocess.getbgobject()
-    bg_models = bgprocess.getbgmodels(frames, bg)
+    bg = bgprocess.getbgobject(configuration['global'])
+    bg_models = bgprocess.getbgmodels(frames, bg, configuration)
 
     # Init trackbars
     tb = trackbar.setdefaulttrackbarmain(bg)
@@ -59,9 +59,9 @@ def initloop(cameras):
 
 def loop():
 
-    cameras = initcameras()
+    cameras, configuration = initcameras()
 
-    bg_models, tb = initloop(cameras)
+    bg_models, tb = initloop(cameras, configuration)
 
     while True:
 

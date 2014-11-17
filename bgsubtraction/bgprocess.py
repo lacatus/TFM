@@ -4,23 +4,29 @@ from bgsubtraction.background import Bg
 from bgsubtraction.background import Background
 
 
-def getbgobject():
+def getbgobject(config):
 
     bg = Bg()
-    bg.setdefault()
+    #bg.setdefault()
+    bg.setconfiguration(config)
 
     return bg
 
 
-def getbgmodels(frames, bg):
+def getbgmodels(frames, bg, config):
 
     bg_models = []
 
+    aux = 1
+
     for img in frames:
         bg_aux = Background(bg)
-        bg_aux.setdefault(img)
+        #bg_aux.setdefault(img)
+        bg_aux.setconfiguration(img, config['cam00%s' % str(aux)])
 
         bg_models.append(bg_aux)
+
+        aux += 1
 
     return bg_models
 

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from datasets import cp
 from datasets import variables
 from datasets import Camera
 
@@ -8,7 +9,7 @@ def loaddataset():
 
     setglobalvariables()
     loadcameras()
-    return getcameras()
+    return getcameras(), loadconfiguration()
 
 
 def setglobalvariables():
@@ -45,6 +46,49 @@ def loadcameras():
     cam1_g1.readconfigfile(cam1_str)
     cam2_g1.readconfigfile(cam2_str)
     cam3_g1.readconfigfile(cam3_str)
+
+
+def loadglobalconfiguration(c):
+
+    dst = {
+        'option': c.getint('global', 'option'),
+        'alpha': c.getfloat('global', 'alpha'),
+        'beta': c.getfloat('global', 'beta'),
+        'frame_count': c.getint('global', 'frame_count'),
+        'threshold_1': c.getint('global', 'threshold_1'),
+        'threshold_2': c.getint('global', 'threshold_2')
+    }
+
+    return dst
+
+
+def loadcamconfiguration(c, cam_id):
+
+    dst = {
+        'win_height': c.getint(cam_id, 'win_height'),
+        'win_width': c.getint(cam_id, 'win_width'),
+        'win_min_pix': c.getint(cam_id, 'win_min_pix')
+    }
+
+    return dst
+
+
+def loadconfiguration():
+
+    config_file = variables.current_dataset_path + '/configuration/config.cfg'
+
+    c = cp.ConfigParser()
+    c.read(config_file)
+
+    configuration = {
+        'global': loadglobalconfiguration(c),
+        'cam001': loadcamconfiguration(c, 'cam001'),
+        'cam002': loadcamconfiguration(c, 'cam002'),
+        'cam003': loadcamconfiguration(c, 'cam003'),
+        'dir': config_file
+    }
+
+    return configuration
 
 
 def getcam1():

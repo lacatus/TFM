@@ -30,6 +30,15 @@ class Bg(object):
         self.threshold_1 = 25
         self.threshold_2 = 5
 
+    def setconfiguration(self, config):
+
+        self.option = config['option']
+        self.alpha = config['option']
+        self.beta = config['beta']
+        self.frame_count = config['frame_count']
+        self.threshold_1 = config['threshold_1']
+        self.threshold_2 = config['threshold_2']
+
 
 class Background(object):
 
@@ -64,6 +73,25 @@ class Background(object):
         self.win_height = 30
         self.win_width = 15
         self.win_min_pix = 200
+        self.bg_img = src
+        self.bin_img_1 = np.zeros((height, width))
+        self.bin_img_2 = self.bin_img
+        self.scan_img = self.bin_img
+        self.diff_img = self.bin_img
+        self.diff_img_copy = self.bin_img
+        self.contours = None
+        self.rectangles = []
+
+    def setconfiguration(self, src, config):
+
+        size = src.shape
+        height = size[0]
+        width = size[1]
+
+        self.counter = 1
+        self.win_height = config['win_height']
+        self.win_width = config['win_width']
+        self.win_min_pix = config['win_min_pix']
         self.bg_img = src
         self.bin_img_1 = np.zeros((height, width))
         self.bin_img_2 = self.bin_img

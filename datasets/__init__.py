@@ -8,5 +8,7 @@ calibration and its video.
 The module also contains a routine to load each dataset.
 """
 
+import ConfigParser as cp
+
 from threedgeometry.camera import Camera
 from var import variables
