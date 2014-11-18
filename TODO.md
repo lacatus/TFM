@@ -18,7 +18,8 @@ TODO list
 - [x] gui --> imshow.py --> paint contours projection 
 - [x] gui --> trackbar.py --> explore buttons --> UNAVAILABLE FOR PYTHON
 - [x] gui --> view FRAME by FRAME --> URGENT !!
-- [ ] gui --> trackbar --> asign each cam to the config <-- NEXT STEP
+- [x] gui --> trackbar --> asign each cam to the config <-- NEXT STEP
+- [x] gui --> cvwaitket --> different frame rate in datasets
 
 - [x] detection --> blob.py --> BLOB class with basic functions
 - [x] detection --> blob.py --> threshold mean and view results
@@ -26,12 +27,14 @@ TODO list
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
-- [ ] detection --> improve detection, less threshold <--
+- [ ] detection --> improve detection, less threshold <-- adapt each video to config
 - [ ] detection --> subjects !! <-- IMPORTANT !!!
 
-- STRANGE BEHAVIOUR
-
 - [ ] retroprojection.py --> view docstring of the file
+
+- [ ] Adapt best config for each dataset
+
+- [ ] More datasets ??
 
 - [x] Write README
 - [x] Find way to show evolution to teachers

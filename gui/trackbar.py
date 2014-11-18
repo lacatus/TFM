@@ -31,6 +31,9 @@ class TrackbarMain(object):
         cv2.createTrackbar(
             'Frame by frame', variables.app_window_trackbar_name,
             self.framebyframe, 1, self.setframebyframe)
+        cv2.createTrackbar(
+            'Frame Delay', variables.app_window_trackbar_name,
+            self.bg.waitkey, 1000, self.setwaitkey)
 
     def setoption(self, tb_value):
         self.bg.option = tb_value
@@ -55,6 +58,10 @@ class TrackbarMain(object):
 
         if tb_value is 1:
             self.framebyframe = 1
+
+    def setwaitkey(self, tb_value):
+        # If 0, then stop and press key
+        self.bg.waitkey = tb_value + 1
 
 
 class TrackbarSecondary(object):

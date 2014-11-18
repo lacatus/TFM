@@ -20,6 +20,7 @@ class Bg(object):
         self.frame_count = None
         self.threshold_1 = None
         self.threshold_2 = None
+        self.waitkey = None
 
     def setdefault(self):
 
@@ -29,6 +30,7 @@ class Bg(object):
         self.frame_count = 30
         self.threshold_1 = 25
         self.threshold_2 = 5
+        self.waitkey = 30
 
     def setconfiguration(self, config):
 
@@ -38,6 +40,7 @@ class Bg(object):
         self.frame_count = config['frame_count']
         self.threshold_1 = config['threshold_1']
         self.threshold_2 = config['threshold_2']
+        self.waitkey = config['waitkey']
 
 
 class Background(object):

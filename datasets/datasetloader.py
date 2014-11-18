@@ -55,6 +55,7 @@ def saveglobalconfiguration(c, bg):
     c.set('global', 'frame_count', bg.frame_count)
     c.set('global', 'threshold_1', bg.threshold_1)
     c.set('global', 'threshold_2', bg.threshold_2)
+    c.set('global', 'waitkey', bg.waitkey)
 
     return c
 

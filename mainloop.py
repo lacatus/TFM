@@ -109,4 +109,6 @@ def loop():
         if tb.framebyframe is 1:
             cv2.waitKey()
 
+        cv2.waitKey(bg_models[0].bg.waitkey)
+
     datasets.datasetloader.saveconfiguration(cameras, configuration, bg_models)

@@ -63,7 +63,8 @@ def loadglobalconfiguration(c):
         'beta': c.getfloat('global', 'beta'),
         'frame_count': c.getint('global', 'frame_count'),
         'threshold_1': c.getint('global', 'threshold_1'),
-        'threshold_2': c.getint('global', 'threshold_2')
+        'threshold_2': c.getint('global', 'threshold_2'),
+        'waitkey': c.getint('global', 'waitkey')
     }
 
     return dst
