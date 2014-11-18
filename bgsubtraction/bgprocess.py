@@ -13,16 +13,16 @@ def getbgobject(config):
     return bg
 
 
-def getbgmodels(frames, bg, config):
+def getbgmodels(frames, bg, config, cameras):
 
     bg_models = []
 
     aux = 1
 
-    for img in frames:
+    for ii in range(len(frames)):
         bg_aux = Background(bg)
         #bg_aux.setdefault(img)
-        bg_aux.setconfiguration(img, config['cam00%s' % str(aux)])
+        bg_aux.setconfiguration(frames[ii], config[cameras[ii].id])
 
         bg_models.append(bg_aux)
 

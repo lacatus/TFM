@@ -29,7 +29,7 @@ def selectdataset():
             return variables.datasets_name[int(ans)]
 
 
-def saveconfiguration(configuration, bg_models):
+def saveconfiguration(cameras, configuration, bg_models):
 
     print '\nSaving configurations ...'
 
@@ -38,13 +38,9 @@ def saveconfiguration(configuration, bg_models):
 
     c = saveglobalconfiguration(c, bg_models[0].bg)
 
-    aux = 1
+    for ii in range(len(bg_models)):
 
-    for bg in bg_models:
-
-        c = savebgconfiguration(c, bg, 'cam00%s' % str(aux))
-
-        aux += 1
+        c = savebgconfiguration(c, bg_models[ii], cameras[ii].id)
 
     config_file = open(configuration['dir'], 'w+')
     c.write(config_file)

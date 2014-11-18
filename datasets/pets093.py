@@ -90,10 +90,10 @@ def loadconfiguration():
 
     configuration = {
         'global': loadglobalconfiguration(c),
-        'cam001': loadcamconfiguration(c, 'cam001'),
-        'cam002': loadcamconfiguration(c, 'cam002'),
-        'cam003': loadcamconfiguration(c, 'cam003'),
-        'cam004': loadcamconfiguration(c, 'cam004'),
+        'Camera001': loadcamconfiguration(c, 'Camera001'),
+        'Camera002': loadcamconfiguration(c, 'Camera002'),
+        'Camera003': loadcamconfiguration(c, 'Camera003'),
+        'Camera004': loadcamconfiguration(c, 'Camera004'),
         'dir': config_file
     }
 

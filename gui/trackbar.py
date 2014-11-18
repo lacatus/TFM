@@ -77,18 +77,16 @@ class TrackbarSecondary(object):
             self.background.win_min_pix, 500, self.setminpixwin)
 
     def setwinheight(self, tb_value):
-        if(tb_value < 1) {
+        if tb_value < 1:
             self.background.win_height = 1
-        } else {
+        else:
             self.background.win_height = tb_value  # Can't be zero
-        }
 
     def setwinwidth(self, tb_value):
-        if(tb_value < 1) {
+        if tb_value < 1:
             self.background.win_width = 1
-        } else {
+        else:
             self.background.win_width = tb_value  # Can't be zero
-        }
 
     def setminpixwin(self, tb_value):
         self.background.win_min_pix = tb_value

@@ -48,7 +48,7 @@ def initloop(cameras, configuration):
     frames = threedgeometry.frameretriever.getbg(cameras)
 
     bg = bgprocess.getbgobject(configuration['global'])
-    bg_models = bgprocess.getbgmodels(frames, bg, configuration)
+    bg_models = bgprocess.getbgmodels(frames, bg, configuration, cameras)
 
     # Init trackbars
     tb = trackbar.setdefaulttrackbarmain(bg)
@@ -109,4 +109,4 @@ def loop():
         if tb.framebyframe is 1:
             cv2.waitKey()
 
-    datasets.datasetloader.saveconfiguration(configuration, bg_models)
+    datasets.datasetloader.saveconfiguration(cameras, configuration, bg_models)
