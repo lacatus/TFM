@@ -75,7 +75,7 @@ def loop():
 
         bg_models = bgprocess.bgprocess(frames, bg_models)
 
-        blobs, masks, ellipses = detectionprocess.detectionprocess(bg_models)
+        blobs, subjects = detectionprocess.detectionprocess(bg_models)
 
         # imshow options
         if option is 0:
@@ -103,7 +103,7 @@ def loop():
             imshow.showallimg(imshow.paintmasks(frames, blobs))
 
         elif option is 8:
-            imshow.showallimg(imshow.paintellipses(frames, ellipses))
+            imshow.showallimg(imshow.paintellipses(frames, subjects))
 
         # show frames no video
         if tb.framebyframe is 1:

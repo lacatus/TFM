@@ -27,8 +27,8 @@ TODO list
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
-- [ ] detection --> improve detection, less threshold <-- adapt each video to config
 - [ ] detection --> subjects
+	- create and adapt Subject class (DONE)
 	- get lowest position of ellipse
 	- use retropoyection (read below)
 	- differenciate between group or unique subject (use 3d data, width, ellipse angle)
@@ -45,6 +45,8 @@ TODO list
 - [ ] Adapt best config for each dataset
 
 - [ ] More datasets ??
+
+- [ ] doc all .py
 
 - [x] Write README
 - [x] Find way to show evolution to teachers

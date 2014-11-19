@@ -37,22 +37,17 @@ def paintblobs(frames, total_blobs):
 def paintmasks(frames, total_blobs):
 
     for ii in range(len(total_blobs)):
-
         for blob in total_blobs[ii]:
-
             blob.drawmask(frames[ii])
 
     return frames
 
 
-def paintellipses(frames, total_ellipses):
+def paintellipses(frames, total_subjects):
 
-    for ii in range(len(total_ellipses)):
-
-        for ellipse in total_ellipses[ii]:
-
-            cv2.ellipse(
-                frames[ii], ellipse, (0, 255, 0), 2)
+    for ii in range(len(total_subjects)):
+        for subject in total_subjects[ii]:
+            subject.paintrotbox(frames[ii])
 
     return frames
 
