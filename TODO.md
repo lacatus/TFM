@@ -28,9 +28,19 @@ TODO list
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
 - [ ] detection --> improve detection, less threshold <-- adapt each video to config
-- [ ] detection --> subjects !! <-- IMPORTANT !!!
+- [ ] detection --> subjects
+	- get lowest position of ellipse
+	- use retropoyection (read below)
+	- differenciate between group or unique subject (use 3d data, width, ellipse angle)
+	- delete false positives
+	- show data through time in a 2d plane (z = 0) (one per camera)
+	- pre-step for data tracking 
 
-- [ ] retroprojection.py --> view docstring of the file
+- [ ] retroprojection.py 
+	- lowest position of ellipse into map
+	- y depending on position
+		- maybe initialization before video --> http://docs.opencv.org/trunk/doc/py_tutorials/py_gui/py_mouse_handling/py_mouse_handling.html
+	- relate data to subjects
 
 - [ ] Adapt best config for each dataset
 
