@@ -74,9 +74,10 @@ def globalmasktosubjects(total_masks, bg_models):
 
             if w >= (win_width / 2) and h >= (win_height / 2):
 
-                rot_box = cv2.fitEllipse(cont)
+                ellipse = cv2.fitEllipse(cont)
+                rot_box = cv2.minAreaRect(cont)
                 subj = subject.Subject()
-                subj.setdefault(mask, box, rot_box)
+                subj.setdefault(mask[y:y + h, x:x + w], box, rot_box, ellipse)
                 subjs.append(subj)
 
         total_subjs.append(subjs)

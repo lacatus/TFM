@@ -43,11 +43,28 @@ def paintmasks(frames, total_blobs):
     return frames
 
 
-def paintellipses(frames, total_subjects):
+def paintrotboxes(frames, total_subjects):
 
     for ii in range(len(total_subjects)):
         for subject in total_subjects[ii]:
             subject.paintrotbox(frames[ii])
+
+    return frames
+
+
+def paintellipses(frames, total_subjects):
+
+    for ii in range(len(total_subjects)):
+        for subject in total_subjects[ii]:
+            subject.paintellipse(frames[ii])
+
+    return frames
+
+
+def paintsubjectsboxes(frames, total_subjects):
+
+    frames = paintrotboxes(frames, total_subjects)
+    frames = paintellipses(frames, total_subjects)
 
     return frames
 

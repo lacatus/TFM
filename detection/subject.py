@@ -11,22 +11,24 @@ class Subject(object):
         self.bin = None
         self.box = None
         self.rot_box = None
+        self.ellipse = None
         self.group = None
 
         # RELATIONATE WITH RETROPROJECTION
 
-    def setdefault(self, src, box, rot_box):
+    def setdefault(self, src, box, rot_box, ellipse):
 
+        self.bin = src
         self.box = box
         self.rot_box = rot_box
-        # self.bin
-        self.setbin(src)
-
-    def setbin(self, src):
-
-        x, y, w, h = self.box
-        self.bin = src[y:y + h, x:x + w]
+        self.ellipse = ellipse
 
     def paintrotbox(self, frame):
 
-        cv2.ellipse(frame, self.rot_box, (0, 255, 0), 2)
+        box = cv2.cv.BoxPoints(self.rot_box)
+        box = np.int0(box)
+        cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
+
+    def paintellipse(self, frame):
+
+        cv2.ellipse(frame, self.ellipse, (0, 255, 0), 2)

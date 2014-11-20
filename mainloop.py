@@ -103,7 +103,7 @@ def loop():
             imshow.showallimg(imshow.paintmasks(frames, blobs))
 
         elif option is 8:
-            imshow.showallimg(imshow.paintellipses(frames, subjects))
+            imshow.showallimg(imshow.paintsubjectsboxes(frames, subjects))
 
         # show frames no video
         if tb.framebyframe is 1:
