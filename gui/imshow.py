@@ -61,10 +61,20 @@ def paintellipses(frames, total_subjects):
     return frames
 
 
+def paintbases(frames, total_subjects):
+
+    for ii in range(len(total_subjects)):
+        for subject in total_subjects[ii]:
+            subject.paintbase(frames[ii])
+
+    return frames
+
+
 def paintsubjectsboxes(frames, total_subjects):
 
     frames = paintrotboxes(frames, total_subjects)
     frames = paintellipses(frames, total_subjects)
+    frames = paintbases(frames, total_subjects)
 
     return frames
 
