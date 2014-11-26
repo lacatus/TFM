@@ -14,6 +14,7 @@ class Subject(object):
         self.ellipse = None
         self.e = None
         self.base = None
+        self.top = None
         self.group = None
 
         # RELATIONATE WITH RETROPROJECTION
@@ -37,12 +38,19 @@ class Subject(object):
             'a': a
         }
         self.getbase()
+        self.gettop()
 
     def getbase(self):
 
         x = self.e['x']
         y = self.e['y'] + int(self.e['h'] / 2)
         self.base = (x, y)
+
+    def gettop(self):
+
+        x = self.e['x']
+        y = self.e['y'] - int(self.e['h'] / 2)
+        self.top = (x, y)
 
     def paintrotbox(self, frame):
 
@@ -59,6 +67,17 @@ class Subject(object):
         cv2.circle(
             frame,
             self.base,
+            2,
+            (255, 0, 0),
+            thickness=2,
+            lineType=8
+        )
+
+    def painttop(self, frame):
+
+        cv2.circle(
+            frame,
+            self.top,
             2,
             (255, 0, 0),
             thickness=2,

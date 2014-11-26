@@ -29,7 +29,7 @@ TODO list
 - [x] detection --> fitEllipse 
 - [ ] detection --> subjects
 	- create and adapt Subject class (DONE)
-	- get lowest position of ellipse
+	- get lowest position of ellipse (DONE)
 	- use retropoyection (read below)
 	- differenciate between group or unique subject (use 3d data, width, ellipse angle)
 	- delete false positives
