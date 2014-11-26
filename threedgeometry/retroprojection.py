@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 
 """
-RETROPROJECTION.PY
-Tracking module subject class passes where the subject's
-ground is located, and we, with it's camera values, return
-it's position in the 3d world
-TODO
-to be done once we have finished the tracking subject class
+r = np.array([[-0.51413534, 0.25338303, -0.81942778], [-0.43703925, -0.89943394, -0.00391001], [-0.73801189, 0.35611183, 0.5731691]])
+t = np.array([[ -2952.436879], [  1410.285426], [ 80157.550249]])
+h = np.array([[r[0, 0], r[0, 1], t[0]], [r[1, 0], r[1, 1], t[1]], [r[2, 0], r[2, 1], t[2]]])
+h = h / t[2]
+ih = np.linalg.inv(h)
+uv = np.array([[100], [100], [1]])
+d = ih.dot(uv)
+d = d / d[2]
 """
