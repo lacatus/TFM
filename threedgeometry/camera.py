@@ -24,6 +24,8 @@ class Camera(object):
         self.rotation = None
         self.translation = None
         self.optimalcameramatrix = None
+        self.homography = None
+        self. inverse_homography = None
         self.roi = None
 
         # Video
@@ -86,6 +88,9 @@ class Camera(object):
         print 'rotation:\n%s\n%s' % (self.rotation, type(self.rotation))
         print 'translation:\n%s\n%s' % (
             self.translation, type(self.translation))
+        print 'homography: \n%s\n%s' % (self.homography, type(self.homography))
+        print 'inverse homography: \n%s\n%s' % (
+            self.inverse_homography, type(self.inverse_homography))
         print ''
 
         self.video.printvideoinfo()
@@ -94,6 +99,7 @@ class Camera(object):
 
         self.__getoptimalcameramatrix()
         self.__initretroprojection()
+        self.__gethomography()
 
     def __getoptimalcameramatrix(self):
 
@@ -104,6 +110,20 @@ class Camera(object):
         self.optimalcameramatrix, self.roi = \
             cv2.getOptimalNewCameraMatrix(
                 self.intrinsics, np.float64([0, 0, 0, 0]), (w, h), 1, (w, h))
+
+    def __gethomography(self):
+
+        r = self.rotation
+        t = self.translation
+
+        h = np.array([
+            [r[0, 0], r[0, 1], t[0]],
+            [r[1, 0], r[1, 1], t[1]],
+            [r[2, 0], r[2, 1], t[2]]
+        ])
+
+        self.homography = h / t[2]
+        self.inverse_homography = np.linalg.inv(self.homography)
 
     def __initretroprojection(self):
 
