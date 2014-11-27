@@ -25,7 +25,7 @@ class Camera(object):
         self.translation = None
         self.optimalcameramatrix = None
         self.homography = None
-        self. inverse_homography = None
+        self.inverse_homography = None
         self.roi = None
 
         # Video

@@ -75,7 +75,7 @@ def loop():
 
         bg_models = bgprocess.bgprocess(frames, bg_models)
 
-        blobs, subjects = detectionprocess.detectionprocess(bg_models)
+        blobs, subjects = detectionprocess.detectionprocess(bg_models, cameras)
 
         # imshow options
         if option is 0:

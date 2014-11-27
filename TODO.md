@@ -37,7 +37,7 @@ TODO list
 	- pre-step for data tracking 
 
 - [ ] retroprojection.py 
-	- lowest position of ellipse into map
+	- lowest and highest position of ellipse into map
 	- y depending on position
 		- maybe initialization before video --> http://docs.opencv.org/trunk/doc/py_tutorials/py_gui/py_mouse_handling/py_mouse_handling.html
 	- relate data to subjects
@@ -47,6 +47,8 @@ TODO list
 - [ ] More datasets ??
 
 - [ ] doc all .py
+
+- [ ] do easy optimizations based on memory saving in loops, specially affecting the ones related to *procees.py
 
 - [x] Write README
 - [x] Find way to show evolution to teachers

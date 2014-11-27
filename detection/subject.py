@@ -16,8 +16,8 @@ class Subject(object):
         self.base = None
         self.top = None
         self.group = None
-
-        # RELATIONATE WITH RETROPROJECTION
+        self.retro_base = None
+        self.retro_top = None
 
     def setdefault(self, src, box, rot_box, ellipse):
 
@@ -51,6 +51,11 @@ class Subject(object):
         x = self.e['x']
         y = self.e['y'] - int(self.e['h'] / 2)
         self.top = (x, y)
+
+    def setretroprojection(self, db, dt):
+
+        self.retro_base = db
+        self.retro_top = dt
 
     def paintrotbox(self, frame):
 

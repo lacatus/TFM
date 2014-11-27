@@ -4,6 +4,7 @@ from detection import blob
 from detection import cv2
 from detection import np
 from detection import subject
+from threedgeometry import retroprojection
 
 
 def contourstoblobs(bg_models):
@@ -85,10 +86,24 @@ def globalmasktosubjects(total_masks, bg_models):
     return total_subjs
 
 
-def detectionprocess(bg_models):
+def retroprojectsubjects(total_cameras, total_subjects):
+
+    for ii in range(len(total_cameras)):
+
+        subjects = total_subjects[ii]
+
+        for subj in subjects:
+
+            retroprojection.retroprojectsubject(total_cameras[ii], subj)
+
+    return total_subjects
+
+
+def detectionprocess(bg_models, cameras):
 
     total_blobs = contourstoblobs(bg_models)
     total_masks = createglobalmask(total_blobs, bg_models)
     total_subjs = globalmasktosubjects(total_masks, bg_models)
+    total_subjs = retroprojectsubjects(cameras, total_subjs)
 
     return total_blobs, total_subjs
