@@ -6,8 +6,8 @@ from threedgeometry import np
 def retroprojectsubject(camera, subject):
 
     ih = camera.inverse_homography
-    sb = subject.base
-    st = subject.top
+    sb = subject.h_base
+    st = subject.h_top
 
     uvb = np.array([[sb[0]], [sb[1]], [1]])
     uvt = np.array([[st[0]], [st[1]], [1]])
@@ -19,4 +19,4 @@ def retroprojectsubject(camera, subject):
     dt = dt / dt[2]
 
     subject.setretroprojection(db, dt)
-    print db + dt
+

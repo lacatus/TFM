@@ -14,19 +14,21 @@ class Subject(object):
         self.ellipse = None
         self.e = None
         self.base = None
+        self.h_base = None
         self.top = None
+        self.h_top = None
         self.group = None
         self.retro_base = None
         self.retro_top = None
 
-    def setdefault(self, src, box, rot_box, ellipse):
+    def setdefault(self, src, box, rot_box, ellipse, camera):
 
         self.bin = src
         self.box = box
         self.rot_box = rot_box
-        self.formatellipse(ellipse)
+        self.formatellipse(ellipse, camera)
 
-    def formatellipse(self, ellipse):
+    def formatellipse(self, ellipse, camera):
 
         (x, y), (w, h), a = ellipse
         self.ellipse = (int(x), int(y)), (int(w), int(h)), a
@@ -37,20 +39,36 @@ class Subject(object):
             'h': int(h),
             'a': a
         }
-        self.getbase()
-        self.gettop()
+        self.getbase(camera)
+        self.gettop(camera)
 
-    def getbase(self):
+    def getbase(self, camera):
 
         x = self.e['x']
         y = self.e['y'] + int(self.e['h'] / 2)
         self.base = (x, y)
 
-    def gettop(self):
+        h = camera.video.height
+        w = camera.video.width
+
+        hx = int(h / 2 - x)
+        hy = int(y - w / 2)
+
+        self.h_base = (hx, hy)
+
+    def gettop(self, camera):
 
         x = self.e['x']
         y = self.e['y'] - int(self.e['h'] / 2)
         self.top = (x, y)
+
+        h = camera.video.height
+        w = camera.video.width
+
+        hx = int(h / 2 - x)
+        hy = int(y - w / 2)
+
+        self.h_top = (hx, hy)
 
     def setretroprojection(self, db, dt):
 
