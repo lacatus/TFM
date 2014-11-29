@@ -19,4 +19,3 @@ def retroprojectsubject(camera, subject):
     dt = dt / dt[2]
 
     subject.setretroprojection(db, dt)
-
