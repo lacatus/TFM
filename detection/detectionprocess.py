@@ -77,10 +77,11 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
 
                 ellipse = cv2.fitEllipse(cont)
                 rot_box = cv2.minAreaRect(cont)
+                circle = cv2.minEnclosingCircle(cont)
                 subj = subject.Subject()
                 subj.setdefault(
                     total_masks[ii][y:y + h, x:x + w],
-                    box, rot_box, ellipse, cameras[ii])
+                    box, rot_box, ellipse, circle, cameras[ii])
                 subjs.append(subj)
 
         total_subjs.append(subjs)
