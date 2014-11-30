@@ -76,7 +76,7 @@ class Blob(object):
         smooth_projection_x = self.smooth_projection[0]
         mean_x = int((self.mean[0]*2) / 3)
         smooth_projection_y = self.smooth_projection[1]
-        mean_y = int((self.mean[1]*2) / 3)
+        mean_y = int(self.mean[1] / 2)
 
         # Mask in X
         for ii in xrange(0, height - 1, 1):
@@ -149,13 +149,14 @@ class Blob(object):
 
         x, y, w, h = self.bound_rect
 
-        y_mean = self.mean[0]
-        for i in range(h):
-            cv2.circle(frame, (x + w + y_mean, y + i), 1, (255, 255, 255))
+        x_mean = int((self.mean[0] * 2) / 3)
+        y_mean = int(self.mean[1] / 2)
 
-        x_mean = self.mean[1]
+        for i in range(h):
+            cv2.circle(frame, (x + w + x_mean, y + i), 1, (255, 255, 255))
+
         for j in range(w):
-            cv2.circle(frame, (x + j, y + h + x_mean), 1, (255, 255, 255))
+            cv2.circle(frame, (x + j, y + h + y_mean), 1, (255, 255, 255))
 
     def drawboundingrect(self, frame):
 

@@ -24,6 +24,7 @@ TODO list
 - [x] detection --> blob.py --> BLOB class with basic functions
 - [x] detection --> blob.py --> threshold mean and view results
 - [x] detection --> use y and x thresholded result to filter correctly where a person is
+	- make it adaptable for each camera view <-- TODO !!!
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
