@@ -30,7 +30,8 @@ class Blob(object):
         self.__meanprojection()
         # self.mask
         self.__applymeanthreshold(blob_img)
-        self.__applymaskmorphologicaloperation()
+        # peta con grandes grupos
+        # self.__applymaskmorphologicaloperation()
 
     def __contoursprojection(self):
 
@@ -61,8 +62,13 @@ class Blob(object):
 
     def __meanprojection(self):
 
+        """
         self.mean = [
             np.mean(self.smooth_projection[0]).astype(np.uint8),
+            np.mean(self.smooth_projection[1]).astype(np.uint8)]
+        """
+        self.mean = [
+            0,
             np.mean(self.smooth_projection[1]).astype(np.uint8)]
 
     def __applymeanthreshold(self, blob_img):
@@ -74,9 +80,9 @@ class Blob(object):
         mask = np.zeros((height, width), dtype=np.uint8)
 
         smooth_projection_x = self.smooth_projection[0]
-        mean_x = int((self.mean[0]*2) / 3)
+        mean_x = int(self.mean[0] / 4)
         smooth_projection_y = self.smooth_projection[1]
-        mean_y = int(self.mean[1] / 2)
+        mean_y = int(self.mean[1] / 3)
 
         # Mask in X
         for ii in xrange(0, height - 1, 1):
@@ -97,6 +103,7 @@ class Blob(object):
 
         x, y, w, h = self.bound_rect
 
+        # TODO --> print self.mean mean_x mean_y kernel
         col = int(h/10)
         row = int(w/10)
 
@@ -106,9 +113,10 @@ class Blob(object):
         if row is 0:
             row = 1
 
+        mask = self.mask
         kernel = np.ones((col, row), np.uint8)
-
-        self.mask = cv2.erode(self.mask, kernel, iterations=1)
+        mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel, iterations=1)
+        self.mask = cv2.erode(mask, kernel, iterations=1)
 
     def drawglobalmask(self, global_mask):
 

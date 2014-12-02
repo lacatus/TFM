@@ -6,6 +6,8 @@ TODO list
 - [x] background.py --> changed types of visualization used now
 - [x] background.py --> do not update where detected
 - [x] background.py --> depurate contours
+- [ ] background.py --> update bg maybe based in who is in the scene ??
+	- maybe only update groups
 
 - [x] data --> add PETS dataset
 - [x] datasets --> add PETS dataset
@@ -28,7 +30,10 @@ TODO list
 - [x] detection --> view docstring of the module
 - [x] detection --> contprocess.py 
 - [x] detection --> fitEllipse 
-- [ ] detection --> circles work great!
+	- eccentricity --> for t
+	http://opencvpython.blogspot.com.es/2012/04/contour-features.html
+	http://www.cs.cf.ac.uk/Dave/Vision_lecture/node36.html
+- [x] detection --> circles work great!
 - [ ] detection --> subjects
 	- create and adapt Subject class (DONE)
 	- get lowest position of ellipse (DONE)
@@ -39,10 +44,13 @@ TODO list
 	- pre-step for data tracking 
 
 - [x] retroprojection.py 
-	- lowest and highest position of circle into map
-	- y depending on position
+	- lowest and highest position of circle into map (DONE)
+	- y depending on position (FUTURE maybe)
 		- maybe initialization before video --> http://docs.opencv.org/trunk/doc/py_tutorials/py_gui/py_mouse_handling/py_mouse_handling.html
 	- relate data to subjects
+	- top unnecesary 
+	- TODO!!! --> project points in plane! 
+
 
 - [ ] Adapt best config for each dataset
 
