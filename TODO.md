@@ -51,6 +51,8 @@ TODO list
 	- top unnecesary 
 	- TODO!!! --> project points in plane! 
 
+- [ ] projection.py
+	- project 3d axis to the image
 
 - [ ] Adapt best config for each dataset
 

@@ -100,7 +100,8 @@ def loop():
             imshow.showallimg(imshow.paintblobs(frames, blobs))
 
         elif option is 7:
-            imshow.showallimg(imshow.paintmasks(frames, blobs))
+            imshow.showallimg(imshow.paintaxes(frames, cameras))
+            #imshow.showallimg(imshow.paintmasks(frames, blobs))
 
         elif option is 8:
             imshow.showallimg(imshow.paintsubjectsboxes(frames, subjects))

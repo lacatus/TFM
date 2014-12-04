@@ -2,6 +2,7 @@
 
 from gui import cv2
 from gui import np
+from gui import projection
 from gui import variables
 
 
@@ -86,6 +87,14 @@ def paintsubjectsboxes(frames, total_subjects):
     frames = paintellipses(frames, total_subjects)
     frames = paintcircles(frames,  total_subjects)
     frames = painttopbases(frames, total_subjects)
+
+    return frames
+
+
+def paintaxes(frames, cameras):
+
+    for ii in range(len(frames)):
+        projection.projectaxes(frames[ii], cameras[ii])
 
     return frames
 
