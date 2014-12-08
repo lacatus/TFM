@@ -97,22 +97,8 @@ class Subject(object):
 
     def paintbase(self, frame):
 
-        cv2.circle(
-            frame,
-            self.base,
-            2,
-            (255, 255, 0),
-            thickness=2,
-            lineType=8
-        )
+        cv2.circle(frame, self.base, 2, (255, 255, 0), thickness=2, lineType=8)
 
     def painttop(self, frame):
 
-        cv2.circle(
-            frame,
-            self.top,
-            2,
-            (255, 255, 0),
-            thickness=2,
-            lineType=8
-        )
+        cv2.circle(frame, self.top, 2, (255, 255, 0), thickness=2, lineType=8)

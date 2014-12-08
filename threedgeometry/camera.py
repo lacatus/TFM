@@ -27,9 +27,22 @@ class Camera(object):
         self.homography = None
         self.inverse_homography = None
         self.roi = None
+        self.axis_factor = None
+        self.plane = None
 
         # Video
         self.video = Video()
+
+    def __creategroundplane(self):
+
+        a = np.float32([[[0, 0, 0]]])
+
+        for jj in xrange(0, 100, 1):
+            for ii in xrange(0, 100, 1):
+                    b = np.float32([[[ii - 50, jj - 50, 0]]])
+                    a = np.r_[a, b]
+
+        self.plane = a[1:10001]
 
     def __formatintrinsics(self, intrinsics):
 
@@ -68,9 +81,13 @@ class Camera(object):
         rotation = c.get('CameraParameters', 'rotation').split()
         translation = c.get('CameraParameters', 'translation').split()
 
+        self.axis_factor = c.getint('CameraParameters', 'axis_factor')
+
         self.__formatintrinsics(intrinsics)
         self.__formatrotation(rotation)
         self.__formattranslation(translation)
+
+        self.__creategroundplane()
 
         self.initcameracalibration()
 

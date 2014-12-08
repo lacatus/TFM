@@ -52,7 +52,8 @@ TODO list
 	- TODO!!! --> project points in plane! 
 
 - [ ] projection.py
-	- project 3d axis to the image
+	- project 3d axis to the image (DONE)
+	- project ground plane with points (in a grid of 100x100 for example)
 
 - [ ] Adapt best config for each dataset
 

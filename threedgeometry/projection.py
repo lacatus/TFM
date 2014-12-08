@@ -4,30 +4,48 @@ from threedgeometry import cv2
 from threedgeometry import np
 
 
-def draw(img, c, p1, p2, p3):
+def drawgroundplane(frame, p):
 
-    """
-    img = cv2.line(img, p1, p2, (255, 0, 0), thickness=1)
-    img = cv2.line(img, p2, p3, (0, 255, 0), thickness=1)
-    img = cv2.line(img, p3, p1, (0, 0, 255), thickness=1)
-    """
+    cv2.circle(frame, p, 2, (255, 255, 255), thickness=2, lineType=8)
 
-    cv2.circle(img, c, 2, (255, 255, 255), thickness=10, lineType=8)
-    cv2.circle(img, p1, 2, (255, 0, 0), thickness=10, lineType=8)
-    cv2.circle(img, p2, 2, (0, 255, 0), thickness=10, lineType=8)
-    cv2.circle(img, p3, 2, (0, 0, 255), thickness=10, lineType=8)
-    cv2.line(img, c, p1, (255, 0, 0), thickness=10)
-    cv2.line(img, c, p2, (0, 255, 0), thickness=10)
-    cv2.line(img, c, p3, (0, 0, 255), thickness=10)
-    return img
+
+def projectgroundplane(frame, camera):
+
+    axis_factor = camera.axis_factor
+
+    for p in camera.plane:
+
+        p1 = p * axis_factor
+
+        p2, j = cv2.projectPoints(
+            p1,
+            camera.rotation,
+            camera.translation,
+            camera.intrinsics,
+            np.float64([0, 0, 0, 0])
+        )
+
+        drawgroundplane(frame, tuple(p2.ravel().astype(int)))
+
+
+def drawaxis(frame, c, p1, p2, p3):
+
+    cv2.line(frame, c, p1, (255, 0, 0), thickness=10)
+    cv2.line(frame, c, p2, (0, 255, 0), thickness=10)
+    cv2.line(frame, c, p3, (0, 0, 255), thickness=10)
+
+    return frame
 
 
 def projectaxes(frame, camera):
 
-    a1 = np.float32([[3, 0, 0]])
-    a2 = np.float32([[0, 3, 0]])
-    a3 = np.float32([[0, 0, 3]])
+    axis_factor = camera.axis_factor
+
     c0 = np.float32([[0, 0, 0]])
+
+    a1 = np.float32([[3, 0, 0]]) * axis_factor  # x
+    a2 = np.float32([[0, 3, 0]]) * axis_factor  # y
+    a3 = np.float32([[0, 0, 3]]) * axis_factor  # z
 
     ap1, j = cv2.projectPoints(
         a1,
@@ -61,7 +79,7 @@ def projectaxes(frame, camera):
         np.float64([0, 0, 0, 0])
     )
 
-    draw(
+    drawaxis(
         frame,
         tuple(cp0.ravel().astype(int)),
         tuple(ap1.ravel().astype(int)),

@@ -99,6 +99,22 @@ def paintaxes(frames, cameras):
     return frames
 
 
+def projectgroundplanes(frames, cameras):
+
+    for ii in range(len(frames)):
+        projection.projectgroundplane(frames[ii], cameras[ii])
+
+    return frames
+
+
+def paint3dworld(frames, cameras):
+
+    frames = projectgroundplanes(frames, cameras)
+    frames = paintaxes(frames, cameras)
+
+    return frames
+
+
 def showallimg(camera_frames):
 
     s = len(camera_frames)
