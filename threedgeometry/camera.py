@@ -35,6 +35,9 @@ class Camera(object):
 
     def __creategroundplane(self):
 
+        print ''
+        print 'Creating world plane for ' + self.id
+
         a = np.float32([[[0, 0, 0]]])
 
         for jj in xrange(0, 100, 1):
