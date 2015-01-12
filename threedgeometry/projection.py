@@ -11,21 +11,17 @@ def drawgroundplane(frame, p):
 
 def projectgroundplane(frame, camera):
 
-    axis_factor = camera.axis_factor
-
     for p in camera.plane:
 
-        p1 = p * axis_factor
-
-        p2, j = cv2.projectPoints(
-            p1,
+        p1, j = cv2.projectPoints(
+            p,
             camera.rotation,
             camera.translation,
             camera.intrinsics,
             np.float64([0, 0, 0, 0])
         )
 
-        drawgroundplane(frame, tuple(p2.ravel().astype(int)))
+        drawgroundplane(frame, tuple(p1.ravel().astype(int)))
 
 
 def drawaxis(frame, c, p1, p2, p3):

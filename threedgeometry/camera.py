@@ -27,7 +27,6 @@ class Camera(object):
         self.homography = None
         self.inverse_homography = None
         self.roi = None
-        self.axis_factor = None
         self.plane = None
 
         # Video
@@ -83,8 +82,6 @@ class Camera(object):
         intrinsics = c.get('CameraParameters', 'intrinsics').split()
         rotation = c.get('CameraParameters', 'rotation').split()
         translation = c.get('CameraParameters', 'translation').split()
-
-        self.axis_factor = c.getint('CameraParameters', 'axis_factor')
 
         self.__formatintrinsics(intrinsics)
         self.__formatrotation(rotation)
