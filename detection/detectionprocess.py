@@ -88,7 +88,8 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
 
     return total_subjs
 
-
+# TODO
+"""
 def retroprojectsubjects(total_cameras, total_subjects):
 
     for ii in range(len(total_cameras)):
@@ -100,6 +101,7 @@ def retroprojectsubjects(total_cameras, total_subjects):
             retroprojection.retroprojectsubject(total_cameras[ii], subj)
 
     return total_subjects
+"""
 
 
 def detectionprocess(bg_models, cameras):
@@ -107,6 +109,6 @@ def detectionprocess(bg_models, cameras):
     total_blobs = contourstoblobs(bg_models)
     total_masks = createglobalmask(total_blobs, bg_models)
     total_subjs = globalmasktosubjects(total_masks, bg_models, cameras)
-    total_subjs = retroprojectsubjects(cameras, total_subjs)
+    #total_subjs = retroprojectsubjects(cameras, total_subjs) # TODO
 
     return total_blobs, total_subjs
