@@ -35,13 +35,13 @@ def drawaxis(frame, c, p1, p2, p3):
 
 def projectaxes(frame, camera):
 
-    axis_factor = camera.axis_factor
+    #axis_factor = camera.axis_factor
 
     c0 = np.float32([[0, 0, 0]])
 
-    a1 = np.float32([[3, 0, 0]]) * axis_factor  # x
-    a2 = np.float32([[0, 3, 0]]) * axis_factor  # y
-    a3 = np.float32([[0, 0, 3]]) * axis_factor  # z
+    a1 = np.float32([[3, 0, 0]])  #* axis_factor  # x
+    a2 = np.float32([[0, 3, 0]])  #* axis_factor  # y
+    a3 = np.float32([[0, 0, 3]])  #* axis_factor  # z
 
     ap1, j = cv2.projectPoints(
         a1,

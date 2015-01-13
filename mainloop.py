@@ -2,7 +2,6 @@
 
 import cv2
 
-# Datasets imports
 import datasets.datasetloader
 import datasets.grazptz1
 import datasets.grazptz2
@@ -16,19 +15,17 @@ import datasets.pets097
 import datasets.pets098
 import datasets.pets099
 
-# 3D geometry imports
 import threedgeometry.frameretriever
 import threedgeometry.retroprojection
 
-# Gui imports
 from gui import imshow
 from gui import trackbar
 
-# Background imports
 from bgsubtraction import bgprocess
 
-# Detection imports
 from detection import detectionprocess
+
+from tracker import trackerprocess
 
 
 def initcameras():
@@ -54,14 +51,16 @@ def initloop(cameras, configuration):
     tb = trackbar.setdefaulttrackbarmain(bg)
     trackbar.setdefaulttrackbardsecondary(bg_models)
 
-    return bg_models, tb
+    tracks = trackerprocess.inittracks(len(cameras))
+
+    return bg_models, tb, tracks
 
 
 def loop():
 
     cameras, configuration = initcameras()
 
-    bg_models, tb = initloop(cameras, configuration)
+    bg_models, tb, tracks = initloop(cameras, configuration)
 
     while True:
 
@@ -76,6 +75,8 @@ def loop():
         bg_models = bgprocess.bgprocess(frames, bg_models)
 
         blobs, subjects = detectionprocess.detectionprocess(bg_models, cameras)
+
+        tracks = trackerprocess.trackerprocess(tracks, subjects)
 
         # imshow options
         if option is 0:
