@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# TODO --> import from init
+from sklearn.utils.linear_assignment_ import _hungarian
 from tracker import np
 from tracker import track
 
@@ -8,7 +10,6 @@ def lossfunction(tr, sub):
 
     # First simple loss function
     # Based in simple distance to subject base
-
     xt, yt = tr.subject.base
     xs, ys = sub.base
 
@@ -32,23 +33,32 @@ def associatetracksubject(tr, sub):
 
     new_track = []
 
-    # Initialize tracks
+    # CASES
+    # NO tracks
     if not tr:
-
         for s in sub:
 
-            tr = assignsubjecttonewtrack(sub)
+            tr = assignsubjecttonewtrack(s)
             new_track.append(tr)
 
-    # If tracks already initialized
-    # BIG TODO FOR TOMORROW
-    """
-    else:
+    # NO detection
+    elif not sub:
         for t in tr:
-            for s in sub:
-                loss = lossfunction(t, s)
-                print loss
-        tr = sub
-    """
+            t.updatemisscount()
+
+    # Detection && Tracks present
+    else:
+        loss = np.zeros((len(tr), len(sub)))
+        # Calculate loss function
+        for jj in range(len(tr)):
+            for ii in range(len(sub)):
+                loss[jj, ii] = lossfunction(tr[jj], sub[ii])
+
+        # Hungarian association
+        res = _hungarian(loss)
+        print 'loss'
+        print loss
+        print 'res'
+        print res
 
     return new_track
