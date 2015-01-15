@@ -4,7 +4,7 @@ from detection import blob
 from detection import cv2
 from detection import np
 from detection import subject
-from threedgeometry import retroprojection
+#from threedgeometry import retroprojection
 
 
 def contourstoblobs(bg_models):

@@ -15,9 +15,9 @@ class Track(object):
         self.state = None
         self.state_info = None
         self.lock_count = None
-        sefl.lock_count_max = None
+        self.lock_count_max = None
         self.miss_count = None
-        self.miss_count_max = Nonw
+        self.miss_count_max = None
 
     def delete(self):
 
@@ -27,13 +27,13 @@ class Track(object):
 
         self.setsubject(subject)
         self.setstate(0)
-        self.state_info = [
+        self.state_info = {
             0: 'Init',
             1: 'Locking',
             2: 'Locked',
             3: 'Missing',
             4: 'Lost'
-        ]
+        }
         self.lock_count = 0
         self.lock_count_max = 5
         self.miss_count = 0
