@@ -12,6 +12,8 @@ class Track(object):
     def __init__(self):
 
         self.subject = None
+        self.points = None  # TODO
+        self.color = None  # TODO
         self.state = None
         self.state_info = None
         self.lock_count = None

@@ -29,6 +29,21 @@ def assignsubjecttoexistingtrack(tr, sub):
     pass
 
 
+def trackupdate(tr, sub, loss, res):
+
+    """
+    TODO
+    - mirar --> res
+    - checkear si la asociacion supera un threshold
+    - sino update de tracks
+    - realizar metodo de pintar tracks
+    """
+
+    new_track = []
+
+    return new_track
+
+
 def associatetracksubject(tr, sub):
 
     new_track = []
@@ -36,6 +51,7 @@ def associatetracksubject(tr, sub):
     # CASES
     # NO tracks
     if not tr:
+
         for s in sub:
 
             tr = assignsubjecttonewtrack(s)
@@ -43,11 +59,15 @@ def associatetracksubject(tr, sub):
 
     # NO detection
     elif not sub:
+
         for t in tr:
             t.updatemisscount()
 
+        new_track = tr
+
     # Detection && Tracks present
     else:
+
         loss = np.zeros((len(tr), len(sub)))
         # Calculate loss function
         for jj in range(len(tr)):
@@ -56,8 +76,11 @@ def associatetracksubject(tr, sub):
 
         # Hungarian association
         res = _hungarian(loss)
+
+        new_track = trackupdate(tr, sub, loss, res)
+
         print 'loss'
-        print loss
+        print loss.shape
         print 'res'
         print res
 
