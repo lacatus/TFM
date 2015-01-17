@@ -16,10 +16,8 @@ class Track(object):
         self.color = None  # TODO
         self.state = None
         self.state_info = None
-        self.lock_count = None
-        self.lock_count_max = None
-        self.miss_count = None
-        self.miss_count_max = None
+        self.count = None
+        self.count_max = None
 
     def delete(self):
 
@@ -36,10 +34,8 @@ class Track(object):
             3: 'Missing',
             4: 'Lost'
         }
-        self.lock_count = 0
-        self.lock_count_max = 5
-        self.miss_count = 0
-        self.miss_count_max = 10
+        self.count = 0
+        self.count_max = 5
 
     def setsubject(self, subject):
 
@@ -49,26 +45,23 @@ class Track(object):
 
         self.state = state
 
-    def updatelockcount(self, update):
+    def updatelockcount(self):
 
-        if update is 0:
-            self.lock_count = 0
-        else:
-            self.setstate(1)
-            self.lock_count += 1
+        self.count += 1
 
-        if self.lock_count > self.lock_count_max:
-            self.updatelockcount(0)
+        if self.count > self.count_max:
             self.setstate(2)
 
-    def updatemisscount(self, update):
+    def updatemisscount(self):
 
-        if update is 0:
-            self.miss_count = 0
-        else:
-            self.setstate(3)
-            self.miss_count += 1
+        self.count -= 1
 
-        if self.miss_count > self.miss_count_max:
-            self.updatemisscount(0)
+        if self.miss_count <= 0:
             self.setstate(4)
+
+    def update(self, subject=None):  # TODO
+
+        if not subject:
+            pass
+        else:
+            self.setsubject(subject)
