@@ -15,7 +15,9 @@ def lossfunction(tr, sub):
 
     loss = np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2))
 
-    return loss
+    threshold = 50
+
+    return loss, threshold
 
 
 def assignsubjecttonewtrack(sub):
@@ -33,15 +35,39 @@ def trackupdate(tr, sub, loss, res):
 
     """
     TODO
-    - mirar --> res
-    - checkear si la asociacion supera un threshold
-    - sino update de tracks
-    - realizar metodo de pintar tracks
+    - [ ] cambiar distancia basada en posicion central, no de la base
+    - [x] checkear si la asociacion supera un threshold
+    - [ ] sino update de tracks
+    - [ ] realizar metodo de pintar tracks
     """
 
     new_track = []
+    #return new_track
+    return tr
 
-    return new_track
+
+def hungarianassociation(loss, threshold):
+
+    # SKLEARN association method
+    res = _hungarian(loss)
+
+    del_index = []
+
+    # Threshold results
+    for ii in range(len(res)):
+        y, x = res[ii]
+
+        if(loss[y, x] > threshold):
+            del_index.append(ii)
+
+    new_res = np.delete(res, del_index, 0)
+
+    print 'res'
+    print res
+    print 'new_res'
+    print new_res
+
+    return new_res
 
 
 def associatetracksubject(tr, sub):
@@ -68,20 +94,17 @@ def associatetracksubject(tr, sub):
     # Detection && Tracks present
     else:
 
+        threshold = 0
+
         loss = np.zeros((len(tr), len(sub)))
         # Calculate loss function
         for jj in range(len(tr)):
             for ii in range(len(sub)):
-                loss[jj, ii] = lossfunction(tr[jj], sub[ii])
+                loss[jj, ii], treshold = lossfunction(tr[jj], sub[ii])
 
         # Hungarian association
-        res = _hungarian(loss)
+        res = hungarianassociation(loss, threshold)
 
-        new_track = trackupdate(tr, sub, loss, res)
-
-        print 'loss'
-        print loss.shape
-        print 'res'
-        print res
+        #new_track = trackupdate(tr, sub, loss, res)
 
     return new_track
