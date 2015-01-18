@@ -34,7 +34,7 @@ TODO list
 	http://opencvpython.blogspot.com.es/2012/04/contour-features.html
 	http://www.cs.cf.ac.uk/Dave/Vision_lecture/node36.html
 - [x] detection --> circles work great!
-- [ ] detection --> subjects
+- [x] detection --> subjects
 	- create and adapt Subject class (DONE)
 	- get lowest position of ellipse (DONE)
 	- use retropoyection (read below)
@@ -54,6 +54,15 @@ TODO list
 - [ ] projection.py
 	- project 3d axis to the image (DONE)
 	- project ground plane with points (in a grid of 100x100 for example)
+
+- [ ] tracker
+	- [ ] track.py
+		- create class for each track
+		- update propagation (FUTURE) --> kinda like kalman filtering
+	- [ ] association.py
+		- create various loss functions
+		- basic tracker done based on distance
+	- [x] trackerprocess
 
 - [ ] Adapt best config for each dataset
 

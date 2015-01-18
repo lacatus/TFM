@@ -41,6 +41,12 @@ def assignsubjecttonewtrack(sub):
     return tr
 
 
+def assignsubjecttoexistingtrack(tr, sub):
+
+    tr.update(sub)
+    return tr
+
+
 def hungarianassociation(loss, threshold):
 
     # SKLEARN association method
@@ -60,22 +66,7 @@ def hungarianassociation(loss, threshold):
     return new_res
 
 
-def assignsubjecttoexistingtrack(tr, sub):
-
-    tr.update(sub)
-    return tr
-
-
 def trackupdate(tr, sub, res):
-
-    """
-    TODO
-    - [ ] update de tracks
-        - [ ] tracks existentes asociadas
-        - [ ] tracks existentes no asociadas
-        - [ ] creacion de nuevas tracks
-    - [ ] realizar metodo de pintar tracks
-    """
 
     new_track = []
     del_index = []
@@ -110,7 +101,15 @@ def trackupdate(tr, sub, res):
         tr.append(n)
 
     # Update new subjects
-    # TODO
+    del_index = []
+    del_index = np.delete(res, 0, 1)
+
+    sub = np.delete(sub, del_index)
+    sub = sub.tolist()
+
+    for s in sub:
+        t = assignsubjecttonewtrack(s)
+        tr.append(t)
 
     return tr
 
