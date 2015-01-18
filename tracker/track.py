@@ -26,15 +26,14 @@ class Track(object):
     def setdefault(self, subject):
 
         self.setsubject(subject)
-        self.setstate(0)
+        self.setstate(1)
         self.state_info = {
-            0: 'Init',
             1: 'Locking',
             2: 'Locked',
             3: 'Missing',
             4: 'Lost'
         }
-        self.count = 0
+        self.count = 1
         self.count_max = 5
 
     def setsubject(self, subject):
@@ -47,21 +46,24 @@ class Track(object):
 
     def updatelockcount(self):
 
-        self.count += 1
-
         if self.count > self.count_max:
             self.setstate(2)
+        else:
+            self.count += 1
+            self.setstate(1)
 
     def updatemisscount(self):
 
-        self.count -= 1
-
-        if self.miss_count <= 0:
+        if self.count <= -5:
             self.setstate(4)
+        else:
+            self.count -= 1
+            self.setstate(3)
 
     def update(self, subject=None):  # TODO
 
-        if not subject:
-            pass
+        if not subject:  # keep updating with same subject ?? <-- BIG TODO
+            self.updatemisscount()
         else:
             self.setsubject(subject)
+            self.updatelockcount()

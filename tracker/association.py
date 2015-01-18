@@ -17,7 +17,7 @@ def lossfunction(tr, sub):
 
     loss = np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2))
 
-    threshold = 50
+    threshold = 1000
 
     return loss, threshold
 
@@ -61,8 +61,9 @@ def hungarianassociation(loss, threshold):
 
 
 def assignsubjecttoexistingtrack(tr, sub):
-    
 
+    tr.update(sub)
+    return tr
 
 
 def trackupdate(tr, sub, res):
@@ -77,13 +78,40 @@ def trackupdate(tr, sub, res):
     """
 
     new_track = []
+    del_index = []
 
-    # Update succesful assoiations
-    for r in res:
-        y, x = r
-        assignsubjecttoexistingtrack(tr[y], sub[x])
+    # Update succesful associations
+    for ii in range(len(res)):
+        y, x = res[ii]
 
-    #return new_track
+        new_tr = assignsubjecttoexistingtrack(tr[y], sub[x])
+
+        new_track.append(new_tr)
+        del_index.append(ii)
+
+    tr = np.delete(tr, del_index)
+    tr = tr.tolist()
+
+    # Update missed associations
+    del_index = []
+
+    for ii in range(len(tr)):
+        tr[ii].update()
+
+        # In case track got lost
+        if tr[ii].state == 4:
+            del_index.append(ii)
+
+    if del_index:
+        tr = np.delete(tr, del_index)
+        tr = tr.tolist()
+
+    for n in new_track:
+        tr.append(n)
+
+    # Update new subjects
+    # TODO
+
     return tr
 
 
