@@ -115,6 +115,15 @@ def paint3dworld(frames, cameras):
     return frames
 
 
+def painttracks(frames, tracks):
+
+    for ii in range(len(tracks)):
+        for t in tracks[ii]:
+            t.paintpath(frames[ii])
+
+    return frames
+
+
 def showallimg(camera_frames):
 
     s = len(camera_frames)
