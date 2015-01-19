@@ -31,34 +31,24 @@ The following instructions are provided in order to have the project installed i
 Dependecies:
 ------------
 
-- Python 2.7:
-
 ```
-    sudo apt-get install python python-dev
-```
-
-- Numpy:
-
-```
-	sudo apt-get install python-numpy
-```
-
-- Install OpenCV:
-
-```
-	sudo apt-get install python-opencv
-```
-
-- Install Python's Pip packet manager:
-
-```
-	sudo apt-get install python-pip
+    sudo apt-get install python python-dev python-setuptools python-numpy python-opencv python-pip python-scipy python-matplotlib build-essential libatlas-dev libatlas3gf-base
 ```
 
 - Install Cython:
 
 ```
 	sudo pip install cython
+```
+
+- Build Scikit-learn:
+
+```
+	wget https://pypi.python.org/packages/source/s/scikit-learn/scikit-learn-0.15.2.tar.gz
+	tar -xzf scikit-learn-0.15.2.tar.gz 
+	cd scikit-learn-0-15-2/
+	sudo python setup.py install
+	
 ```
 
 Setup project:
