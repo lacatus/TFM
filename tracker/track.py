@@ -16,6 +16,7 @@ class Track(object):
 
         self.subject = None
         self.path = None
+        self.path_max = None
         self.color = None
         self.state = None
         self.state_info = None
@@ -31,6 +32,7 @@ class Track(object):
 
         self.setsubject(subject)
         self.path = []
+        self.path_max = 30
         self.updatepath(subject)
         self.color = (
             rnd.randrange(0, 255),
@@ -74,9 +76,12 @@ class Track(object):
 
     def updatepath(self, subject):
 
+        if len(self.path) > self.path_max:
+            self.path.pop(0)
+            
         self.path.append(subject.circle)
 
-    def paintpath(self, frame): 
+    def paintpath(self, frame):  # <-- Paint subject with state color
 
         path = self.path
         color = self.color

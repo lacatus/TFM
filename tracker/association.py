@@ -15,21 +15,19 @@ def lossfunction(tr, sub):
     (xt, yt), radius = tr.subject.circle
     (xs, ys), radius = sub.circle
 
-    loss = np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2))
+    loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
 
-    threshold = 1000
-
-    return loss, threshold
+    return loss
 
 
 def globallossfunction(tr, sub):
 
-    threshold = 0
+    threshold = 50
     loss = np.zeros((len(tr), len(sub)))
 
     for jj in range(len(tr)):
         for ii in range(len(sub)):
-            loss[jj, ii], treshold = lossfunction(tr[jj], sub[ii])
+            loss[jj, ii] = lossfunction(tr[jj], sub[ii])
 
     return loss, threshold
 
@@ -47,13 +45,12 @@ def assignsubjecttoexistingtrack(tr, sub):
     return tr
 
 
-def hungarianassociation(loss, threshold):
+def hungarianassociation(loss, threshold): # <-- AQUI ME HE QUEDADO
 
     # SKLEARN association method
     res = _hungarian(loss)
 
     del_index = []
-
     # Threshold results
     for ii in range(len(res)):
         y, x = res[ii]
