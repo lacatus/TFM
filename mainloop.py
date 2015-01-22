@@ -64,6 +64,12 @@ def loop():
 
     while True:
 
+        print ''  # Debug purposes
+        print '######################'
+        print '       NEW FRAME'
+        print '######################'
+        print ''
+
         option = bg_models[0].bg.option  # get which img you want to visualize
 
         frames = threedgeometry.frameretriever.getframes(cameras)
@@ -107,7 +113,7 @@ def loop():
         elif option is 8:
             imshow.showallimg(imshow.paintsubjectsboxes(frames, subjects))
 
-        elif option is 9: 
+        elif option is 9:
             imshow.showallimg(imshow.painttracks(frames, tracks))
 
         # show frames no video

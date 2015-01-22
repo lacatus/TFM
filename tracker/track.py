@@ -69,7 +69,7 @@ class Track(object):
 
     def updatelockcount(self):
 
-        if self.count > self.count_max:
+        if self.count >= self.count_max:
             self.setstate(2)
         else:
             self.count += 1
@@ -116,12 +116,12 @@ class Track(object):
         self.paintpath(frame)
         self.paintsubject(frame)
         self.paintnum(frame)
+        self.printtrack()
 
     def printtrack(self):
 
-        print 'Track attributes'
+        print 'Track attributes NUM: %s' % self.num
         print 'Path: %s' % self.path
-        print 'Color: %s' % str(self.color)
         print 'State: %s' % self.state_info[self.state]
         print 'Count: %s' % self.count
 
