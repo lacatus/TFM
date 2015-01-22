@@ -119,7 +119,7 @@ def painttracks(frames, tracks):
 
     for ii in range(len(tracks)):
         for t in tracks[ii]:
-            t.paintpath(frames[ii])
+            t.painttrack(frames[ii])
 
     return frames
 

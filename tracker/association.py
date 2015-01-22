@@ -4,6 +4,7 @@
 from sklearn.utils.linear_assignment_ import _hungarian
 from tracker import np
 from tracker import track
+from tracker import variables
 
 
 def lossfunction(tr, sub):
@@ -34,8 +35,9 @@ def globallossfunction(tr, sub):
 
 def assignsubjecttonewtrack(sub):
 
+    variables.num_tracks += 1
     tr = track.Track()
-    tr.setdefault(sub)
+    tr.setdefault(sub, variables.num_tracks)
     return tr
 
 
@@ -45,7 +47,7 @@ def assignsubjecttoexistingtrack(tr, sub):
     return tr
 
 
-def hungarianassociation(loss, threshold): # <-- AQUI ME HE QUEDADO
+def hungarianassociation(loss, threshold):
 
     # SKLEARN association method
     res = _hungarian(loss)

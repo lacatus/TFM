@@ -23,3 +23,6 @@ class Variables(object):
     # Secondary trackbar window
     app_window_trackbar_name_2 = None
     app_window_trackbar_2 = None
+
+    # Tracker
+    num_tracks = None

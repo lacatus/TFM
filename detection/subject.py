@@ -84,6 +84,12 @@ class Subject(object):
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
 
+    def paintrotboxcolor(self, frame, color):
+
+        box = cv2.cv.BoxPoints(self.rot_box)
+        box = np.int0(box)
+        cv2.drawContours(frame, [box], 0, color, 2)
+
     def paintellipse(self, frame):
 
         cv2.ellipse(frame, self.ellipse, (255, 0, 0), 2)

@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 from tracker import association
+from tracker import variables
 
 
 def inittracks(len):
 
     tracks = []
+    variables.num_tracks = 0
 
     for cam in range(len):
         tracks.append([])
