@@ -62,6 +62,9 @@ class Track(object):
 
     def update(self, subject=None):  # TODO
 
+        # TODO
+        # Register track points in order to paint them
+
         if not subject:  # keep updating with same subject ?? <-- BIG TODO
             self.updatemisscount()
         else:
