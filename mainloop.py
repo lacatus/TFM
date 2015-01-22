@@ -107,6 +107,9 @@ def loop():
         elif option is 8:
             imshow.showallimg(imshow.paintsubjectsboxes(frames, subjects))
 
+        elif option is 9: 
+            imshow.showallimg(imshow.painttracks(frames, tracks))
+
         # show frames no video
         if tb.framebyframe is 1:
             cv2.waitKey()
