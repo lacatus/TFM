@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from tracker import association
+from tracker import group
 from tracker import variables
 
 
@@ -27,8 +28,21 @@ def associatetrackssubjects(tracks, subjects):
     return new_tracks
 
 
+def checkforgroups(tracks):
+
+    new_tracks = []
+
+    for ii in range(len(tracks)):
+
+        track = group.checkforgroup(tracks[ii])
+        new_tracks.append(track)
+
+    return new_tracks
+
+
 def trackerprocess(tracks, subjects):
 
     tracks = associatetrackssubjects(tracks, subjects)
+    groups = checkforgroups(tracks)
 
     return tracks
