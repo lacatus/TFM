@@ -65,19 +65,24 @@ def hungarianassociation(loss, threshold):
     return new_res
 
 
+def printtracks(tr):
+
+    for t in tr:
+        t.printtrack()
+
+
 def trackupdate(tr, sub, res):
 
     new_track = []
     del_index = []
 
-    # Update succesful associations
+    # Update successful associations
     for ii in range(len(res)):
         y, x = res[ii]
 
         new_tr = assignsubjecttoexistingtrack(tr[y], sub[x])
-
         new_track.append(new_tr)
-        del_index.append(ii)
+        del_index.append(y)
 
     tr = np.delete(tr, del_index)
     tr = tr.tolist()

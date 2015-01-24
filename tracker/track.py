@@ -116,12 +116,12 @@ class Track(object):
         self.paintpath(frame)
         self.paintsubject(frame)
         self.paintnum(frame)
-        self.printtrack()
+        #self.printtrack()
 
     def printtrack(self):
 
         print 'Track attributes NUM: %s' % self.num
-        print 'Path: %s' % self.path
+        # print 'Path: %s' % self.path
         print 'State: %s' % self.state_info[self.state]
         print 'Count: %s' % self.count
 
