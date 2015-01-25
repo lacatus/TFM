@@ -9,7 +9,6 @@ def gettrackcircles(tracks):
     circles = []
 
     for t in tracks:
-
         circles.append(t.subject.circle)
 
     return circles
@@ -17,11 +16,12 @@ def gettrackcircles(tracks):
 
 def checkoverlap(x1, y1, r1, x2, y2, r2):
 
-    dxy = np.sqrt(np.pow(y2 - y1, 2) + np.pow(x2 - x1, 2))
-    dr = np.pow(r2 + r1, 2)
+    dxy = np.sqrt(np.power(y2 - y1, 2) + np.power(x2 - x1, 2))
+    dr = np.power(r2 + r1, 2)
 
     if dxy <= dr:
         return True
+
     else:
         return False
 
@@ -30,11 +30,14 @@ def checkbelonging(index, jj):
 
     for ii in range(len(index)):
         a, b = index[ii]
+
         if b == jj:
             return a
 
+    return False
 
-def getcircleintersections(circles, tracks):
+
+def getcircleintersections(circles, tr):  # TODO, buen marron
 
     groups = []
     groups_index = []
@@ -46,10 +49,12 @@ def getcircleintersections(circles, tracks):
 
         if res:
             gtr = groups[res]
+
         else:
             gtr = track.TrackGroup()
+            gtr.setdefault(tr[jj])
+
             groups.append(gtr)
-            gtr.appendnewtrack(track[jj])
             groups_index.append([len(groups_index), jj])
 
         for ii in range(len(circles)):
@@ -59,7 +64,7 @@ def getcircleintersections(circles, tracks):
                 continue
 
             if checkoverlap(x1, y1, r1, x2, y2, r2):
-                gtr.appendnewtrack(track[ii])
+                gtr.appendnewtrack(tr[ii])
                 groups_index.append([len(groups_index), ii])
 
     return groups

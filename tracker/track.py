@@ -70,7 +70,7 @@ class Track(object):
     def updatelockcount(self):
 
         if self.count >= self.count_max:
-            self.sx1, y1, r1, x2, y2, r2etstate(2)
+            self.setstate(2)
         else:
             self.count += 1
             self.setstate(1)
@@ -159,5 +159,5 @@ class TrackGroup(object):
 
         self.tracks.append(track)
 
-        if len(self.tracks > 1):
+        if len(self.tracks) > 1:
             self.group = True
