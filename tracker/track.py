@@ -70,7 +70,7 @@ class Track(object):
     def updatelockcount(self):
 
         if self.count >= self.count_max:
-            self.setstate(2)
+            self.sx1, y1, r1, x2, y2, r2etstate(2)
         else:
             self.count += 1
             self.setstate(1)
@@ -133,3 +133,31 @@ class Track(object):
             self.setsubject(subject)
             self.updatelockcount()
             self.updatepath(subject)
+
+
+class TrackGroup(object):
+
+    """
+    Track class that contains the information regarding
+    the existent track paths that are currently in the
+    scene. State Machine
+    """
+
+    def __init__(self):
+
+        self.tracks = None
+        self.group = None
+
+    def setdefault(self, track):
+
+        self.tracks = []
+        self.group = False
+
+        self.appendnewtrack(track)
+
+    def appendnewtrack(self, track):
+
+        self.tracks.append(track)
+
+        if len(self.tracks > 1):
+            self.group = True
