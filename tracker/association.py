@@ -119,6 +119,17 @@ def trackupdate(tr, sub, res):
     return tr
 
 
+def checkmultipleassociation(loss, threshold):
+
+    y, x = loss.shape
+
+    for ii in range(x):
+        a = loss[:, ii]
+        b = a[a < threshold]
+        if len(b) > 1:
+            print 'GRUPO'
+
+
 def associatetracksubject(tr, sub):
 
     new_track = []
@@ -146,12 +157,13 @@ def associatetracksubject(tr, sub):
         # Calculate loss function
         loss, threshold = globallossfunction(tr, sub)
 
+        # NEW TODO
+        checkmultipleassociation(loss, threshold)
+
         # Hungarian association
         res = hungarianassociation(loss, threshold)
-
+        print res
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res)
-
-    printtracks(new_track)
 
     return new_track
