@@ -21,14 +21,16 @@ class Subject(object):
         self.group = None
         self.retro_base = None
         self.retro_top = None
+        self.contours = None
 
-    def setdefault(self, src, box, rot_box, ellipse, circle, camera):
+    def setdefault(self, src, box, rot_box, ellipse, circle, camera, cont):
 
         self.bin = src
         self.box = box
         self.rot_box = rot_box
         self.formatellipse(ellipse)
         self.formatcircle(circle, camera)
+        self.contours= cont
 
     def formatellipse(self, ellipse):
 

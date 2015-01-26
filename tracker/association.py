@@ -30,6 +30,7 @@ def globallossfunction(tr, sub):
         for ii in range(len(sub)):
             loss[jj, ii] = lossfunction(tr[jj], sub[ii])
 
+    print loss.astype(int)  # DEBUG para GROUPING
     return loss, threshold
 
 
@@ -53,7 +54,7 @@ def hungarianassociation(loss, threshold):
     res = _hungarian(loss)
 
     del_index = []
-    # Threshold results
+
     for ii in range(len(res)):
         y, x = res[ii]
 
@@ -150,5 +151,7 @@ def associatetracksubject(tr, sub):
 
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res)
+
+    printtracks(new_track)
 
     return new_track

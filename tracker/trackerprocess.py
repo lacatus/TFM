@@ -43,6 +43,6 @@ def checkforgroups(tracks):
 def trackerprocess(tracks, subjects):
 
     tracks = associatetrackssubjects(tracks, subjects)
-    groups = checkforgroups(tracks)
+    # groups = checkforgroups(tracks)
 
     return tracks

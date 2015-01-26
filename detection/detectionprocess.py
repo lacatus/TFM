@@ -81,7 +81,7 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
                 subj = subject.Subject()
                 subj.setdefault(
                     total_masks[ii][y:y + h, x:x + w],
-                    box, rot_box, ellipse, circle, cameras[ii])
+                    box, rot_box, ellipse, circle, cameras[ii], cont)
                 subjs.append(subj)
 
         total_subjs.append(subjs)

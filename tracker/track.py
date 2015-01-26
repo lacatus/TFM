@@ -122,8 +122,8 @@ class Track(object):
 
         print 'Track attributes NUM: %s' % self.num
         # print 'Path: %s' % self.path
-        print 'State: %s' % self.state_info[self.state]
-        print 'Count: %s' % self.count
+        # print 'State: %s' % self.state_info[self.state]
+        # print 'Count: %s' % self.count
 
     def update(self, subject=None):  # TODO
 

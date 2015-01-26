@@ -37,7 +37,7 @@ def checkbelonging(index, jj):
     return False
 
 
-def getcircleintersections(circles, tr):  # TODO, buen marron
+def getcircleintersections(circles, tr):  # Might be Cython meat 
 
     groups = []
     groups_index = []
@@ -55,7 +55,7 @@ def getcircleintersections(circles, tr):  # TODO, buen marron
             gtr.setdefault(tr[jj])
 
             groups.append(gtr)
-            groups_index.append([len(groups_index), jj])
+            groups_index.append([len(groups) - 1, jj])
 
         for ii in range(len(circles)):
             (x2, y2), r2 = circles[ii]
@@ -65,8 +65,9 @@ def getcircleintersections(circles, tr):  # TODO, buen marron
 
             if checkoverlap(x1, y1, r1, x2, y2, r2):
                 gtr.appendnewtrack(tr[ii])
-                groups_index.append([len(groups_index), ii])
+                groups_index.append([len(groups) - 1, ii])
 
+    print len(groups)
     return groups
 
 
@@ -75,21 +76,13 @@ def findoverlappingcircles(tracks):
     """
     TODO
     ----
-    Encontrar superposiciones de los circulos de los sujetos
-        - Posible optimizacion cython n2
-        - Basado en intersecciones de circulos (posible solucion)
-        - Dependiendo del area que se superponen, consideraremos grupo o no
-    Nueva clase grupo contenedora de tracks
-        - Pensar estrategia a seguir para combinar tracks y grupo de tracks
-            - Groups --> clase padre de --> tracks
-            - Aunque groups solo tenga un track, este hereda y se define que
-              group no es un group
+    Grouping must be done uppon the loss function
+    Next big todo
+        - Maybe different loss functions (grouping, group exit, ...)
     """
 
     circles = gettrackcircles(tracks)
-    intersections = getcircleintersections(circles, tracks)
-
-    pass
+    groups = getcircleintersections(circles, tracks)
 
 
 def checkforgroup(tracks):
