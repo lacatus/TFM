@@ -25,6 +25,7 @@ class Track(object):
         self.count_max = None
         self.count_min = None
         self.num = None
+        self.update = None
 
     def delete(self):
 
@@ -58,6 +59,7 @@ class Track(object):
         self.count_max = 5
         self.count_min = -5
         self.num = num
+        self.update = False
 
     def setsubject(self, subject):
 
@@ -114,9 +116,11 @@ class Track(object):
     def painttrack(self, frame):
 
         self.paintpath(frame)
-        self.paintsubject(frame)
         self.paintnum(frame)
         #self.printtrack()
+
+        if self.update:
+            self.paintsubject(frame)
 
     def printtrack(self):
 
@@ -125,11 +129,14 @@ class Track(object):
         # print 'State: %s' % self.state_info[self.state]
         # print 'Count: %s' % self.count
 
-    def update(self, subject=None):  # TODO
+    def updatetrack(self, subject=None):  # TODO
+
+        self.update = False
 
         if not subject:  # keep updating with same subject ?? <-- propagation
             self.updatemisscount()
         else:
+            self.update = True
             self.setsubject(subject)
             self.updatelockcount()
             self.updatepath(subject)

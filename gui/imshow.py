@@ -84,9 +84,9 @@ def painttopbases(frames, total_subjects):
 def paintsubjectsboxes(frames, total_subjects):
 
     frames = paintrotboxes(frames, total_subjects)
-    frames = paintellipses(frames, total_subjects)
-    frames = paintcircles(frames,  total_subjects)
-    frames = painttopbases(frames, total_subjects)
+    # frames = paintellipses(frames, total_subjects)
+    # frames = paintcircles(frames,  total_subjects)
+    # frames = painttopbases(frames, total_subjects)
 
     return frames
 

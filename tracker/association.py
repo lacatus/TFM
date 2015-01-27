@@ -44,7 +44,7 @@ def assignsubjecttonewtrack(sub):
 
 def assignsubjecttoexistingtrack(tr, sub):
 
-    tr.update(sub)
+    tr.updatetrack(sub)
     return tr
 
 
@@ -92,7 +92,7 @@ def trackupdate(tr, sub, res):
     del_index = []
 
     for ii in range(len(tr)):
-        tr[ii].update()
+        tr[ii].updatetrack()
 
         # In case track got lost
         if tr[ii].state == 4:
@@ -119,15 +119,28 @@ def trackupdate(tr, sub, res):
     return tr
 
 
-def checkmultipleassociation(loss, threshold):
+def checkmultipleassociation(sub, loss, threshold):
 
     y, x = loss.shape
 
     for ii in range(x):
         a = loss[:, ii]
         b = a[a < threshold]
+
         if len(b) > 1:
-            print 'GRUPO'
+            print 'IN'
+            sub[ii].setoverlap()
+
+    for jj in range(y):
+        a = loss[jj, :]
+        b = np.where(a < threshold)
+
+        if len(b[0]) > 1:
+            print 'OUT'
+
+            for kk in range(len(b[0])):
+                sub[kk].setovercome()
+
 
 
 def associatetracksubject(tr, sub):
@@ -157,8 +170,8 @@ def associatetracksubject(tr, sub):
         # Calculate loss function
         loss, threshold = globallossfunction(tr, sub)
 
-        # NEW TODO
-        checkmultipleassociation(loss, threshold)
+        # NEW TODO --> Not successful --> new aproximation
+        # checkmultipleassociation(sub, loss, threshold) <-- USE this with UNMATCHED tr/subs 
 
         # Hungarian association
         res = hungarianassociation(loss, threshold)

@@ -22,6 +22,8 @@ class Subject(object):
         self.retro_base = None
         self.retro_top = None
         self.contours = None
+        self.overlap = None
+        self.overcome = None
 
     def setdefault(self, src, box, rot_box, ellipse, circle, camera, cont):
 
@@ -30,7 +32,9 @@ class Subject(object):
         self.rot_box = rot_box
         self.formatellipse(ellipse)
         self.formatcircle(circle, camera)
-        self.contours= cont
+        self.contours = cont
+        self.overlap = False
+        self.overcome = False
 
     def formatellipse(self, ellipse):
 
@@ -80,6 +84,14 @@ class Subject(object):
         self.retro_base = db
         self.retro_top = dt
 
+    def setoverlap(self):
+
+        self.overlap = True
+
+    def setovercome(self):
+
+        self.overcome = True
+
     def paintrotbox(self, frame):
 
         box = cv2.cv.BoxPoints(self.rot_box)
@@ -90,7 +102,18 @@ class Subject(object):
 
         box = cv2.cv.BoxPoints(self.rot_box)
         box = np.int0(box)
-        cv2.drawContours(frame, [box], 0, color, 2)
+
+        if self.overlap and self.overcome:
+            cv2.drawContours(frame, [box], 0, (255, 255, 255), 2)
+
+        elif self.overlap:
+            cv2.drawContours(frame, [box], 0, (0, 0, 0), 2)
+
+        elif self.overcome:
+            cv2.drawContours(frame, [box], 0, (255, 0, 255), 2)
+
+        else:
+            cv2.drawContours(frame, [box], 0, color, 2)
 
     def paintellipse(self, frame):
 
