@@ -40,7 +40,7 @@ class Track(object):
         self.num = None
         self.update = None
         self.group = None
-        self.associated_tracks = None
+        self.associated = None
 
     def delete(self):
 
@@ -74,9 +74,17 @@ class Track(object):
         self.count_max = 5
         self.count_min = -5
         self.num = num
-        self.update = False
+        self.update = assFalse
         self.group = False
-        self.associated_tracks = []
+        self.associated = []
+
+    def associatetrack(self, track):
+
+        self.group = True
+        self.associated.append(track)
+
+    def deassociatetrack(self):
+        pass  # TODO
 
     def setsubject(self, subject):
 
@@ -86,15 +94,7 @@ class Track(object):
 
         self.state = state
 
-    def associatetrack(self, track):
-
-        self.group = True
-        self.associated_tracks.append(track)
-
-    def deassociatetrack(self):
-        pass  # TODO
-
-    def updatelockcount(self):
+    def updatelockcount(self, associated=True):
 
         if self.count >= self.count_max:
             self.setstate(2)
@@ -102,7 +102,15 @@ class Track(object):
             self.count += 1
             self.setstate(1)
 
-    def updatemisscount(self):
+        if self.group and associated:
+            self.updateassociatedlockcount()
+
+    def updateassociatedlockcount(self):
+
+        for a in self.associated:
+            a.updatelockcount(False)
+
+    def updatemisscount(self, associated=True):
 
         if self.count <= self.count_min:
             self.setstate(4)
@@ -112,12 +120,28 @@ class Track(object):
             if self.count <= 0:
                 self.setstate(3)
 
-    def updatepath(self, subject):
+        if self.group and associated:
+            self.updateassociatedmisscount()
+
+    def updateassociatedmisscount(self):
+
+        for a in self.associated:
+            a.updatemisscount(False)
+
+    def updatepath(self, subject, associated=True):
 
         if len(self.path) > self.path_max:
             self.path.pop(0)
 
         self.path.append(subject.circle)
+
+        if self.group and associated:
+            self.updateassociatedpath(subject)
+
+    def updateassociatedpath(self, subject):
+
+        for a in self.associated:
+            a.updatepath(subject, False)
 
     def updatetrack(self, subject=None):  # TODO
 
