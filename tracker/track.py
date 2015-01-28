@@ -74,7 +74,7 @@ class Track(object):
         self.count_max = 5
         self.count_min = -5
         self.num = num
-        self.update = assFalse
+        self.update = False
         self.group = False
         self.associated = []
 

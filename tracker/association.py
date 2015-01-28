@@ -71,7 +71,7 @@ def printtracks(tr):
         t.printtrack()
 
 
-def tracksplitormerge(res, loss):
+def checkmerge(res, loss):
 
     y, x = loss.shape
 
@@ -82,6 +82,11 @@ def tracksplitormerge(res, loss):
         if len(b) > 1:
             print 'IN'
             sub[ii].setoverlap()
+
+
+def checksplit(res, loss):
+
+    y, x = loss.shape
 
     for jj in range(y):
         a = loss[jj, :]
@@ -94,10 +99,27 @@ def tracksplitormerge(res, loss):
                 sub[kk].setovercome()
 
 
+def trackmerge(init_tr, new_tr, loss, res):
+
+    """
+    TODO
+    ----
+    - checkmerge
+    - if so, get track index and append with track subject
+    """
+
+    pass
+
+
 def trackupdate(tr, sub, res, loss):
 
     new_track = []
     del_index = []
+    init_tr = tr
+
+    print ''
+    print 'init tracks'
+    printtracks(tr)
 
     # Update successful associations
     for ii in range(len(res)):
@@ -110,7 +132,13 @@ def trackupdate(tr, sub, res, loss):
     tr = np.delete(tr, del_index)
     tr = tr.tolist()
 
-    # Update missed associations
+    # Update missed associations --> where merge should act
+    print ''
+    print 'missed tracks'
+    printtracks(tr)
+
+    trackmerge(init_tr, new_track, loss, res)
+
     del_index = []
 
     for ii in range(len(tr)):
@@ -127,12 +155,16 @@ def trackupdate(tr, sub, res, loss):
     for n in new_track:
         tr.append(n)
 
-    # Update new subjects
+    # Update new subjects --> where split should act
     del_index = []
     del_index = np.delete(res, 0, 1)
 
     sub = np.delete(sub, del_index)
     sub = sub.tolist()
+
+    print ''
+    print 'missed subjects'
+    print sub
 
     for s in sub:
         t = assignsubjecttonewtrack(s)
