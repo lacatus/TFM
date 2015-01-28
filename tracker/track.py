@@ -12,6 +12,19 @@ class Track(object):
     scene. State Machine
     """
 
+    """
+    TODO
+    ----
+    - Associate tracks to track
+        - Associate 1:N
+        - Deassociate 1:N
+        - Associate with children N:N
+        - Deassociate with children N:N
+    - Create appareance model for Deassociating
+        - Start with color model
+        - Continue with parts
+    """
+
     def __init__(self):
 
         self.subject = None
@@ -26,6 +39,8 @@ class Track(object):
         self.count_min = None
         self.num = None
         self.update = None
+        self.group = None
+        self.associated_tracks = None
 
     def delete(self):
 
@@ -60,6 +75,8 @@ class Track(object):
         self.count_min = -5
         self.num = num
         self.update = False
+        self.group = False
+        self.associated_tracks = []
 
     def setsubject(self, subject):
 
@@ -68,6 +85,14 @@ class Track(object):
     def setstate(self, state):
 
         self.state = state
+
+    def associatetrack(self, track):
+
+        self.group = True
+        self.associated_tracks.append(track)
+
+    def deassociatetrack(self):
+        pass  # TODO
 
     def updatelockcount(self):
 
@@ -93,6 +118,18 @@ class Track(object):
             self.path.pop(0)
 
         self.path.append(subject.circle)
+
+    def updatetrack(self, subject=None):  # TODO
+
+        self.update = False
+
+        if not subject:  # keep updating with same subject ?? <-- propagation
+            self.updatemisscount()
+        else:
+            self.update = True
+            self.setsubject(subject)
+            self.updatelockcount()
+            self.updatepath(subject)
 
     def paintpath(self, frame):  # <-- Paint subject with state color
 
@@ -128,43 +165,3 @@ class Track(object):
         # print 'Path: %s' % self.path
         # print 'State: %s' % self.state_info[self.state]
         # print 'Count: %s' % self.count
-
-    def updatetrack(self, subject=None):  # TODO
-
-        self.update = False
-
-        if not subject:  # keep updating with same subject ?? <-- propagation
-            self.updatemisscount()
-        else:
-            self.update = True
-            self.setsubject(subject)
-            self.updatelockcount()
-            self.updatepath(subject)
-
-
-class TrackGroup(object):
-
-    """
-    Track class that contains the information regarding
-    the existent track paths that are currently in the
-    scene. State Machine
-    """
-
-    def __init__(self):
-
-        self.tracks = None
-        self.group = None
-
-    def setdefault(self, track):
-
-        self.tracks = []
-        self.group = False
-
-        self.appendnewtrack(track)
-
-    def appendnewtrack(self, track):
-
-        self.tracks.append(track)
-
-        if len(self.tracks) > 1:
-            self.group = True
