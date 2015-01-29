@@ -71,19 +71,6 @@ def printtracks(tr):
         t.printtrack()
 
 
-def checkmerge(res, loss):
-
-    y, x = loss.shape
-
-    for ii in range(x):
-        a = loss[:, ii]
-        b = a[a < threshold]
-
-        if len(b) > 1:
-            print 'IN'
-            sub[ii].setoverlap()
-
-
 def checksplit(res, loss):
 
     y, x = loss.shape
@@ -116,12 +103,29 @@ def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
     return non_sub, non_tr
 
 
-def trackmerge(miss_tr, new_tr, non_sub, loss, res):
+def trackmerge(init_tr, new_tr, non_tr, loss, threshold, res):
 
-    pass
+    for ii in range(len(non_tr)):
+
+        a = loss[non_tr[ii], :]
+        b = a[a < threshold]
+
+        if len(b) > 0:
+            print 'Merging'  # TODO
 
 
-def trackupdate(tr, sub, res, loss):
+def tracksplit(init_sub, new_sub, loss, threshold, res):
+
+    for ii in range(len(non_sub)):
+
+        a = loss[:, non_sub[ii]]
+        b = a[a < threshold]
+
+        if len(b) > 0:
+            print 'Split'  # TODO
+
+
+def trackupdate(tr, sub, res, loss, threshold):
 
     new_track = []
     del_index_sub = []
@@ -148,14 +152,14 @@ def trackupdate(tr, sub, res, loss):
     sub = sub.tolist()
     tr = tr.tolist()
 
-    non_index_sub, non_index_tr = getnotassociatedindex(len(init_sub), len(init_tr), del_index_tr, del_index_sub)
-
     # Update missed associations --> where merge should act
     print ''
     print 'missed tracks'
     printtracks(tr)
 
-    trackmerge(tr, new_track, non_index_sub, loss, res)
+    non_index_sub, non_index_tr = getnotassociatedindex(len(init_sub), len(init_tr), del_index_tr, del_index_sub)
+
+    trackmerge(init_tr, new_track, non_index_tr, loss, threshold, res)
 
     del_index = []
 
@@ -222,6 +226,6 @@ def associatetracksubject(tr, sub):
         res = hungarianassociation(loss, threshold)
 
         # Update tracks with new association
-        new_track = trackupdate(tr, sub, res, loss)
+        new_track = trackupdate(tr, sub, res, loss, threshold)
 
     return new_track
