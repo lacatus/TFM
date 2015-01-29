@@ -88,12 +88,9 @@ def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
     return non_sub, non_tr
 
 
-def trackmerge(init_tr, new_tr, non_tr, loss, threshold, res):
+def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
 
-    print init_tr
-    print new_tr
-    print non_tr
-    print loss
+    new_tr = new_tr_copy
 
     for ii in range(len(non_tr)):
 
@@ -101,9 +98,9 @@ def trackmerge(init_tr, new_tr, non_tr, loss, threshold, res):
         b = a[a < threshold]
 
         if len(b) > 0:
-            print 'Merging'  # TODO
             if len(b) > 1:
-                b = b.min
+                print 'himmin'
+                b = [b.min()]
 
             # Get merging track overlapped subject's index
             idx_b = np.argwhere(a == b)
@@ -112,7 +109,10 @@ def trackmerge(init_tr, new_tr, non_tr, loss, threshold, res):
             idx_new_tr = np.argwhere(res == idx_b[0, 0])
 
             # Merge tracks
-            print new_tr[idx_new_tr[0, 0]].printtrack()
+            try:  # Maybe wrong hungarian as we expected
+                new_tr[idx_new_tr[0, 0]].associatetrack(tr[ii])
+            except:
+                pass
 
 
 def tracksplit(init_sub, new_sub, loss, threshold, res):
@@ -168,7 +168,7 @@ def trackupdate(tr, sub, res, loss, threshold):
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
-    trackmerge(init_tr, new_track, non_index_tr, loss, threshold, res)
+    trackmerge(tr, new_track, non_index_tr, loss, threshold, res)
 
     del_index = []
 
