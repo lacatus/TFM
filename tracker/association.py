@@ -71,21 +71,6 @@ def printtracks(tr):
         t.printtrack()
 
 
-def checksplit(res, loss):
-
-    y, x = loss.shape
-
-    for jj in range(y):
-        a = loss[jj, :]
-        b = np.where(a < threshold)
-
-        if len(b[0]) > 1:
-            print 'OUT'
-
-            for kk in range(len(b[0])):
-                sub[kk].setovercome()
-
-
 def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
     non_tr = []
@@ -123,6 +108,12 @@ def tracksplit(init_sub, new_sub, loss, threshold, res):
 
         if len(b) > 0:
             print 'Split'  # TODO
+
+    """
+    TODO
+    ----
+    only split track when a track with associated childs can be assigned to two subjects
+    """
 
 
 def trackupdate(tr, sub, res, loss, threshold):
