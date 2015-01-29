@@ -99,14 +99,24 @@ def checksplit(res, loss):
                 sub[kk].setovercome()
 
 
-def trackmerge(init_tr, new_tr, loss, res):
+def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
-    """
-    TODO
-    ----
-    - checkmerge
-    - if so, get track index and append with track subject
-    """
+    non_tr = []
+    non_sub = []
+
+    non_sub = np.array(range(len_sub))
+    non_tr = np.array(range(len_tr))
+
+    non_sub = np.delete(non_sub, del_sub)
+    non_tr = np.delete(non_tr, del_tr)
+
+    non_sub = non_sub.tolist()
+    non_tr = non_tr.tolist()
+
+    return non_sub, non_tr
+
+
+def trackmerge(miss_tr, new_tr, non_sub, loss, res):
 
     pass
 
@@ -114,8 +124,10 @@ def trackmerge(init_tr, new_tr, loss, res):
 def trackupdate(tr, sub, res, loss):
 
     new_track = []
-    del_index = []
+    del_index_sub = []
+    del_index_tr = []
     init_tr = tr
+    init_sub = sub
 
     print ''
     print 'init tracks'
@@ -127,17 +139,23 @@ def trackupdate(tr, sub, res, loss):
 
         new_tr = assignsubjecttoexistingtrack(tr[y], sub[x])
         new_track.append(new_tr)
-        del_index.append(y)
+        del_index_sub.append(x)
+        del_index_tr.append(y)
 
-    tr = np.delete(tr, del_index)
+    sub = np.delete(sub, del_index_sub)
+    tr = np.delete(tr, del_index_tr)
+
+    sub = sub.tolist()
     tr = tr.tolist()
+
+    non_index_sub, non_index_tr = getnotassociatedindex(len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
     # Update missed associations --> where merge should act
     print ''
     print 'missed tracks'
     printtracks(tr)
 
-    trackmerge(init_tr, new_track, loss, res)
+    trackmerge(tr, new_track, non_index_sub, loss, res)
 
     del_index = []
 
