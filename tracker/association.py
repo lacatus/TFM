@@ -99,7 +99,6 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
 
         if len(b) > 0:
             if len(b) > 1:
-                print 'himmin'
                 b = [b.min()]
 
             # Get merging track overlapped subject's index
@@ -111,8 +110,13 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
             # Merge tracks
             try:  # Maybe wrong hungarian as we expected
                 new_tr[idx_new_tr[0, 0]].associatetrack(tr[ii])
+                tr = np.delete(tr, ii)
+                tr = tr.tolist()
+
             except:
                 pass
+
+    return new_tr, tr
 
 
 def tracksplit(init_sub, new_sub, loss, threshold, res):
@@ -141,10 +145,6 @@ def trackupdate(tr, sub, res, loss, threshold):
     init_tr = tr
     init_sub = sub
 
-    print ''
-    print 'init tracks'
-    printtracks(tr)
-
     # Update successful associations
     for ii in range(len(res)):
         y, x = res[ii]
@@ -161,14 +161,11 @@ def trackupdate(tr, sub, res, loss, threshold):
     tr = tr.tolist()
 
     # Update missed associations --> where merge should act
-    print ''
-    print 'missed tracks'
-    printtracks(tr)
-
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
-    trackmerge(tr, new_track, non_index_tr, loss, threshold, res)
+    new_track, tr = trackmerge(
+        tr, new_track, non_index_tr, loss, threshold, res)
 
     del_index = []
 
@@ -193,8 +190,6 @@ def trackupdate(tr, sub, res, loss, threshold):
     sub = np.delete(sub, del_index)
     sub = sub.tolist()
 
-    print ''
-    print 'missed subjects'
     print sub
 
     for s in sub:

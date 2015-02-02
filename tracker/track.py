@@ -80,7 +80,7 @@ class Track(object):
 
     def associatetrack(self, track):
 
-        self.group = True
+        #self.group = True
         self.associated.append(track)
 
     def deassociatetrack(self):
@@ -179,13 +179,15 @@ class Track(object):
         self.paintpath(frame)
         self.paintnum(frame)
         #self.printtrack()
-
-        if self.update:
+        self.paintsubject(frame)
+        """
+        if self.update:  # <-- take a look, 2 subjects do not associate at all
             self.paintsubject(frame)
+        """
 
     def printtrack(self):
 
         print 'Track attributes NUM: %s' % self.num
         # print 'Path: %s' % self.path
-        # print 'State: %s' % self.state_info[self.state]
-        # print 'Count: %s' % self.count
+        print 'State: %s' % self.state_info[self.state]
+        print 'Count: %s' % self.count
