@@ -168,8 +168,10 @@ def trackupdate(tr, sub, res, loss, threshold):
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
+    """
     new_track, tr = trackmerge(
         tr, new_track, non_index_tr, loss, threshold, res)
+    """
 
     del_index = []
 
@@ -190,12 +192,14 @@ def trackupdate(tr, sub, res, loss, threshold):
     del_index = []
     del_index = np.delete(res, 0, 1)
 
-    # End with non associated subjects
+    # End with non associated subjects MAYBE HERE PROBLEM
     sub = np.delete(sub, del_index)
     sub = sub.tolist()
 
     # Update new subjects --> where split should act
+    """
     tr, sub = tracksplit(new_track, sub, threshold)
+    """
 
     for s in sub:
         t = assignsubjecttonewtrack(s)
