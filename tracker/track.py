@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from tracker import cv2
+from tracker import np
 from tracker import rnd
 
 
@@ -80,11 +81,18 @@ class Track(object):
 
     def associatetrack(self, track):
 
-        #self.group = True
+        self.group = True
         self.associated.append(track)
 
     def deassociatetrack(self):
-        pass  # TODO
+        # better -- >TODO
+
+        res = self.associated.pop(0)
+
+        if len(self.associated) < 1:
+            self.group = False
+
+        return res
 
     def setsubject(self, subject):
 
@@ -154,6 +162,18 @@ class Track(object):
             self.setsubject(subject)
             self.updatelockcount()
             self.updatepath(subject)
+
+    def calculatesubjectdistance(self, subject, threshold):  # Future change
+
+        (xt, yt), radius = self.subject.circle
+        (xs, ys), radius = subject.circle
+
+        loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
+
+        if loss <= threshold:
+            return True
+        else:
+            return False
 
     def paintpath(self, frame):  # <-- Paint subject with state color
 

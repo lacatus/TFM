@@ -119,22 +119,26 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
     return new_tr, tr
 
 
-def tracksplit(init_sub, new_sub, loss, threshold, res):
+def tracksplit(new_tr, sub, threshold):
+    # usage of appareance model might be a good option
+    # for distance calculation in this section
 
-    for ii in range(len(non_sub)):
+    del_idx = []
 
-        a = loss[:, non_sub[ii]]
-        b = a[a < threshold]
+    for ii in range(len(sub)):
+        for tr in new_tr:
+            if tr.group and tr.calculatesubjectdistance(sub[ii], threshold):
+                n_tr = tr.deassociatetrack()
+                n_tr.updatetrack(sub[ii])
+                new_tr.append(n_tr)
+                del_idx.append(ii)
+                break
 
-        if len(b) > 0:
-            print 'Split'  # TODO
+    if del_idx:
+        sub = np.delete(sub, del_idx)
+        sub = sub.tolist()
 
-    """
-    TODO
-    ----
-    only split track when a track with associated
-    childs can be assigned to two subjects
-    """
+    return new_tr, sub
 
 
 def trackupdate(tr, sub, res, loss, threshold):
@@ -183,14 +187,15 @@ def trackupdate(tr, sub, res, loss, threshold):
     for n in new_track:
         tr.append(n)
 
-    # Update new subjects --> where split should act
     del_index = []
     del_index = np.delete(res, 0, 1)
 
+    # End with non associated subjects
     sub = np.delete(sub, del_index)
     sub = sub.tolist()
 
-    print sub
+    # Update new subjects --> where split should act
+    tr, sub = tracksplit(new_track, sub, threshold)
 
     for s in sub:
         t = assignsubjecttonewtrack(s)
