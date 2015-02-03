@@ -65,12 +65,6 @@ def hungarianassociation(loss, threshold):
     return new_res
 
 
-def printtracks(tr):
-
-    for t in tr:
-        t.printtrack()
-
-
 def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
     non_tr = []
@@ -90,6 +84,8 @@ def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
 def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
 
+    threshold = threshold + (2 * threshold / 3)  # margin
+
     new_tr = new_tr_copy
 
     for ii in range(len(non_tr)):
@@ -105,7 +101,7 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
             idx_b = np.argwhere(a == b)
 
             # Get parent track's index
-            idx_new_tr = np.argwhere(res == idx_b[0, 0])
+            idx_new_tr = np.argwhere(res[:, 1] == idx_b[0, 0])
 
             # Merge tracks
             try:  # Maybe wrong hungarian as we expected
@@ -123,6 +119,8 @@ def tracksplit(new_tr, sub, threshold):
     # usage of appareance model might be a good option
     # for distance calculation in this section
 
+    threshold = threshold + (2 * threshold / 3)  # margin
+
     del_idx = []
 
     for ii in range(len(sub)):
@@ -139,6 +137,12 @@ def tracksplit(new_tr, sub, threshold):
         sub = sub.tolist()
 
     return new_tr, sub
+
+
+def printtracks(tr):
+
+    for t in tr:
+        t.printtrack()
 
 
 def trackupdate(tr, sub, res, loss, threshold):
@@ -168,10 +172,8 @@ def trackupdate(tr, sub, res, loss, threshold):
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
-    """
     new_track, tr = trackmerge(
         tr, new_track, non_index_tr, loss, threshold, res)
-    """
 
     del_index = []
 
@@ -189,17 +191,17 @@ def trackupdate(tr, sub, res, loss, threshold):
     for n in new_track:
         tr.append(n)
 
+    """
     del_index = []
     del_index = np.delete(res, 0, 1)
 
     # End with non associated subjects MAYBE HERE PROBLEM
     sub = np.delete(sub, del_index)
     sub = sub.tolist()
+    """
 
     # Update new subjects --> where split should act
-    """
     tr, sub = tracksplit(new_track, sub, threshold)
-    """
 
     for s in sub:
         t = assignsubjecttonewtrack(s)

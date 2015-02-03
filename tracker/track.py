@@ -17,10 +17,12 @@ class Track(object):
     TODO
     ----
     - Associate tracks to track
-        - Associate 1:N
-        - Deassociate 1:N
+        - Associate 1:N --> +- DONE
+        - Deassociate 1:N --> +- DONE
         - Associate with children N:N
+            - Convert to 1:N
         - Deassociate with children N:N
+            - Never as we will always have 1:N
     - Create appareance model for Deassociating
         - Start with color model
         - Continue with parts
@@ -79,13 +81,21 @@ class Track(object):
         self.group = False
         self.associated = []
 
+    def setgroupstate(self, state):
+
+        self.group = state
+
     def associatetrack(self, track):
 
         self.group = True
         self.associated.append(track)
 
+    def associateassociatedtracks(self, tracks):  # TODO
+
+        pass
+
     def deassociatetrack(self):
-        # better -- >TODO
+        # better --> TODO --> BASED ON COLOR MODEL
 
         res = self.associated.pop(0)
 
@@ -187,23 +197,15 @@ class Track(object):
 
     def paintsubject(self, frame):
 
-        self.subject.paintrotboxcolor(frame, self.state_color[self.state])
+        if self.group:
+            self.subject.paintrotboxcolor(frame, (255, 255, 255))
+        else:
+            self.subject.paintrotboxcolor(frame, self.state_color[self.state])
 
     def paintnum(self, frame):
 
         cv2.putText(frame, str(self.num), self.subject.top,
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
-
-    def painttrack(self, frame):
-
-        self.paintpath(frame)
-        self.paintnum(frame)
-        #self.printtrack()
-        self.paintsubject(frame)
-        """
-        if self.update:  # <-- take a look, 2 subjects do not associate at all
-            self.paintsubject(frame)
-        """
 
     def printtrack(self):
 
@@ -211,3 +213,25 @@ class Track(object):
         # print 'Path: %s' % self.path
         print 'State: %s' % self.state_info[self.state]
         print 'Count: %s' % self.count
+
+    def printassociatedtrack(self):
+
+        if self.group:
+            print 'Associated tracks:'
+
+            for a in self.associated:
+                a.printtrack()
+
+            print '##'
+
+    def painttrack(self, frame):
+
+        self.paintpath(frame)
+        self.paintnum(frame)
+        self.printtrack()
+        self.printassociatedtrack()
+        self.paintsubject(frame)
+        """
+        if self.update:  # <-- take a look, 2 subjects do not associate at all
+            self.paintsubject(frame)
+        """
