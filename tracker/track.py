@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from tracker import cv2
+from tracker import np
 from tracker import rnd
 
 
@@ -10,6 +11,21 @@ class Track(object):
     Track class that contains the information regarding
     the existent track paths that are currently in the
     scene. State Machine
+    """
+
+    """
+    TODO
+    ----
+    - Associate tracks to track
+        - Associate 1:N --> +- DONE
+        - Deassociate 1:N --> +- DONE
+        - Associate with children N:N
+            - Convert to 1:N
+        - Deassociate with children N:N
+            - Never as we will always have 1:N
+    - Create appareance model for Deassociating
+        - Start with color model
+        - Continue with parts
     """
 
     def __init__(self):
@@ -26,6 +42,8 @@ class Track(object):
         self.count_min = None
         self.num = None
         self.update = None
+        self.group = None
+        self.associated = None
 
     def delete(self):
 
@@ -60,6 +78,31 @@ class Track(object):
         self.count_min = -5
         self.num = num
         self.update = False
+        self.group = False
+        self.associated = []
+
+    def setgroupstate(self, state):
+
+        self.group = state
+
+    def associatetrack(self, track):
+
+        self.group = True
+        self.associated.append(track)
+
+    def associateassociatedtracks(self, tracks):  # TODO
+
+        pass
+
+    def deassociatetrack(self):
+        # better --> TODO --> BASED ON COLOR MODEL
+
+        res = self.associated.pop(0)
+
+        if len(self.associated) < 1:
+            self.group = False
+
+        return res
 
     def setsubject(self, subject):
 
@@ -69,7 +112,7 @@ class Track(object):
 
         self.state = state
 
-    def updatelockcount(self):
+    def updatelockcount(self, associated=True):
 
         if self.count >= self.count_max:
             self.setstate(2)
@@ -77,7 +120,15 @@ class Track(object):
             self.count += 1
             self.setstate(1)
 
-    def updatemisscount(self):
+        if self.group and associated:
+            self.updateassociatedlockcount()
+
+    def updateassociatedlockcount(self):
+
+        for a in self.associated:
+            a.updatelockcount(False)
+
+    def updatemisscount(self, associated=True):
 
         if self.count <= self.count_min:
             self.setstate(4)
@@ -87,47 +138,28 @@ class Track(object):
             if self.count <= 0:
                 self.setstate(3)
 
-    def updatepath(self, subject):
+        if self.group and associated:
+            self.updateassociatedmisscount()
+
+    def updateassociatedmisscount(self):
+
+        for a in self.associated:
+            a.updatemisscount(False)
+
+    def updatepath(self, subject, associated=True):
 
         if len(self.path) > self.path_max:
             self.path.pop(0)
 
         self.path.append(subject.circle)
 
-    def paintpath(self, frame):  # <-- Paint subject with state color
+        if self.group and associated:
+            self.updateassociatedpath(subject)
 
-        path = self.path
-        color = self.color
+    def updateassociatedpath(self, subject):
 
-        for p in path:
-            (x, y), radius = p
-            center = (int(x), int(y))
-            cv2.circle(frame, center, 2, color, 2)
-
-    def paintsubject(self, frame):
-
-        self.subject.paintrotboxcolor(frame, self.state_color[self.state])
-
-    def paintnum(self, frame):
-
-        cv2.putText(frame, str(self.num), self.subject.top,
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
-
-    def painttrack(self, frame):
-
-        self.paintpath(frame)
-        self.paintnum(frame)
-        #self.printtrack()
-
-        if self.update:
-            self.paintsubject(frame)
-
-    def printtrack(self):
-
-        print 'Track attributes NUM: %s' % self.num
-        # print 'Path: %s' % self.path
-        # print 'State: %s' % self.state_info[self.state]
-        # print 'Count: %s' % self.count
+        for a in self.associated:
+            a.updatepath(subject, False)
 
     def updatetrack(self, subject=None):  # TODO
 
@@ -141,30 +173,65 @@ class Track(object):
             self.updatelockcount()
             self.updatepath(subject)
 
+    def calculatesubjectdistance(self, subject, threshold):  # Future change
 
-class TrackGroup(object):
+        (xt, yt), radius = self.subject.circle
+        (xs, ys), radius = subject.circle
 
-    """
-    Track class that contains the information regarding
-    the existent track paths that are currently in the
-    scene. State Machine
-    """
+        loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
 
-    def __init__(self):
+        if loss <= threshold:
+            return True
+        else:
+            return False
 
-        self.tracks = None
-        self.group = None
+    def paintpath(self, frame):  # <-- Paint subject with state color
 
-    def setdefault(self, track):
+        path = self.path
+        color = self.color
 
-        self.tracks = []
-        self.group = False
+        for p in path:
+            (x, y), radius = p
+            center = (int(x), int(y))
+            cv2.circle(frame, center, 2, color, 2)
 
-        self.appendnewtrack(track)
+    def paintsubject(self, frame):
 
-    def appendnewtrack(self, track):
+        if self.group:
+            self.subject.paintrotboxcolor(frame, (255, 255, 255))
+        else:
+            self.subject.paintrotboxcolor(frame, self.state_color[self.state])
 
-        self.tracks.append(track)
+    def paintnum(self, frame):
 
-        if len(self.tracks) > 1:
-            self.group = True
+        cv2.putText(frame, str(self.num), self.subject.top,
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+
+    def printtrack(self):
+
+        print 'Track attributes NUM: %s' % self.num
+        # print 'Path: %s' % self.path
+        print 'State: %s' % self.state_info[self.state]
+        print 'Count: %s' % self.count
+
+    def printassociatedtrack(self):
+
+        if self.group:
+            print 'Associated tracks:'
+
+            for a in self.associated:
+                a.printtrack()
+
+            print '##'
+
+    def painttrack(self, frame):
+
+        self.paintpath(frame)
+        self.paintnum(frame)
+        self.printtrack()
+        self.printassociatedtrack()
+        self.paintsubject(frame)
+        """
+        if self.update:  # <-- take a look, 2 subjects do not associate at all
+            self.paintsubject(frame)
+        """
