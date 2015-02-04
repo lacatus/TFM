@@ -88,15 +88,25 @@ class Track(object):
     def associatetrack(self, track):
 
         self.group = True
+
+        if track.group:
+            self.associateassociatedtracks(track)
+        else:
+            self.associated.append(track)
+
+    def associateassociatedtracks(self, track):  # TODO
+
+        for ii in range(len(track.associated)):
+            self.associated.append(track.associated.pop(0))
+
+        track.setgroupstate(False)
         self.associated.append(track)
-
-    def associateassociatedtracks(self, tracks):  # TODO
-
-        pass
 
     def deassociatetrack(self):
         # better --> TODO --> BASED ON COLOR MODEL
 
+        self.printtrack()
+        print self.associated
         res = self.associated.pop(0)
 
         if len(self.associated) < 1:
@@ -115,6 +125,7 @@ class Track(object):
     def updatelockcount(self, associated=True):
 
         if self.count >= self.count_max:
+            self.count = self.count_max + 2  # little extra margin
             self.setstate(2)
         else:
             self.count += 1

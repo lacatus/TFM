@@ -23,7 +23,7 @@ def lossfunction(tr, sub):
 
 def globallossfunction(tr, sub):
 
-    threshold = 50
+    threshold = 80
     loss = np.zeros((len(tr), len(sub)))
 
     for jj in range(len(tr)):
@@ -84,14 +84,14 @@ def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
 def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
 
-    threshold = threshold + (2 * threshold / 3)  # margin
+    threshold_ = threshold + (2 * threshold / 3)  # margin
 
     new_tr = new_tr_copy
 
     for ii in range(len(non_tr)):
 
         a = loss[non_tr[ii], :]
-        b = a[a < threshold]
+        b = a[a < threshold_]
 
         if len(b) > 0:
             if len(b) > 1:
@@ -103,11 +103,16 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
             # Get parent track's index
             idx_new_tr = np.argwhere(res[:, 1] == idx_b[0, 0])
 
+            print idx_new_tr
+
             # Merge tracks
             try:  # Maybe wrong hungarian as we expected
-                new_tr[idx_new_tr[0, 0]].associatetrack(tr[ii])
-                tr = np.delete(tr, ii)
-                tr = tr.tolist()
+
+                # Only associate locked tracks
+                if tr[ii].state is 2 and new_tr[idx_new_tr[0, 0]].state is 2:
+                    new_tr[idx_new_tr[0, 0]].associatetrack(tr[ii])
+                    tr = np.delete(tr, ii)
+                    tr = tr.tolist()
 
             except:
                 pass
@@ -119,13 +124,13 @@ def tracksplit(new_tr, sub, threshold):
     # usage of appareance model might be a good option
     # for distance calculation in this section
 
-    threshold = threshold + (2 * threshold / 3)  # margin
+    threshold_ = threshold + (2 * threshold / 3)  # margin
 
     del_idx = []
 
     for ii in range(len(sub)):
         for tr in new_tr:
-            if tr.group and tr.calculatesubjectdistance(sub[ii], threshold):
+            if tr.group and tr.calculatesubjectdistance(sub[ii], threshold_):
                 n_tr = tr.deassociatetrack()
                 n_tr.updatetrack(sub[ii])
                 new_tr.append(n_tr)
