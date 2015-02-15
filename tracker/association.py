@@ -174,11 +174,13 @@ def trackupdate(tr, sub, res, loss, threshold):
     tr = tr.tolist()
 
     # Update missed associations --> where merge should act
+    """
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
     new_track, tr = trackmerge(
         tr, new_track, non_index_tr, loss, threshold, res)
+    """
 
     del_index = []
 
@@ -196,23 +198,45 @@ def trackupdate(tr, sub, res, loss, threshold):
     for n in new_track:
         tr.append(n)
 
-    """
-    del_index = []
-    del_index = np.delete(res, 0, 1)
-
-    # End with non associated subjects MAYBE HERE PROBLEM
-    sub = np.delete(sub, del_index)
-    sub = sub.tolist()
-    """
-
     # Update new subjects --> where split should act
+    """
     tr, sub = tracksplit(new_track, sub, threshold)
+    """
+    """
+    TODO
+    ----
+    - Only assign new tracks in outer positions of the image
+    """
 
     for s in sub:
         t = assignsubjecttonewtrack(s)
         tr.append(t)
 
     return tr
+
+
+def pfdiffussion(tr):
+
+    new_tr = []
+
+    for t in tr:
+
+        t.pf.pdiffussion()
+        new_tr.append(t)
+
+    return new_tr
+
+
+def pfupdate(tr):
+
+    new_tr = []
+
+    for t in tr:
+
+        t.pf.plikelihood()
+        new_tr.append(t)
+
+    return new_tr
 
 
 def associatetracksubject(tr, sub):
@@ -239,6 +263,8 @@ def associatetracksubject(tr, sub):
     # Detection && Tracks present
     else:
 
+        pfdiffussion(tr)
+
         # Calculate loss function
         loss, threshold = globallossfunction(tr, sub)
 
@@ -247,5 +273,8 @@ def associatetracksubject(tr, sub):
 
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)
+
+        # Update prob particle filter
+        new_track = pfupdate(tr)
 
     return new_track

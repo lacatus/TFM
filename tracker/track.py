@@ -2,6 +2,7 @@
 
 from tracker import cv2
 from tracker import np
+from tracker import particlefilter as pfil
 from tracker import rnd
 
 
@@ -16,16 +17,10 @@ class Track(object):
     """
     TODO
     ----
-    - Associate tracks to track
-        - Associate 1:N --> +- DONE
-        - Deassociate 1:N --> +- DONE
-        - Associate with children N:N
-            - Convert to 1:N
-        - Deassociate with children N:N
-            - Never as we will always have 1:N
     - Create appareance model for Deassociating
         - Start with color model
         - Continue with parts
+    - Propagation on trackmissupdate
     """
 
     def __init__(self):
@@ -44,6 +39,7 @@ class Track(object):
         self.update = None
         self.group = None
         self.associated = None
+        self.particles = None
 
     def delete(self):
 
@@ -80,6 +76,12 @@ class Track(object):
         self.update = False
         self.group = False
         self.associated = []
+        self.setparticles(subject)
+
+    def setparticles(self, subject):
+
+        self.pf = pfil.ParticleFilter()
+        self.pf.setdefault(subject.rot_box)
 
     def setgroupstate(self, state):
 
