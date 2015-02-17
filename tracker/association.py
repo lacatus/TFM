@@ -3,6 +3,7 @@
 # TODO --> import from init
 from sklearn.utils.linear_assignment_ import _hungarian
 from tracker import np
+from tracker import stats
 from tracker import track
 from tracker import variables
 
@@ -13,10 +14,29 @@ def lossfunction(tr, sub):
 
     # First simple loss function
     # Based in simple distance to subject base
+    """
     (xt, yt), radius = tr.subject.circle
     (xs, ys), radius = sub.circle
 
     loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
+    """
+
+    # Second loss function
+    # Based in normal probability density function of particles for
+    # position and detection size
+
+    (x, y), (h, w), a = sub.rot_box
+    p = tr.pf.p
+
+    loss = stats.norm.pdf(
+        h,
+        np.mean(p[:, 2]),
+        np.std(p[:, 2])
+    ) * stats.multivariate_normal.pdf(
+        np.array([x, y]),
+        np.mean(p[:, 0:2], axis=0),
+        np.cov(p[:, 0:2].T)
+    )
 
     return loss
 
@@ -174,11 +194,13 @@ def trackupdate(tr, sub, res, loss, threshold):
     tr = tr.tolist()
 
     # Update missed associations --> where merge should act
+    """
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
     new_track, tr = trackmerge(
         tr, new_track, non_index_tr, loss, threshold, res)
+    """
 
     del_index = []
 
@@ -196,23 +218,45 @@ def trackupdate(tr, sub, res, loss, threshold):
     for n in new_track:
         tr.append(n)
 
-    """
-    del_index = []
-    del_index = np.delete(res, 0, 1)
-
-    # End with non associated subjects MAYBE HERE PROBLEM
-    sub = np.delete(sub, del_index)
-    sub = sub.tolist()
-    """
-
     # Update new subjects --> where split should act
+    """
     tr, sub = tracksplit(new_track, sub, threshold)
+    """
+    """
+    TODO
+    ----
+    - Only assign new tracks in outer positions of the image
+    """
 
     for s in sub:
         t = assignsubjecttonewtrack(s)
         tr.append(t)
 
     return tr
+
+
+def pfdiffussion(tr):
+
+    new_tr = []
+
+    for t in tr:
+
+        t.pf.pdiffussion()
+        new_tr.append(t)
+
+    return new_tr
+
+
+def pfupdate(tr):
+
+    new_tr = []
+
+    for t in tr:
+
+        t.pf.plikelihood()
+        new_tr.append(t)
+
+    return new_tr
 
 
 def associatetracksubject(tr, sub):
@@ -239,6 +283,9 @@ def associatetracksubject(tr, sub):
     # Detection && Tracks present
     else:
 
+        # Particle diffussion
+        tr = pfdiffussion(tr)
+
         # Calculate loss function
         loss, threshold = globallossfunction(tr, sub)
 
@@ -247,5 +294,8 @@ def associatetracksubject(tr, sub):
 
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)
+
+        # Update prob particle filter
+        new_track = pfupdate(new_track)
 
     return new_track
