@@ -50,8 +50,10 @@ def lossfunction(tr, sub):
     )
     if loss is 0:
         loss = 100000000000000
+
     else:
         loss = 1 / loss
+
     return loss
 
 
@@ -63,8 +65,6 @@ def globallossfunction(tr, sub):
     for jj in range(len(tr)):
         for ii in range(len(sub)):
             loss[jj, ii] = lossfunction(tr[jj], sub[ii])
-
-    print loss
 
     return loss, threshold
 
@@ -99,8 +99,6 @@ def hungarianassociation(loss, threshold):
         """
 
     new_res = np.delete(res, del_index, 0)
-
-    print new_res
 
     return new_res
 
@@ -310,13 +308,8 @@ def associatetracksubject(tr, sub):
         # Hungarian association
         res = hungarianassociation(loss, threshold)
 
-        print 'before'
-        printtracks(tr)
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)
-        print 'after'
-        printtracks(new_track)
-        print ''
 
     # Update prob particle filter
     new_track_2 = pfupdate(new_track)
