@@ -4,6 +4,7 @@
 
 import cv2
 import numpy as np
+import scipy.stats as stats
 import random as rnd
 
 from var import variables

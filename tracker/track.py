@@ -39,7 +39,7 @@ class Track(object):
         self.update = None
         self.group = None
         self.associated = None
-        self.particles = None
+        self.pf = None
 
     def delete(self):
 
@@ -185,6 +185,7 @@ class Track(object):
             self.setsubject(subject)
             self.updatelockcount()
             self.updatepath(subject)
+            self.pf.updatedet(subject.rot_box)
 
     def calculatesubjectdistance(self, subject, threshold):  # Future change
 

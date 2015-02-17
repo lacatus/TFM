@@ -3,6 +3,7 @@
 # TODO --> import from init
 from sklearn.utils.linear_assignment_ import _hungarian
 from tracker import np
+from tracker import stats
 from tracker import track
 from tracker import variables
 
@@ -13,10 +14,29 @@ def lossfunction(tr, sub):
 
     # First simple loss function
     # Based in simple distance to subject base
+    """
     (xt, yt), radius = tr.subject.circle
     (xs, ys), radius = sub.circle
 
     loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
+    """
+
+    # Second loss function
+    # Based in normal probability density function of particles for
+    # position and detection size
+
+    (x, y), (h, w), a = sub.rot_box
+    p = tr.pf.p
+
+    loss = stats.norm.pdf(
+        h,
+        np.mean(p[:, 2]),
+        np.std(p[:, 2])
+    ) * stats.multivariate_normal.pdf(
+        np.array([x, y]),
+        np.mean(p[:, 0:2], axis=0),
+        np.cov(p[:, 0:2].T)
+    )
 
     return loss
 
@@ -263,7 +283,8 @@ def associatetracksubject(tr, sub):
     # Detection && Tracks present
     else:
 
-        pfdiffussion(tr)
+        # Particle diffussion
+        tr = pfdiffussion(tr)
 
         # Calculate loss function
         loss, threshold = globallossfunction(tr, sub)
@@ -275,6 +296,6 @@ def associatetracksubject(tr, sub):
         new_track = trackupdate(tr, sub, res, loss, threshold)
 
         # Update prob particle filter
-        new_track = pfupdate(tr)
+        new_track = pfupdate(new_track)
 
     return new_track

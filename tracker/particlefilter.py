@@ -38,6 +38,10 @@ class ParticleFilter(object):
             )
         )
 
+    def updatedet(self, det):
+
+        self.det = det
+
     def plikelihood(self):
 
         (x, y), (h, w), a = self.det
@@ -47,11 +51,10 @@ class ParticleFilter(object):
 
         R2 = np.sum(np.power(self.p - yrep, 2), 1)
         width = 2 * (np.amax(np.sqrt(R2)) - np.amin(np.sqrt(R2)))
-        self.prob = np.exp(-R2 / width)
+        prob = np.exp(-R2 / width)
 
-        print R2
-        print width
-        print self.prob
+        prob = prob / np.sum(prob)
+        self.prob = prob
 
         self.sortprob()
 
@@ -64,7 +67,7 @@ class ParticleFilter(object):
     def pdiffussion(self):
 
         self.resample()
-        pass
+        self.motionmodel()
 
     def resample(self):
 
@@ -77,7 +80,6 @@ class ParticleFilter(object):
 
                 idx = self.pmfrnd()
                 np.append(new_p, p[idx])
-                print p[idx]
 
     def pmfrnd(self):
 
@@ -85,7 +87,23 @@ class ParticleFilter(object):
 
         dist = np.cumsum(self.prob)
         rndnum = np.random.rand()
-        k = np.sum(rndnum > dist) + 1
+        k = np.sum(rndnum > dist)
 
-        print x[k]
         return x[k]
+
+    def motionmodel(self):
+
+        p = self.p
+        y, x = p.shape
+
+        a0 = np.floor(np.random.uniform(-15, 15, [y, 1]))
+        a1 = np.floor(np.random.uniform(-15, 15, [y, 1]))
+        a2 = np.floor(np.random.uniform(-3, 3, [y, 1]))
+        a3 = np.floor(np.random.uniform(-3, 3, [y, 1]))
+
+        p[:, 0] = p[:, 0] + a0[:, 0]
+        p[:, 1] = p[:, 1] + a1[:, 0]
+        p[:, 2] = p[:, 2] + a2[:, 0]
+        p[:, 3] = p[:, 3] + a3[:, 0]
+
+        self.p = p
