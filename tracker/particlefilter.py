@@ -1,3 +1,4 @@
+from tracker import cv2
 from tracker import np
 
 
@@ -107,3 +108,14 @@ class ParticleFilter(object):
         p[:, 3] = p[:, 3] + a3[:, 0]
 
         self.p = p
+
+    def paintp(self, frame):
+
+        pt = self.p
+
+        for p in pt:
+            x, y, h, w = p
+            rot_box = (x, y), (h, w), 0
+            box = cv2.cv.BoxPoints(rot_box)
+            box = np.int0(box)
+            cv2.drawContours(frame, [box], 0, (255, 255, 255), 2)

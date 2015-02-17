@@ -240,6 +240,7 @@ class Track(object):
 
     def painttrack(self, frame):
 
+        self.pf.paintp(frame)
         self.paintpath(frame)
         self.paintnum(frame)
         self.printtrack()

@@ -28,6 +28,7 @@ def lossfunction(tr, sub):
     (x, y), (h, w), a = sub.rot_box
     p = tr.pf.p
 
+    """
     loss = stats.norm.pdf(
         h,
         np.mean(p[:, 2]),
@@ -37,7 +38,16 @@ def lossfunction(tr, sub):
         np.mean(p[:, 0:2], axis=0),
         np.cov(p[:, 0:2].T)
     )
-
+    """
+    loss = stats.norm.pdf(
+        x,
+        np.mean(p[:, 0]),
+        np.std(p[:, 0])
+    ) * stats.norm.pdf(
+        y,
+        np.mean(p[:, 1]),
+        np.std(p[:, 1])
+    )
     return loss
 
 
@@ -49,6 +59,8 @@ def globallossfunction(tr, sub):
     for jj in range(len(tr)):
         for ii in range(len(sub)):
             loss[jj, ii] = lossfunction(tr[jj], sub[ii])
+
+    print loss
 
     return loss, threshold
 
