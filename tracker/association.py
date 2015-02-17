@@ -48,6 +48,10 @@ def lossfunction(tr, sub):
         np.mean(p[:, 1]),
         np.std(p[:, 1])
     )
+    if loss is 0:
+        loss = 100000000000000
+    else:
+        loss = 1 / loss
     return loss
 
 
@@ -89,10 +93,14 @@ def hungarianassociation(loss, threshold):
     for ii in range(len(res)):
         y, x = res[ii]
 
+        """
         if(loss[y, x] > threshold):
             del_index.append(ii)
+        """
 
     new_res = np.delete(res, del_index, 0)
+
+    print new_res
 
     return new_res
 
@@ -134,8 +142,6 @@ def trackmerge(tr, new_tr_copy, non_tr, loss, threshold, res):
 
             # Get parent track's index
             idx_new_tr = np.argwhere(res[:, 1] == idx_b[0, 0])
-
-            print idx_new_tr
 
             # Merge tracks
             try:  # Maybe wrong hungarian as we expected
@@ -304,10 +310,15 @@ def associatetracksubject(tr, sub):
         # Hungarian association
         res = hungarianassociation(loss, threshold)
 
+        print 'before'
+        printtracks(tr)
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)
+        print 'after'
+        printtracks(new_track)
+        print ''
 
-        # Update prob particle filter
-        new_track = pfupdate(new_track)
+    # Update prob particle filter
+    new_track_2 = pfupdate(new_track)
 
-    return new_track
+    return new_track_2

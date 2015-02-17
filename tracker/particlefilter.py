@@ -47,7 +47,6 @@ class ParticleFilter(object):
 
         (x, y), (h, w), a = self.det
         det = np.floor(np.array([[x, y, h, w]]))
-
         yrep = np.ones((self.num_p, 4)) * det
 
         R2 = np.sum(np.power(self.p - yrep, 2), 1)
@@ -75,12 +74,14 @@ class ParticleFilter(object):
         if np.sum(self.prob) > 0:
 
             p = self.p
-            new_p = np.array([])
+            y, x = p.shape
+            new_p = np.zeros((y, x))
 
             for ii in range(len(self.p)):
-
                 idx = self.pmfrnd()
-                np.append(new_p, p[idx])
+                new_p[ii, :] = p[idx, :]
+
+            self.p = new_p
 
     def pmfrnd(self):
 

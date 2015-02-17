@@ -174,7 +174,7 @@ class Track(object):
         for a in self.associated:
             a.updatepath(subject, False)
 
-    def updatetrack(self, subject=None):  # TODO
+    def updatetrack(self, subject=None):
 
         self.update = False
 
@@ -223,10 +223,13 @@ class Track(object):
 
     def printtrack(self):
 
+        (x, y),(h, w), a = self.subject.rot_box
+
         print 'Track attributes NUM: %s' % self.num
         # print 'Path: %s' % self.path
         print 'State: %s' % self.state_info[self.state]
         print 'Count: %s' % self.count
+        print 'Subject: %s,%s,%s,%s' % (x, y, h, w)
 
     def printassociatedtrack(self):
 
@@ -243,8 +246,8 @@ class Track(object):
         self.pf.paintp(frame)
         self.paintpath(frame)
         self.paintnum(frame)
-        self.printtrack()
-        self.printassociatedtrack()
+        #self.printtrack()
+        #self.printassociatedtrack()
         self.paintsubject(frame)
         """
         if self.update:  # <-- take a look, 2 subjects do not associate at all
