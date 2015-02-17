@@ -35,10 +35,11 @@ Dependecies:
     sudo apt-get install python python-dev python-setuptools python-numpy python-opencv python-pip python-scipy python-matplotlib build-essential libatlas-dev libatlas3gf-base
 ```
 
-- Install Cython:
+- Install Cython and update Scipy:
 
 ```
 	sudo pip install cython
+	sudo pip install --upgrade scipy
 ```
 
 - Build Scikit-learn:
