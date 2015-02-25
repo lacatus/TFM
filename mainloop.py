@@ -14,6 +14,7 @@ import datasets.pets096
 import datasets.pets097
 import datasets.pets098
 import datasets.pets099
+import datasets.oxtown
 
 import threedgeometry.frameretriever
 import threedgeometry.retroprojection
@@ -33,6 +34,7 @@ def initcameras():
     dataset = datasets.datasetloader.selectdataset()
 
     load_cmd = 'datasets.%s.loaddataset()' % dataset
+    print load_cmd
     cameras, configuration = eval(load_cmd)
 
     cameras = threedgeometry.frameretriever.getnumcameras(cameras)

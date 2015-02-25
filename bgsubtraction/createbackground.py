@@ -59,7 +59,7 @@ def createbackgroundimg(src_vid, dst_img, frame_count):
 
 def alldatasetsbackgroundimg():
 
-    project_dir = '/home/blacabex/PythonProjects/TFM'
+    project_dir = '/home/blg/TFM'
 
     # grazptz1
     print 'Creating background imgs for grazptz1 ...'
@@ -493,5 +493,16 @@ def alldatasetsbackgroundimg():
 
     createbackgroundimg(src_vid, dst_img, 10)
 
+    # oxtown
+    print 'Creating background imgs for oxtown ...'
+
+    print 'Camera 1 ...'
+
+    src_vid = \
+        '%s/data/oxtown/video/camera001.avi' % project_dir
+    dst_img = \
+        '%s/data/oxtown/background/camera001.jpg' % project_dir
+
+    createbackgroundimg(src_vid, dst_img, 25)
 
 alldatasetsbackgroundimg()

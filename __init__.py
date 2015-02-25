@@ -31,7 +31,8 @@ def initvariables():
         8: 'pets096',
         9: 'pets097',
         10: 'pets098',
-        11: 'pets099'}
+        11: 'pets099',
+        12: 'oxtown'}
 
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(
