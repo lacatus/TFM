@@ -223,7 +223,7 @@ class Track(object):
 
     def printtrack(self):
 
-        (x, y),(h, w), a = self.subject.rot_box
+        (x, y), (h, w), a = self.subject.rot_box
 
         print 'Track attributes NUM: %s' % self.num
         # print 'Path: %s' % self.path
@@ -243,12 +243,13 @@ class Track(object):
 
     def painttrack(self, frame):
 
-        self.pf.paintp(frame)
+        #self.pf.paintp(frame)
+        self.pf.paintbestp(frame, self.num, self.color)
         self.paintpath(frame)
-        self.paintnum(frame)
+        #self.paintnum(frame)
         #self.printtrack()
         #self.printassociatedtrack()
-        self.paintsubject(frame)
+        #self.paintsubject(frame)
         """
         if self.update:  # <-- take a look, 2 subjects do not associate at all
             self.paintsubject(frame)

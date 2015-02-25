@@ -114,9 +114,21 @@ class ParticleFilter(object):
 
         pt = self.p
 
+        print pt[0]
+
         for p in pt:
             x, y, h, w = p
             rot_box = (x, y), (h, w), 0
             box = cv2.cv.BoxPoints(rot_box)
             box = np.int0(box)
             cv2.drawContours(frame, [box], 0, (255, 255, 255), 2)
+
+    def paintbestp(self, frame, num, color):
+
+        p = self.p[0]
+        x, y, h, w = p
+        rot_box = (x, y), (h, w), 0
+        box = cv2.cv.BoxPoints(rot_box)
+        box = np.int0(box)
+        cv2.drawContours(frame, [box], 0, color, 2)
+        cv2.putText(frame, str(num), (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)

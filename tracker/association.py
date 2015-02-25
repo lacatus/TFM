@@ -48,8 +48,9 @@ def lossfunction(tr, sub):
         np.mean(p[:, 1]),
         np.std(p[:, 1])
     )
-    if loss is 0:
-        loss = 100000000000000
+
+    if loss == 0.0:
+        loss = 100000000000000000000000000000000000
 
     else:
         loss = 1 / loss
@@ -84,6 +85,8 @@ def assignsubjecttoexistingtrack(tr, sub):
 
 
 def hungarianassociation(loss, threshold):
+
+    print loss
 
     # SKLEARN association method
     res = _hungarian(loss)
