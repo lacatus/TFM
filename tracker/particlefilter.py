@@ -16,14 +16,16 @@ class ParticleFilter(object):
         self.num_p = None
         self.prob = None
         self.det = None
+        self.circle = None
 
-    def setdefault(self, det):
+    def setdefault(self, subject):
 
         self.p = np.array([])
         self.cov = np.eye(4) * 1
         self.num_p = 30
         self.prob = np.array([])
-        self.det = det
+        self.det = subject.rot_box
+        self.circle = subject.circle
 
         # Init particles
         self.init_p()
@@ -39,9 +41,10 @@ class ParticleFilter(object):
             )
         )
 
-    def updatedet(self, det):
+    def updatedet(self, subject):
 
-        self.det = det
+        self.det = subject.rot_box
+        self.circle = subject.circle
 
     def plikelihood(self):
 
@@ -131,4 +134,5 @@ class ParticleFilter(object):
         box = cv2.cv.BoxPoints(rot_box)
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, color, 2)
-        cv2.putText(frame, str(num), (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+        cv2.putText(frame, str(num), (int(x), int(y)),
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)

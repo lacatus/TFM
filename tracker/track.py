@@ -81,7 +81,7 @@ class Track(object):
     def setparticles(self, subject):
 
         self.pf = pfil.ParticleFilter()
-        self.pf.setdefault(subject.rot_box)
+        self.pf.setdefault(subject)
 
     def setgroupstate(self, state):
 
@@ -185,7 +185,7 @@ class Track(object):
             self.setsubject(subject)
             self.updatelockcount()
             self.updatepath(subject)
-            self.pf.updatedet(subject.rot_box)
+            self.pf.updatedet(subject)
 
     def calculatesubjectdistance(self, subject, threshold):  # Future change
 

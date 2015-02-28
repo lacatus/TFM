@@ -14,12 +14,10 @@ def lossfunction(tr, sub):
 
     # First simple loss function
     # Based in simple distance to subject base
-    """
-    (xt, yt), radius = tr.subject.circle
+    (xt, yt), radius = tr.pf.circle
     (xs, ys), radius = sub.circle
 
-    loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
-    """
+    distance = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
 
     # Second loss function
     # Based in normal probability density function of particles for
@@ -55,19 +53,20 @@ def lossfunction(tr, sub):
     else:
         loss = 1 / loss
 
-    return loss
+    return loss, distance
 
 
 def globallossfunction(tr, sub):
 
     threshold = 80
     loss = np.zeros((len(tr), len(sub)))
+    distance = np.zeros((len(tr), len(sub)))
 
     for jj in range(len(tr)):
         for ii in range(len(sub)):
-            loss[jj, ii] = lossfunction(tr[jj], sub[ii])
+            loss[jj, ii], distance[jj, ii] = lossfunction(tr[jj], sub[ii])
 
-    return loss, threshold
+    return loss, distance, threshold
 
 
 def assignsubjecttonewtrack(sub):
@@ -84,7 +83,7 @@ def assignsubjecttoexistingtrack(tr, sub):
     return tr
 
 
-def hungarianassociation(loss, threshold):
+def hungarianassociation(loss, distance, threshold):
 
     print loss
 
@@ -96,10 +95,8 @@ def hungarianassociation(loss, threshold):
     for ii in range(len(res)):
         y, x = res[ii]
 
-        """
-        if(loss[y, x] > threshold):
+        if(distance[y, x] > threshold):
             del_index.append(ii)
-        """
 
     new_res = np.delete(res, del_index, 0)
 
@@ -306,10 +303,10 @@ def associatetracksubject(tr, sub):
         tr = pfdiffussion(tr)
 
         # Calculate loss function
-        loss, threshold = globallossfunction(tr, sub)
+        loss, distance, threshold = globallossfunction(tr, sub)
 
         # Hungarian association
-        res = hungarianassociation(loss, threshold)
+        res = hungarianassociation(loss, distance, threshold)
 
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)
