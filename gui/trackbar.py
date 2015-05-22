@@ -9,7 +9,7 @@ class TrackbarMain(object):
     def __init__(self, bg):
 
         self.bg = bg
-        self.framebyframe = 1
+        self.framebyframe = 0
 
     def setdefault(self):
 
