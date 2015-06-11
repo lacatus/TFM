@@ -94,13 +94,23 @@ class Subject(object):
 
     def paintrotbox(self, frame):
 
+        """
+        # OpenCV 2.4.8
         box = cv2.cv.BoxPoints(self.rot_box)
+        """
+        # OpenCV 3.0.0
+        box = cv2.boxPoints(self.rot_box)
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
 
     def paintrotboxcolor(self, frame, color):
 
+        """
+        # OpenCV 2.4.8
         box = cv2.cv.BoxPoints(self.rot_box)
+        """
+        # OpenCV 3.0.0
+        box = cv2.boxPoints(self.rot_box)
         box = np.int0(box)
 
         if self.overlap and self.overcome:

@@ -44,10 +44,20 @@ class Blob(object):
         x_proj = np.add.reduce(blob_norm, 0, dtype=np.uint8)
         y_proj = np.add.reduce(blob_norm, 1, dtype=np.uint8)
 
+        """
+        # OpenCV 2.4.8
         x_norm_proj = cv2.normalize(
             x_proj, alpha=1, beta=255, norm_type=cv2.NORM_MINMAX)
         y_norm_proj = cv2.normalize(
             y_proj, alpha=1, beta=255, norm_type=cv2.NORM_MINMAX)
+        """
+        # OpenCV 3.0.0
+        x_norm_proj = None
+        y_norm_proj = None
+        cv2.normalize(x_proj, x_norm_proj,
+            alpha=1, beta=255, norm_type=cv2.NORM_MINMAX)
+        cv2.normalize(y_proj, y_norm_proj,
+            alpha=1, beta=255, norm_type=cv2.NORM_MINMAX)
 
         self.projection = [
             np.add.reduce(blob_norm, 1, dtype=np.uint8),

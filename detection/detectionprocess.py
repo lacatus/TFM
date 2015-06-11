@@ -49,7 +49,24 @@ def createglobalmask(total_blobs, bg_models):
 
             blob.drawglobalmask(global_mask)
 
-        total_masks.append(global_mask)
+        total_masks.append(
+            cv2.morphologyEx(
+                global_mask, 
+                cv2.MORPH_CLOSE, 
+                cv2.getStructuringElement(
+                    cv2.MORPH_CROSS, 
+                    (5, 10))))
+
+    """
+    cv2.imshow(
+        "demo", 
+        cv2.morphologyEx(
+            global_mask, 
+            cv2.MORPH_CLOSE, 
+            cv2.getStructuringElement(
+                cv2.MORPH_CROSS, 
+                (5, 10))))
+    """
 
     return total_masks
 
@@ -65,9 +82,15 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
 
         subjs = []
 
+        """
+        # OpenCV 2.4.8
         contours, hierarchy = cv2.findContours(
             total_masks[ii], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
+        """
+        # OpenCV 3.0.0
+        _, contours, hierarchy = cv2.findContours(
+            total_masks[ii], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        
         for cont in contours:
 
             x, y, w, h = cv2.boundingRect(cont)

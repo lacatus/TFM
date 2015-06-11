@@ -27,10 +27,18 @@ class Video(object):
 
     def getvideoparameters(self):
 
+        """
+        # OpenCV 2.4.6
         self.width = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_WIDTH)
         self.height = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_HEIGHT)
         # self.fps = self.data.get(cv2.cv.CV_CAP_PROP_FPS)
         self.total_fps = self.data.get(cv2.cv.CV_CAP_PROP_FRAME_COUNT)
+        """
+        # OpenCV 3.0.0
+        self.width = self.data.get(cv2.CAP_PROP_FRAME_WIDTH)
+        self.height = self.data.get(cv2.CAP_PROP_FRAME_HEIGHT)
+        # self.fps = self.data.get(cv2.cv.CV_CAP_PROP_FPS)
+        self.total_fps = self.data.get(cv2.CAP_PROP_FRAME_COUNT)
 
     def readvideo(self, video_path):
 

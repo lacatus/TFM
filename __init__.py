@@ -20,6 +20,7 @@ def initvariables():
     variables.app_path = os.path.dirname(os.path.realpath(__file__))
     variables.datasets_path = variables.app_path + '/data'
 
+    """
     variables.datasets_name = {
         1: 'grazptz1',
         2: 'grazptz2',
@@ -33,7 +34,19 @@ def initvariables():
         10: 'pets098',
         11: 'pets099',
         12: 'oxtown'}
-
+    """
+    """
+    variables.datasets_name = {
+        1: 'caviar01',
+        2: 'caviar02',
+        3: 'caviar03',
+        4: 'caviar04',
+        5: 'caviar05'
+    }
+    """
+    variables.datasets_name = {
+        1: 'pets01_crop'
+    }
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(
         variables.app_window_name, cv2.WINDOW_NORMAL)

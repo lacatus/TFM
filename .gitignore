@@ -1,6 +1,8 @@
+*.mpg
 *.jpg
 *.pyc
 *.avi
 *.so
 *.sublime-project
 *.sublime-workspace
+*.tar.gz

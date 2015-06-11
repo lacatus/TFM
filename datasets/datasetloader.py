@@ -7,6 +7,7 @@ from var import variables
 def selectdataset():
 
     while 1:
+        '''
         options = \
             "\nDatasets options:\n" \
             "   1. Graz PTZ set 1\n" \
@@ -21,7 +22,19 @@ def selectdataset():
             "   10. Pets 09 l1 1\n" \
             "   11. Pets 09 l1 2\n" \
             "   12. Oxford Town Centre\n"
-
+        '''
+        '''
+        options = \
+            "\nDatasets options:\n" \
+            "   1. Caviar: Meet-walk-split\n" \
+            "   2. Caviar: Meet-walktogether-1\n" \
+            "   3. Caviar: Meet-walktogether-2\n" \
+            "   4. Caviar: Meet-split-3rdguy\n" \
+            "   5. Caviar: Meet-crowd\n"
+        '''
+        options = \
+            "\nDatasets options:\n" \
+            "   1. Pets09 - Crop01\n"
         print options
 
         ans = raw_input('Please select one option: ')

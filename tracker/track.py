@@ -243,8 +243,9 @@ class Track(object):
 
     def painttrack(self, frame):
 
-        #self.pf.paintp(frame)
+        #self.pf.paintp(frame, self.color)
         self.pf.paintbestp(frame, self.num, self.color)
+        #self.pf.paintbestp(frame, self.num, (255, 255, 255))
         self.paintpath(frame)
         #self.paintnum(frame)
         #self.printtrack()

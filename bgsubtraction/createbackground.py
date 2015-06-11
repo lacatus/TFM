@@ -61,6 +61,21 @@ def alldatasetsbackgroundimg():
 
     project_dir = '/home/blg/TFM'
 
+    # pets09 - crop01
+    print 'Creating background img for pets09 - crop01 ...' 
+    src_vid = '%s/data/pets09/icae/videos/crop_1.avi' % project_dir
+    dst_img = '%s/data/pets09/icae/background/background.jpg' % project_dir
+
+    createbackgroundimg(src_vid, dst_img, 10)
+
+    """
+    # caviar 
+    print 'Creating background img for caviar ...' 
+    src_vid = '%s/data/caviar/videos/Meet_WalkSplit.avi' % project_dir
+    dst_img = '%s/data/caviar/background/background.jpg' % project_dir
+
+    createbackgroundimg(src_vid, dst_img, 30)
+
     # grazptz1
     print 'Creating background imgs for grazptz1 ...'
 
@@ -504,5 +519,6 @@ def alldatasetsbackgroundimg():
         '%s/data/oxtown/background/camera001.jpg' % project_dir
 
     createbackgroundimg(src_vid, dst_img, 25)
+    """
 
 alldatasetsbackgroundimg()

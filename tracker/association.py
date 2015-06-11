@@ -25,6 +25,7 @@ def lossfunction(tr, sub):
 
     (x, y), (h, w), a = sub.rot_box
     p = tr.pf.p
+    (x1, y1), (h, w), a = tr.pf.det
 
     """
     loss = stats.norm.pdf(
@@ -37,6 +38,44 @@ def lossfunction(tr, sub):
         np.cov(p[:, 0:2].T)
     )
     """
+    """
+    loss = stats.norm.pdf(
+        x,
+        np.mean(p[:, 0]),
+        np.std(p[:, 0])
+    ) * stats.norm.pdf(
+        y,
+        np.mean(p[:, 1]),
+        np.std(p[:, 1])
+    ) * stats.norm.pdf(
+        h,
+        np.mean(p[:, 2]),
+        np.std(p[:, 2])
+    ) * stats.norm.pdf(
+        w,
+        np.mean(p[:, 3]),
+        np.std(p[:, 3])
+    )
+    
+    loss = stats.norm.pdf(
+        x,
+        np.mean(p[:, 0]),
+        np.std(p[:, 0])
+    ) * stats.norm.pdf(
+        y,
+        np.mean(p[:, 1]),
+        np.std(p[:, 1])
+    ) * stats.norm.pdf(
+        x - x1,
+        np.mean(p[:, 4]),
+        np.std(p[:, 4])
+    ) * stats.norm.pdf(
+        y - y1,
+        np.mean(p[:, 5]),
+        np.std(p[:, 5])
+    )
+    """
+
     loss = stats.norm.pdf(
         x,
         np.mean(p[:, 0]),
@@ -46,6 +85,8 @@ def lossfunction(tr, sub):
         np.mean(p[:, 1]),
         np.std(p[:, 1])
     )
+
+
 
     if loss == 0.0:
         loss = 100000000000000000000000000000000000

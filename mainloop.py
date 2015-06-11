@@ -3,6 +3,7 @@
 import cv2
 
 import datasets.datasetloader
+"""
 import datasets.grazptz1
 import datasets.grazptz2
 import datasets.pets091
@@ -15,6 +16,13 @@ import datasets.pets097
 import datasets.pets098
 import datasets.pets099
 import datasets.oxtown
+import datasets.caviar01
+import datasets.caviar02
+import datasets.caviar03
+import datasets.caviar04
+import datasets.caviar05
+"""
+import datasets.pets01_crop
 
 import threedgeometry.frameretriever
 import threedgeometry.retroprojection
