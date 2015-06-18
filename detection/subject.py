@@ -24,8 +24,10 @@ class Subject(object):
         self.contours = None
         self.overlap = None
         self.overcome = None
+        self.rgb_img = None
+        self.h = None
 
-    def setdefault(self, src, box, rot_box, ellipse, circle, camera, cont):
+    def setdefault(self, src, box, rot_box, ellipse, circle, camera, cont, rgb_img):
 
         self.bin = src
         self.box = box
@@ -35,6 +37,8 @@ class Subject(object):
         self.contours = cont
         self.overlap = False
         self.overcome = False
+        self.rgb_img = rgb_img
+        self.getmedianhsv()
 
     def formatellipse(self, ellipse):
 
@@ -143,3 +147,11 @@ class Subject(object):
     def painttop(self, frame):
 
         cv2.circle(frame, self.top, 2, (255, 255, 0), thickness=2, lineType=8)
+
+    # =========
+
+    def getmedianhsv(self):
+
+        hsv = cv2.cvtColor(self.rgb_img, cv2.COLOR_BGR2HSV)
+        h, s, v = cv2.split(hsv)
+        self.h = np.mean(h)

@@ -71,7 +71,7 @@ def createglobalmask(total_blobs, bg_models):
     return total_masks
 
 
-def globalmasktosubjects(total_masks, bg_models, cameras):
+def globalmasktosubjects(total_masks, bg_models, cameras, frames):
 
     total_subjs = []
 
@@ -90,7 +90,9 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
         # OpenCV 3.0.0
         _, contours, hierarchy = cv2.findContours(
             total_masks[ii], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-        
+            
+        res =  cv2.bitwise_and(frames[ii], frames[ii], mask = total_masks[ii]) 
+
         for cont in contours:
 
             x, y, w, h = cv2.boundingRect(cont)
@@ -104,7 +106,8 @@ def globalmasktosubjects(total_masks, bg_models, cameras):
                 subj = subject.Subject()
                 subj.setdefault(
                     total_masks[ii][y:y + h, x:x + w],
-                    box, rot_box, ellipse, circle, cameras[ii], cont)
+                    box, rot_box, ellipse, circle, cameras[ii], cont,
+                    res[y:y + h, x:x + w])
                 subjs.append(subj)
 
         total_subjs.append(subjs)
@@ -127,11 +130,11 @@ def retroprojectsubjects(total_cameras, total_subjects):
 """
 
 
-def detectionprocess(bg_models, cameras):
+def detectionprocess(bg_models, cameras, frames):
 
     total_blobs = contourstoblobs(bg_models)
     total_masks = createglobalmask(total_blobs, bg_models)
-    total_subjs = globalmasktosubjects(total_masks, bg_models, cameras)
+    total_subjs = globalmasktosubjects(total_masks, bg_models, cameras, frames)
     #total_subjs = retroprojectsubjects(cameras, total_subjs) # TODO
 
     return total_blobs, total_subjs

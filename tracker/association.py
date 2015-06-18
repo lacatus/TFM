@@ -7,6 +7,9 @@ from tracker import stats
 from tracker import track
 from tracker import variables
 
+def normpdf(x, m, v):
+    
+    return (1 / (np.sqrt(2 * np.pi) * v)) * np.exp(-(1./2) * np.power((x - m) / v, 2))
 
 def lossfunction(tr, sub):
 
@@ -25,81 +28,39 @@ def lossfunction(tr, sub):
 
     (x, y), (h, w), a = sub.rot_box
     p = tr.pf.p
-    (x1, y1), (h, w), a = tr.pf.det
+    p_star = tr.pf.p_star
+    p_mean = tr.pf.p_mean
+
+    # optimizacion --> no calcular constantemente mean y std, sino hacerlo antes de entrar aqui
+    # loss = -x -y -vx -vy
+    loss  = - np.log(normpdf(x, np.mean(p[:, 0]), np.std(p[:, 0]))) \
+        - np.log(normpdf(y, np.mean(p[:, 1]), np.std(p[:, 1]))) \
+        - np.log(normpdf(x - p_star[0], np.mean(p[:, 4]), np.std(p[:, 4]))) \
+        - np.log(normpdf(y - p_star[1], np.mean(p[:, 5]), np.std(p[:, 5]))) 
+        #- np.log(normpdf(sub.h, np.mean(p[:, 4]), np.std(p[:, 4])))
 
     """
-    loss = stats.norm.pdf(
-        h,
-        np.mean(p[:, 2]),
-        np.std(p[:, 2])
-    ) * stats.multivariate_normal.pdf(
-        np.array([x, y]),
-        np.mean(p[:, 0:2], axis=0),
-        np.cov(p[:, 0:2].T)
-    )
-    """
-    """
-    loss = stats.norm.pdf(
-        x,
-        np.mean(p[:, 0]),
-        np.std(p[:, 0])
-    ) * stats.norm.pdf(
-        y,
-        np.mean(p[:, 1]),
-        np.std(p[:, 1])
-    ) * stats.norm.pdf(
-        h,
-        np.mean(p[:, 2]),
-        np.std(p[:, 2])
-    ) * stats.norm.pdf(
-        w,
-        np.mean(p[:, 3]),
-        np.std(p[:, 3])
-    )
-    
-    loss = stats.norm.pdf(
-        x,
-        np.mean(p[:, 0]),
-        np.std(p[:, 0])
-    ) * stats.norm.pdf(
-        y,
-        np.mean(p[:, 1]),
-        np.std(p[:, 1])
-    ) * stats.norm.pdf(
-        x - x1,
-        np.mean(p[:, 4]),
-        np.std(p[:, 4])
-    ) * stats.norm.pdf(
-        y - y1,
-        np.mean(p[:, 5]),
-        np.std(p[:, 5])
-    )
+    print '###'
+    print normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))
+    print x
+    print y
     """
 
-    loss = stats.norm.pdf(
-        x,
-        np.mean(p[:, 0]),
-        np.std(p[:, 0])
-    ) * stats.norm.pdf(
-        y,
-        np.mean(p[:, 1]),
-        np.std(p[:, 1])
-    )
-
-
-
-    if loss == 0.0:
-        loss = 100000000000000000000000000000000000
-
-    else:
-        loss = 1 / loss
+    """
+    print '----'
+    print 'x, y, h: %s, %s, %s' % (x, y, sub.h)
+    #print 'x: %s' % - np.log(normpdf(x, np.mean(p[:, 0]), np.std(p[:, 0])))
+    print 'vx: %s' % - np.log(normpdf(p_star[0] - x, np.mean(p[:, 4]), np.std(p[:, 4])))
+    print 'vy: %s' % - np.log(normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))) 
+    print '----'
+    """
 
     return loss, distance
 
 
 def globallossfunction(tr, sub):
 
-    threshold = 80
+    threshold = 1000
     loss = np.zeros((len(tr), len(sub)))
     distance = np.zeros((len(tr), len(sub)))
 
@@ -123,24 +84,40 @@ def assignsubjecttoexistingtrack(tr, sub):
     tr.updatetrack(sub)
     return tr
 
+def postproc(loss, threshold):
+
+    #print np.isinf(loss)
+    #print loss
+    #x = np.isinf(loss)
+    #print x
+    #mask_a = np.all(np.isinf(loss), axis = 1)
+    #mask_b = np.all(np.isinf(loss), axis = 0)
+    #print mask_a
+    #print mask_b
+
+    loss[loss > threshold] = threshold * 2
+
+    return loss
 
 def hungarianassociation(loss, distance, threshold):
+
+    loss = postproc(loss, threshold)
 
     print loss
 
     # SKLEARN association method
     res = _hungarian(loss)
-
+    print res
     del_index = []
 
-    for ii in range(len(res)):
+    for ii in range(len(res)): 
         y, x = res[ii]
 
-        if(distance[y, x] > threshold):
+        if(loss [y, x] > threshold):
             del_index.append(ii)
 
     new_res = np.delete(res, del_index, 0)
-
+    print new_res
     return new_res
 
 
@@ -238,7 +215,6 @@ def trackupdate(tr, sub, res, loss, threshold):
     # Update successful associations
     for ii in range(len(res)):
         y, x = res[ii]
-
         new_tr = assignsubjecttoexistingtrack(tr[y], sub[x])
         new_track.append(new_tr)
         del_index_sub.append(x)
@@ -246,7 +222,6 @@ def trackupdate(tr, sub, res, loss, threshold):
 
     sub = np.delete(sub, del_index_sub)
     tr = np.delete(tr, del_index_tr)
-
     sub = sub.tolist()
     tr = tr.tolist()
 

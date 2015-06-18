@@ -90,7 +90,7 @@ def loop():
 
         bg_models = bgprocess.bgprocess(frames, bg_models)
 
-        blobs, subjects = detectionprocess.detectionprocess(bg_models, cameras)
+        blobs, subjects = detectionprocess.detectionprocess(bg_models, cameras, frames)
 
         tracks = trackerprocess.trackerprocess(tracks, subjects)
 
@@ -119,7 +119,7 @@ def loop():
         elif option is 7:
             imshow.showallimg(imshow.paint3dworld(frames, cameras))
             #imshow.showallimg(imshow.paintmasks(frames, blobs))
-
+             
         elif option is 8:
             imshow.showallimg(imshow.paintsubjectsboxes(frames, subjects))
 
@@ -131,5 +131,7 @@ def loop():
             cv2.waitKey()
 
         cv2.waitKey(bg_models[0].bg.waitkey)
+        #tracks = trackerprocess.trackerprocess(tracks, subjects)
+
 
     datasets.datasetloader.saveconfiguration(cameras, configuration, bg_models)
