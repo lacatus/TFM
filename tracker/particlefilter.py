@@ -106,7 +106,7 @@ class ParticleFilter(object):
         
     def calculatepmean(self):
 
-        self.p_mean = np.average(self.p, axis = 0)
+        self.p_mean = np.rint(np.average(self.p, axis = 0))
 
     def pdiffussion(self):
 
@@ -143,12 +143,19 @@ class ParticleFilter(object):
         p = self.p
         y, x = p.shape
 
-        a0 = np.floor(np.random.uniform(-15, 15, [y, 1])) # x
-        a1 = np.floor(np.random.uniform(-15, 15, [y, 1])) # y
-        a2 = np.floor(np.random.uniform(-3, 3, [y, 1])) # h
-        a3 = np.floor(np.random.uniform(-3, 3, [y, 1])) # w
-        a4 = np.floor(np.random.uniform(-7, 7, [y, 1])) # vx
-        a5 = np.floor(np.random.uniform(-7, 7, [y, 1])) # vy
+        #a0 = np.floor(np.random.uniform(-15, 15, [y, 1])) # x
+        #a1 = np.floor(np.random.uniform(-15, 15, [y, 1])) # y
+        #a2 = np.floor(np.random.uniform(-3, 3, [y, 1])) # h
+        #a3 = np.floor(np.random.uniform(-3, 3, [y, 1])) # w
+        #a4 = np.floor(np.random.uniform(-7, 7, [y, 1])) # vx
+        #a5 = np.floor(np.random.uniform(-7, 7, [y, 1])) # vy
+
+        a0 = np.rint(np.random.normal(0, 4, [y,1]) ) # x
+        a1 = np.rint(np.random.normal(0, 4, [y,1]) ) # y
+        a2 = np.rint(np.random.normal(0, 1, [y,1]) ) # h
+        a3 = np.rint(np.random.normal(0, 1, [y,1]) ) # w
+        a4 = np.rint(np.random.normal(0, .6, [y,1]) ) # vx
+        a5 = np.rint(np.random.normal(0, .6, [y,1]) ) # vy
 
         """
         p[:, 0] = p[:, 0] + a0[:, 0]
@@ -178,27 +185,47 @@ class ParticleFilter(object):
             x, y, h, w, _, _ = p
             #x, y, h, w, _ = p
             rot_box = (x, y), (h, w), 0
-            """
             # OpenCV 2.4.8
             box = cv2.cv.BoxPoints(rot_box)
             """
             # OpenCV 3.0.0
             box = cv2.boxPoints(rot_box)
+            """
             box = np.int0(box)
             cv2.drawContours(frame, [box], 0, color, 2)
 
     def paintbestp(self, frame, num, color):
 
-        x, y, h, w, _, _ = self.p_star
+        x, y, h, w, vx, vy = self.p_star
         #x, y, h, w, _ = p
         rot_box = (x, y), (h, w), 0
-        """
+        
         # OpenCV 2.4.8
         box = cv2.cv.BoxPoints(rot_box)
         """
         # OpenCV 3.0.0
         box = cv2.boxPoints(rot_box)
+        """
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, color, 2)
         cv2.putText(frame, str(num), (int(x), int(y)),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+
+        debug_flag=1
+        if debug_flag: 
+            print "Tr* = [%d,%d,%d,%d]" % (x,y,vx,vy) 
+            print "Tr mean:"
+            print self.p_mean
+            print "particles:"
+            for ki in xrange(0,self.num_p-1):
+                print self.p[ki]
+            
+            # OpenCV 2.4.8
+            box = cv2.cv.BoxPoints(self.rb)
+            """
+            # OpenCV 3.0.0
+            box = cv2.boxPoints(self.rb)
+            """
+            box = np.int0(box)
+            if self.update:
+                cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)

@@ -34,7 +34,8 @@ def selectdataset():
         '''
         options = \
             "\nDatasets options:\n" \
-            "   1. Pets09 - Crop01\n"
+            "   1. Pets09 - Crop01\n" \
+            "   2. Pets 09 citycenter 1\n"
         print options
 
         ans = raw_input('Please select one option: ')

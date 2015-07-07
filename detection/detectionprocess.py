@@ -73,6 +73,11 @@ def createglobalmask(total_blobs, bg_models):
 
 def globalmasktosubjects(total_masks, bg_models, cameras, frames):
 
+    debug_flag = 1
+    
+    if debug_flag:
+      print(">> Detecciones")
+
     total_subjs = []
 
     win_width = bg_models[0].win_width
@@ -82,7 +87,6 @@ def globalmasktosubjects(total_masks, bg_models, cameras, frames):
 
         subjs = []
 
-        """
         # OpenCV 2.4.8
         contours, hierarchy = cv2.findContours(
             total_masks[ii], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -90,7 +94,8 @@ def globalmasktosubjects(total_masks, bg_models, cameras, frames):
         # OpenCV 3.0.0
         _, contours, hierarchy = cv2.findContours(
             total_masks[ii], cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-            
+        """    
+        
         res =  cv2.bitwise_and(frames[ii], frames[ii], mask = total_masks[ii]) 
 
         for cont in contours:
@@ -109,6 +114,10 @@ def globalmasktosubjects(total_masks, bg_models, cameras, frames):
                     box, rot_box, ellipse, circle, cameras[ii], cont,
                     res[y:y + h, x:x + w])
                 subjs.append(subj)
+
+                if debug_flag:
+                  print(box)
+
 
         total_subjs.append(subjs)
 

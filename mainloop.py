@@ -23,6 +23,7 @@ import datasets.caviar04
 import datasets.caviar05
 """
 import datasets.pets01_crop
+import datasets.pets091
 
 import threedgeometry.frameretriever
 import threedgeometry.retroprojection

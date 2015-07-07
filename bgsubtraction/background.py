@@ -154,7 +154,6 @@ class Background(object):
 
     def contoursbackground(self):
 
-        """
         # OpenCV 2.4.8
         self.contours, hierarchy = cv2.findContours(
             self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -162,7 +161,8 @@ class Background(object):
         # OpenCV 3.0.0
         _, self.contours, hierarchy = cv2.findContours(
             self.diff_img, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-
+        """
+        
         self.rectangles = []
         contours = []
 

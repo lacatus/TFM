@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # TODO --> import from init
+import pdb
 from sklearn.utils.linear_assignment_ import _hungarian
 from tracker import np
 from tracker import stats
@@ -39,21 +40,23 @@ def lossfunction(tr, sub):
         - np.log(normpdf(y - p_star[1], np.mean(p[:, 5]), np.std(p[:, 5]))) 
         #- np.log(normpdf(sub.h, np.mean(p[:, 4]), np.std(p[:, 4])))
 
-    """
-    print '###'
-    print normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))
-    print x
-    print y
-    """
-
-    """
-    print '----'
-    print 'x, y, h: %s, %s, %s' % (x, y, sub.h)
-    #print 'x: %s' % - np.log(normpdf(x, np.mean(p[:, 0]), np.std(p[:, 0])))
-    print 'vx: %s' % - np.log(normpdf(p_star[0] - x, np.mean(p[:, 4]), np.std(p[:, 4])))
-    print 'vy: %s' % - np.log(normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))) 
-    print '----'
-    """
+    debug_flag=0
+    if debug_flag:
+        """
+        print '###'
+        print normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))
+        print x
+        print y
+        """
+    
+        """
+        print '----'
+        print 'x, y, h: %s, %s, %s' % (x, y, sub.h)
+        #print 'x: %s' % - np.log(normpdf(x, np.mean(p[:, 0]), np.std(p[:, 0])))
+        print 'vx: %s' % - np.log(normpdf(p_star[0] - x, np.mean(p[:, 4]), np.std(p[:, 4])))
+        print 'vy: %s' % - np.log(normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))) 
+        print '----'
+        """
 
     return loss, distance
 
@@ -61,6 +64,7 @@ def lossfunction(tr, sub):
 def globallossfunction(tr, sub):
 
     threshold = 1000
+
     loss = np.zeros((len(tr), len(sub)))
     distance = np.zeros((len(tr), len(sub)))
 
@@ -100,14 +104,18 @@ def postproc(loss, threshold):
     return loss
 
 def hungarianassociation(loss, distance, threshold):
+    
+    debug_flag = 0
 
     loss = postproc(loss, threshold)
 
-    print loss
+    if debug_flag: print loss
 
     # SKLEARN association method
     res = _hungarian(loss)
-    print res
+    
+    if debug_flag: print res
+    
     del_index = []
 
     for ii in range(len(res)): 
@@ -117,7 +125,9 @@ def hungarianassociation(loss, distance, threshold):
             del_index.append(ii)
 
     new_res = np.delete(res, del_index, 0)
-    print new_res
+
+    if debug_flag: print new_res
+    
     return new_res
 
 

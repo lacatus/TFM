@@ -108,7 +108,7 @@ class Track(object):
         # better --> TODO --> BASED ON COLOR MODEL
 
         self.printtrack()
-        print self.associated
+        #print self.associated
         res = self.associated.pop(0)
 
         if len(self.associated) < 1:
@@ -243,8 +243,9 @@ class Track(object):
 
     def painttrack(self, frame):
 
-        self.pf.paintp(frame, self.color)
+        #self.pf.paintp(frame, self.color)
         self.pf.paintbestp(frame, self.num, self.color)
+        #self.pf.paintmeanp(frame, self.num, self.color)
         #self.pf.paintbestp(frame, self.num, (255, 255, 255))
         self.paintpath(frame)
         #self.paintnum(frame)

@@ -45,7 +45,8 @@ def initvariables():
     }
     """
     variables.datasets_name = {
-        1: 'pets01_crop'
+        1: 'pets01_crop',
+        2: 'pets091'
     }
     variables.app_window_name = 'Main Window'
     variables.app_window = cv2.namedWindow(
