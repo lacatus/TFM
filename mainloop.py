@@ -50,7 +50,7 @@ def initcameras():
 
     return cameras, configuration
 
-
+#initloop returns 'tracks' = an empty list to be filled in loop() @cia
 def initloop(cameras, configuration):
 
     frames = threedgeometry.frameretriever.getbg(cameras)
@@ -65,6 +65,7 @@ def initloop(cameras, configuration):
     tracks = trackerprocess.inittracks(len(cameras))
 
     return bg_models, tb, tracks
+    #RETURN 'tracks' is an empty list to be filled in mainloop() @cia
 
 
 def loop():

@@ -39,7 +39,7 @@ class Video(object):
         # self.fps = self.data.get(cv2.cv.CV_CAP_PROP_FPS)
         self.total_fps = self.data.get(cv2.CAP_PROP_FRAME_COUNT)
         """
-        
+
     def readvideo(self, video_path):
 
         self.data = cv2.VideoCapture(video_path)

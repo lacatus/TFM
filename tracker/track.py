@@ -28,6 +28,14 @@ class Track(object):
         self.subject = None
         self.path = None
         self.path_max = None
+
+        # new --> historico score
+        self.score = None
+        self.score_max = None
+        self.score_mu = None
+        self.score_sigma = None
+        #
+
         self.color = None
         self.state = None
         self.state_info = None
@@ -41,6 +49,11 @@ class Track(object):
         self.associated = None
         self.pf = None
 
+        # RGB CUBES
+        self.rgb_cubes = None
+        self.rgb_a = 0.05
+        # ===
+
     def delete(self):
 
         del self
@@ -50,6 +63,11 @@ class Track(object):
         self.setsubject(subject)
         self.path = []
         self.path_max = 30
+
+        # new --> historico score
+        self.score = []
+        self.score_max = 30
+
         self.updatepath(subject)
         self.color = (
             rnd.randrange(0, 255),
@@ -71,12 +89,18 @@ class Track(object):
         }
         self.count = 1
         self.count_max = 5
-        self.count_min = -5
+        self.count_min = -3
         self.num = num
         self.update = False
         self.group = False
         self.associated = []
         self.setparticles(subject)
+        self.score = []
+        self.score_sigma = 0
+        self.score_mu = 0
+        self.mature = False
+        self.rgb_cubes = subject.rgb_cubes
+
 
     def setparticles(self, subject):
 
@@ -108,7 +132,7 @@ class Track(object):
         # better --> TODO --> BASED ON COLOR MODEL
 
         self.printtrack()
-        #print self.associated
+        print self.associated
         res = self.associated.pop(0)
 
         if len(self.associated) < 1:
@@ -127,8 +151,9 @@ class Track(object):
     def updatelockcount(self, associated=True):
 
         if self.count >= self.count_max:
-            self.count = self.count_max + 2  # little extra margin
+            self.count = self.count_max  # + 2 # little extra margin
             self.setstate(2)
+            self.mature = True
         else:
             self.count += 1
             self.setstate(1)
@@ -169,12 +194,25 @@ class Track(object):
         if self.group and associated:
             self.updateassociatedpath(subject)
 
+    def updatescore(self, score):
+        if len(self.score) > self.score_max:
+            self.score.pop(0)
+
+        self.score.append(score)
+        self.score_sigma = np.std(self.score)
+        self.score_mu = np.mean(self.score)
+
     def updateassociatedpath(self, subject):
 
         for a in self.associated:
             a.updatepath(subject, False)
 
-    def updatetrack(self, subject=None):
+    def updatergbcubes(self, subject):
+        a = self.rgb_a
+        for ii in range(3):
+            self.rgb_cubes[ii] = a*subject.rgb_cubes[ii] + (1-a)*self.rgb_cubes[ii]
+
+    def updatetrack(self, subject=None, score=None):
 
         self.update = False
 
@@ -186,6 +224,8 @@ class Track(object):
             self.updatelockcount()
             self.updatepath(subject)
             self.pf.updatedet(subject)
+            self.updatescore(score)
+            self.updatergbcubes(subject)
 
     def calculatesubjectdistance(self, subject, threshold):  # Future change
 
@@ -193,7 +233,8 @@ class Track(object):
         (xs, ys), radius = subject.circle
 
         loss = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
-
+        print 'Deassociate loss'
+        print loss
         if loss <= threshold:
             return True
         else:
@@ -245,8 +286,6 @@ class Track(object):
 
         #self.pf.paintp(frame, self.color)
         self.pf.paintbestp(frame, self.num, self.color)
-        #self.pf.paintmeanp(frame, self.num, self.color)
-        #self.pf.paintbestp(frame, self.num, (255, 255, 255))
         self.paintpath(frame)
         #self.paintnum(frame)
         #self.printtrack()

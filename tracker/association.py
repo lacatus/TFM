@@ -1,33 +1,102 @@
 #!/usr/bin/env python
 
 # TODO --> import from init
-import pdb
 from sklearn.utils.linear_assignment_ import _hungarian
+from tracker import cv2
 from tracker import np
 from tracker import stats
 from tracker import track
 from tracker import variables
+from scipy.stats import norm    #<--@cia
 
 def normpdf(x, m, v):
     
     return (1 / (np.sqrt(2 * np.pi) * v)) * np.exp(-(1./2) * np.power((x - m) / v, 2))
 
+
 def lossfunction(tr, sub):
+    #@CIA june-25-2015
+
+    loss=0
+    distance=0
+    #----prepare variables
+    (x, y), (h, b), a = sub.rot_box
+    p = tr.pf.p
+    p_star = tr.pf.p_star
+    p_mean = tr.pf.p_mean
+
+    #----obtain loss(tr,sub)
+    #--distance(tr,sub)
+    sqDistance = np.power(x - p_mean[0], 2) + np.power(y - p_mean[1], 2)
+    distance = np.sqrt(sqDistance)
+    #--mix of gaussians
+    w_star = 0.20
+    w_mean = 0.80
+    #sigma_mean = 1
+    #sigma_star = 1
+
+    """
+    TODO
+    ----
+    cov --> anchura de las particulas en vez de 1
+    """
+
+    """
+    COLOR_CUBES
+    ---
+    1 vector de 8 cubos por canal de color BGR
+    ---
+    SUBJECT (Deteccion)
+    b, g, r = sub.rgb_cubes
+    TRACKER
+    b, g, r = tr.rgb_cubes
+    """
+
+    #.for X
+    mu_starX = p_star[0] # x_star
+    mu_meanX = p_mean[0] # x_mean
+    sigma_starX = p_star[3]#/2
+    sigma_meanX = p_mean[3]#/2
+    lossX = w_star*norm.pdf(x,mu_starX,sigma_starX) + w_mean*norm.pdf(x,mu_meanX,sigma_meanX)
+    #.for Y
+    mu_starY = p_star[1] # x_star
+    mu_meanY = p_mean[1] # x_mean
+    sigma_starY = p_star[2]#/2
+    sigma_meanY = p_mean[2]#/2
+    lossY = w_star*norm.pdf(y,mu_starY,sigma_starY) + w_mean*norm.pdf(y,mu_meanY,sigma_meanY)    #.neglog of joint(X,Y) assuming independence
+
+    # For appareance
+
+    lossApp = cv2.compareHist(tr.rgb_cubes.ravel().astype('float32'),
+                          sub.rgb_cubes.ravel().astype('float32'),
+                          cv2.cv.CV_COMP_BHATTACHARYYA)
+    #print cv2.normalize(sub.rgb_cubes.ravel().astype('float32'))
+    #print cv2.normalize(tr.rgb_cubes.ravel().astype('float32'))
+
+    loss = - np.log(lossX) - np.log(lossY) + np.log(lossApp)
+
+    print np.log(lossApp)
+
+    return loss, distance
+
+def lossfunction__old1(tr, sub):
+    #@Borja(orginal)1
 
     # Where to create the loss using data from the subject class
 
-    # First simple loss function
+    # First simple loss function---------------------------------------
     # Based in simple distance to subject base
     (xt, yt), radius = tr.pf.circle
     (xs, ys), radius = sub.circle
 
     distance = int(np.sqrt(np.power(xt - xs, 2) + np.power(yt - ys, 2)))
 
-    # Second loss function
+    # Second loss function---------------------------------------------
     # Based in normal probability density function of particles for
     # position and detection size
 
     (x, y), (h, w), a = sub.rot_box
+
     p = tr.pf.p
     p_star = tr.pf.p_star
     p_mean = tr.pf.p_mean
@@ -48,13 +117,13 @@ def lossfunction(tr, sub):
         print x
         print y
         """
-    
+
         """
         print '----'
         print 'x, y, h: %s, %s, %s' % (x, y, sub.h)
         #print 'x: %s' % - np.log(normpdf(x, np.mean(p[:, 0]), np.std(p[:, 0])))
         print 'vx: %s' % - np.log(normpdf(p_star[0] - x, np.mean(p[:, 4]), np.std(p[:, 4])))
-        print 'vy: %s' % - np.log(normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5]))) 
+        print 'vy: %s' % - np.log(normpdf(p_star[1] - y, np.mean(p[:, 5]), np.std(p[:, 5])))
         print '----'
         """
 
@@ -63,14 +132,16 @@ def lossfunction(tr, sub):
 
 def globallossfunction(tr, sub):
 
-    threshold = 1000
-
+    threshold = 10
     loss = np.zeros((len(tr), len(sub)))
     distance = np.zeros((len(tr), len(sub)))
 
     for jj in range(len(tr)):
         for ii in range(len(sub)):
             loss[jj, ii], distance[jj, ii] = lossfunction(tr[jj], sub[ii])
+            #loss[jj, ii], distance[jj, ii] = lossfunction__old1(tr[jj], sub[ii])
+
+    print loss
 
     return loss, distance, threshold
 
@@ -82,10 +153,10 @@ def assignsubjecttonewtrack(sub):
     tr.setdefault(sub, variables.num_tracks)
     return tr
 
-
 def assignsubjecttoexistingtrack(tr, sub):
 
-    tr.updatetrack(sub)
+    score = lossfunction(tr, sub)
+    tr.updatetrack(sub, score[0])
     return tr
 
 def postproc(loss, threshold):
@@ -104,18 +175,15 @@ def postproc(loss, threshold):
     return loss
 
 def hungarianassociation(loss, distance, threshold):
-    
-    debug_flag = 0
 
     loss = postproc(loss, threshold)
 
+    debug_flag = 0
     if debug_flag: print loss
 
     # SKLEARN association method
     res = _hungarian(loss)
-    
-    if debug_flag: print res
-    
+
     del_index = []
 
     for ii in range(len(res)): 
@@ -125,11 +193,8 @@ def hungarianassociation(loss, distance, threshold):
             del_index.append(ii)
 
     new_res = np.delete(res, del_index, 0)
-
-    if debug_flag: print new_res
-    
+    print new_res
     return new_res
-
 
 def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
 
@@ -196,7 +261,8 @@ def tracksplit(new_tr, sub, threshold):
         for tr in new_tr:
             if tr.group and tr.calculatesubjectdistance(sub[ii], threshold_):
                 n_tr = tr.deassociatetrack()
-                n_tr.updatetrack(sub[ii])
+                score = lossfunction(tr, sub[ii])
+                n_tr.updatetrack(sub[ii], score[0])
                 new_tr.append(n_tr)
                 del_idx.append(ii)
                 break
@@ -221,10 +287,14 @@ def trackupdate(tr, sub, res, loss, threshold):
     del_index_tr = []
     init_tr = tr
     init_sub = sub
+    threshold_distance = 100
+
+    aux_res = res
 
     # Update successful associations
     for ii in range(len(res)):
         y, x = res[ii]
+        aux_res = np.delete(aux_res, 0, axis=0)
         new_tr = assignsubjecttoexistingtrack(tr[y], sub[x])
         new_track.append(new_tr)
         del_index_sub.append(x)
@@ -236,13 +306,11 @@ def trackupdate(tr, sub, res, loss, threshold):
     tr = tr.tolist()
 
     # Update missed associations --> where merge should act
-    """
     non_index_sub, non_index_tr = getnotassociatedindex(
         len(init_sub), len(init_tr), del_index_tr, del_index_sub)
 
     new_track, tr = trackmerge(
-        tr, new_track, non_index_tr, loss, threshold, res)
-    """
+        tr, new_track, non_index_tr, loss, threshold_distance, res)
 
     del_index = []
 
@@ -261,9 +329,9 @@ def trackupdate(tr, sub, res, loss, threshold):
         tr.append(n)
 
     # Update new subjects --> where split should act
-    """
-    tr, sub = tracksplit(new_track, sub, threshold)
-    """
+
+    tr, sub = tracksplit(new_track, sub, threshold_distance)
+
     """
     TODO
     ----
@@ -300,6 +368,56 @@ def pfupdate(tr):
 
     return new_tr
 
+def alternativeAssociation(loss, distance, threshold, tr, res):
+
+    print '-----'
+    print 'Alfre2 association'
+    print '-----'
+
+    debug_flag=0
+
+    if debug_flag: print loss
+
+    # get best detection for each tracker
+    y, x = loss.shape
+
+    new_res = np.array([[]])
+
+    for jj in range(y):
+        best_detection = loss[jj, :].argmin(axis = 0)
+        s = loss[jj, best_detection]
+        # -- TOMA DE DECISIONES --
+        # 1) anomalia del score
+        mx = tr[jj].score_mu + 3*tr[jj].score_sigma
+        mn = tr[jj].score_mu - 3*tr[jj].score_sigma
+        if tr[jj].mature:
+            if s > mn and s < mx:
+                if not new_res.any():
+                    new_res = np.array([[jj, best_detection]])
+                else:
+                    new_res = np.vstack((new_res,np.array([jj, best_detection])))
+        else:
+            if not new_res.any():
+                new_res = np.array([[jj, best_detection]])
+            else:
+                new_res = np.vstack((new_res, np.array([jj, best_detection])))
+
+        if debug_flag:
+            #print 'loss: %s' \
+            #      %  loss[jj, best_detection]
+            print '[%s , %s] <-- %s' \
+                  % (mn, mx, loss)
+            #print 'mu: %s, sigma: %s' \
+            #      % (tr[jj].score_mu, tr[jj].score_sigma)
+            print tr[jj].score
+            print
+            print 'res'
+            print res
+            print 'new_res'
+            print new_res
+
+    return new_res
+
 
 def associatetracksubject(tr, sub):
 
@@ -314,7 +432,7 @@ def associatetracksubject(tr, sub):
             tr = assignsubjecttonewtrack(s)
             new_track.append(tr)
 
-    # NO detection
+    # NO detectiondetections4tracker
     elif not sub:
 
         for t in tr:
@@ -333,6 +451,9 @@ def associatetracksubject(tr, sub):
 
         # Hungarian association
         res = hungarianassociation(loss, distance, threshold)
+
+        # Alternative association
+        #res = alternativeAssociation(loss, distance, threshold, tr, res)
 
         # Update tracks with new association
         new_track = trackupdate(tr, sub, res, loss, threshold)

@@ -27,6 +27,10 @@ class Subject(object):
         self.rgb_img = None
         self.h = None
 
+        # RGB cubes
+        self.rgb_cubes = None
+        # ==
+
     def setdefault(self, src, box, rot_box, ellipse, circle, camera, cont, rgb_img):
 
         self.bin = src
@@ -38,7 +42,8 @@ class Subject(object):
         self.overlap = False
         self.overcome = False
         self.rgb_img = rgb_img
-        self.getmedianhsv()
+        #self.getmedianhsv()
+        self.rgbcubes()
 
     def formatellipse(self, ellipse):
 
@@ -98,23 +103,23 @@ class Subject(object):
 
     def paintrotbox(self, frame):
 
-        """
         # OpenCV 2.4.8
         box = cv2.cv.BoxPoints(self.rot_box)
         """
         # OpenCV 3.0.0
         box = cv2.boxPoints(self.rot_box)
+        """
         box = np.int0(box)
         cv2.drawContours(frame, [box], 0, (0, 0, 255), 2)
 
     def paintrotboxcolor(self, frame, color):
 
-        """
         # OpenCV 2.4.8
         box = cv2.cv.BoxPoints(self.rot_box)
         """
         # OpenCV 3.0.0
         box = cv2.boxPoints(self.rot_box)
+        """
         box = np.int0(box)
 
         if self.overlap and self.overcome:
@@ -128,6 +133,7 @@ class Subject(object):
 
         else:
             cv2.drawContours(frame, [box], 0, color, 2)
+        self.paintellipse(frame)
 
     def paintellipse(self, frame):
 
@@ -155,3 +161,18 @@ class Subject(object):
         hsv = cv2.cvtColor(self.rgb_img, cv2.COLOR_BGR2HSV)
         h, s, v = cv2.split(hsv)
         self.h = np.mean(h)
+
+    # ==========
+
+    def rgbcubes(self):
+        a = []
+        aux = cv2.calcHist([self.rgb_img], [0], self.bin, [8], [0, 255])
+        aux = aux/np.sum(aux)
+        a.append(aux.ravel().tolist())
+        aux = cv2.calcHist([self.rgb_img], [1], self.bin, [8], [0, 255])
+        aux = aux/np.sum(aux)
+        a.append(aux.ravel().tolist())
+        aux = cv2.calcHist([self.rgb_img], [2], self.bin, [8], [0, 255])
+        aux = aux/np.sum(aux)
+        a.append(aux.ravel().tolist())
+        self.rgb_cubes = np.array(a)
