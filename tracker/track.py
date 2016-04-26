@@ -286,8 +286,8 @@ class Track(object):
 
         #self.pf.paintp(frame, self.color)
         self.pf.paintbestp(frame, self.num, self.color)
-        self.paintpath(frame)
-        #self.paintnum(frame)
+        #self.paintpath(frame)
+        self.paintnum(frame)
         #self.printtrack()
         #self.printassociatedtrack()
         #self.paintsubject(frame)

@@ -72,11 +72,11 @@ def lossfunction(tr, sub):
                           cv2.cv.CV_COMP_BHATTACHARYYA)
     #print cv2.normalize(sub.rgb_cubes.ravel().astype('float32'))
     #print cv2.normalize(tr.rgb_cubes.ravel().astype('float32'))
-
+    
     loss = - np.log(lossX) - np.log(lossY) + np.log(lossApp)
 
-    print np.log(lossApp)
-
+    if loss == float('Inf') or loss == -float('Inf'):
+        loss = 100
     return loss, distance
 
 def lossfunction__old1(tr, sub):
@@ -193,7 +193,7 @@ def hungarianassociation(loss, distance, threshold):
             del_index.append(ii)
 
     new_res = np.delete(res, del_index, 0)
-    print new_res
+    #print new_res
     return new_res
 
 def getnotassociatedindex(len_sub, len_tr, del_tr, del_sub):
@@ -276,8 +276,11 @@ def tracksplit(new_tr, sub, threshold):
 
 def printtracks(tr):
 
+    """
     for t in tr:
         t.printtrack()
+    """
+    pass
 
 
 def trackupdate(tr, sub, res, loss, threshold):

@@ -35,7 +35,12 @@ def selectdataset():
         options = \
             "\nDatasets options:\n" \
             "   1. Pets09 - Crop01\n" \
-            "   2. Pets09 - citycenter"
+            "   2. Pets09 - citycenter\n" \
+            "   3. Ewap01 - ETHZ\n" \
+            "   4. Oxford - town\n" \
+            "   5. Graz PTZ set 1\n"  \
+            "   6. Pets 09 - time_13_59\n" \
+            "   7. Pets 09 - time_14_03\n" 
         print options
 
         ans = raw_input('Please select one option: ')

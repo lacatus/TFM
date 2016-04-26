@@ -73,7 +73,7 @@ def createglobalmask(total_blobs, bg_models):
 
 def globalmasktosubjects(total_masks, bg_models, cameras, frames):
 
-    debug_flag = 1
+    debug_flag = 0
 
     if debug_flag:
       print(">> Detecciones")
@@ -122,6 +122,7 @@ def globalmasktosubjects(total_masks, bg_models, cameras, frames):
         total_subjs.append(subjs)
 
     return total_subjs
+
 # TODO
 """
 def retroprojectsubjects(total_cameras, total_subjects):
@@ -146,3 +147,20 @@ def detectionprocess(bg_models, cameras, frames):
     #total_subjs = retroprojectsubjects(cameras, total_subjs) # TODO
 
     return total_blobs, total_subjs
+
+
+def hogdetectionprocess(frames):
+
+    hog = cv2.HOGDescriptor()
+    hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+    hogParams = {'winStride': (8, 8), 'padding': (32, 32), 'scale': 1.05}
+    total_subjs = []
+    for ii in range(len(frames)):
+        result = hog.detectMultiScale(frames[ii], **hogParams)
+        subjs = []
+        for r in result[0]:
+            subj = subject.Subject()
+            subj.setdefaulthog(r)
+            subjs.append(subj)
+        total_subjs.append(subjs)
+    return total_subjs

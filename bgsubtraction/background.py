@@ -146,6 +146,37 @@ class Background(object):
         int_img = cv2.integral(self.bin_img_1)
         self.scan_img = cbackground.scanningwindow(
             int_img, self.win_height, self.win_width, self.win_min_pix)
+        #self.scan_img = self._scanningwindownointegral(self.bin_img_1)
+
+    def _scanningwindow(self, src):
+
+        size = src.shape
+        height = size[0]
+        width = size[1]
+        dst = np.zeros([height - 1, width - 1], dtype = np.uint8)
+        for jj in xrange(0, height - self.win_height, self.win_height / 2):
+            for ii in xrange(0, width - self.win_width, self.win_width / 2):
+                aux = src[jj, ii] + src[jj + self.win_height, ii + self.win_width] - src[jj + self.win_height, ii] - src[jj, ii + self.win_width]
+                if aux > self.win_min_pix:
+                    dst[jj : jj + self.win_height, ii : ii + self.win_width] = 255
+        return dst
+
+    def _scanningwindownointegral(self, src):
+
+        size = src.shape
+        height = size[0]
+        width = size[1]
+        dst = np.zeros((height, width), dtype = np.uint8)
+        for jj in xrange(0, height - self.win_height, self.win_height / 2):
+            for ii in xrange(0, width - self.win_width, self.win_width / 2):
+                aux = 0
+                for zz in xrange(jj, jj + self.win_height, 1):
+                    for ww in  xrange(ii, ii + self.win_width, 1):
+                        if src[zz, ww] > 0:
+                            aux += 1
+                if aux > self.win_min_pix:
+                    dst[jj : jj + self.win_height, ii : ii + self.win_width] = 255
+        return dst
 
     def thresholdbackground(self):
 

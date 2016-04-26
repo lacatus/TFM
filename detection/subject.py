@@ -45,6 +45,10 @@ class Subject(object):
         #self.getmedianhsv()
         self.rgbcubes()
 
+    def setdefaulthog(self, box):
+        self.box = box
+        self.rot_box = (box[0], box[1]), (box[2], box[3]), 0
+
     def formatellipse(self, ellipse):
 
         (x, y), (w, h), a = ellipse
