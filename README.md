@@ -1,14 +1,6 @@
 Tracking by detection real time surveillance system 
 ===================================================
 
-Author:
--------
-
-- Borja Lacabex Gonzalo
-- Email: xebacal@gmail.com
-- [Linkedin](http://bit.ly/blacabex)
-- [Twitter](https://twitter.com/RoccoLacatus)
-
 Resume:
 -------
 
